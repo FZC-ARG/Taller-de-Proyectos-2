@@ -34,3 +34,4 @@ public class Usuario {
     @Column(name = "FechaCreacion")
     private LocalDateTime fechaCreacion;
 }
+
