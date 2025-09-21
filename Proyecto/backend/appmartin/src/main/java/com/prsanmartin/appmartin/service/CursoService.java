@@ -10,7 +10,6 @@ public interface CursoService {
     CursoDTO getCursoById(Long id);
     CursoDTO createCurso(CursoDTO cursoDTO);
     CursoDTO updateCurso(Long id, CursoDTO cursoDTO);
-    boolean deleteCurso(Long id);
-    List<CursoDTO> getCursosByDocente(Long docenteId);
-    List<CursoDTO> getCursosActivos();
+    void deleteCurso(Long id);
+    Page<CursoDTO> getCursosByDocente(Long idDocente, Pageable pageable);
 }

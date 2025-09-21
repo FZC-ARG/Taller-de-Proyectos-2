@@ -29,7 +29,7 @@ public class CursosController {
     public ResponseEntity<Page<CursoDTO>> getAllCursos(Pageable pageable) {
         try {
             Page<CursoDTO> cursos = cursoService.getAllCursos(pageable);
-            // // auditoriaService.registrarEvento("CONSULTA", "CURSOS", "Consulta de todos los cursos", "127.0.0.1");
+            // auditoriaService.registrarEvento("CONSULTA", "CURSOS", "Consulta de todos los cursos", "127.0.0.1");
             return ResponseEntity.ok(cursos);
         } catch (Exception e) {
             // auditoriaService.registrarEvento("ERROR", "CURSOS", "Error al consultar cursos: " + e.getMessage(), "127.0.0.1");
@@ -46,6 +46,7 @@ public class CursosController {
                 // auditoriaService.registrarEvento("CONSULTA", "CURSOS", "Consulta de curso por ID: " + id, "127.0.0.1");
                 return ResponseEntity.ok(curso);
             } else {
+                // auditoriaService.registrarEvento("ERROR", "CURSOS", "Curso no encontrado con ID: " + id, "127.0.0.1");
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
@@ -59,7 +60,7 @@ public class CursosController {
     public ResponseEntity<CursoDTO> createCurso(@RequestBody CursoDTO cursoDTO) {
         try {
             CursoDTO createdCurso = cursoService.createCurso(cursoDTO);
-            // auditoriaService.registrarEvento("CREACION", "CURSOS", "Curso creado: " + createdCurso.getNombre(), "127.0.0.1");
+            // auditoriaService.registrarEvento("CREACION", "CURSOS", "Curso creado: " + createdCurso.getNombreCurso(), "127.0.0.1");
             return ResponseEntity.status(HttpStatus.CREATED).body(createdCurso);
         } catch (Exception e) {
             // auditoriaService.registrarEvento("ERROR", "CURSOS", "Error al crear curso: " + e.getMessage(), "127.0.0.1");
@@ -73,9 +74,10 @@ public class CursosController {
         try {
             CursoDTO updatedCurso = cursoService.updateCurso(id, cursoDTO);
             if (updatedCurso != null) {
-                // auditoriaService.registrarEvento("ACTUALIZACION", "CURSOS", "Curso actualizado: " + updatedCurso.getNombre(), "127.0.0.1");
+                // auditoriaService.registrarEvento("ACTUALIZACION", "CURSOS", "Curso actualizado: " + updatedCurso.getNombreCurso(), "127.0.0.1");
                 return ResponseEntity.ok(updatedCurso);
             } else {
+                // auditoriaService.registrarEvento("ERROR", "CURSOS", "Curso no encontrado para actualizar con ID: " + id, "127.0.0.1");
                 return ResponseEntity.notFound().build();
             }
         } catch (Exception e) {
@@ -88,41 +90,24 @@ public class CursosController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteCurso(@PathVariable Long id) {
         try {
-            boolean deleted = cursoService.deleteCurso(id);
-            if (deleted) {
-                // auditoriaService.registrarEvento("ELIMINACION", "CURSOS", "Curso eliminado con ID: " + id, "127.0.0.1");
-                return ResponseEntity.noContent().build();
-            } else {
-                return ResponseEntity.notFound().build();
-            }
+            cursoService.deleteCurso(id);
+            // auditoriaService.registrarEvento("ELIMINACION", "CURSOS", "Curso eliminado con ID: " + id, "127.0.0.1");
+            return ResponseEntity.noContent().build();
         } catch (Exception e) {
             // auditoriaService.registrarEvento("ERROR", "CURSOS", "Error al eliminar curso: " + e.getMessage(), "127.0.0.1");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-    @GetMapping("/docente/{docenteId}")
+    @GetMapping("/docente/{idDocente}")
     @PreAuthorize("hasRole('ADMIN') or hasRole('DOCENTE')")
-    public ResponseEntity<List<CursoDTO>> getCursosByDocente(@PathVariable Long docenteId) {
+    public ResponseEntity<Page<CursoDTO>> getCursosByDocente(@PathVariable Long idDocente, Pageable pageable) {
         try {
-            List<CursoDTO> cursos = cursoService.getCursosByDocente(docenteId);
-            // auditoriaService.registrarEvento("CONSULTA", "CURSOS", "Consulta de cursos por docente: " + docenteId, "127.0.0.1");
+            Page<CursoDTO> cursos = cursoService.getCursosByDocente(idDocente, pageable);
+            // auditoriaService.registrarEvento("CONSULTA", "CURSOS", "Consulta de cursos por docente ID: " + idDocente, "127.0.0.1");
             return ResponseEntity.ok(cursos);
         } catch (Exception e) {
             // auditoriaService.registrarEvento("ERROR", "CURSOS", "Error al consultar cursos por docente: " + e.getMessage(), "127.0.0.1");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-
-    @GetMapping("/activos")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('DOCENTE') or hasRole('ALUMNO')")
-    public ResponseEntity<List<CursoDTO>> getCursosActivos() {
-        try {
-            List<CursoDTO> cursos = cursoService.getCursosActivos();
-            // auditoriaService.registrarEvento("CONSULTA", "CURSOS", "Consulta de cursos activos", "127.0.0.1");
-            return ResponseEntity.ok(cursos);
-        } catch (Exception e) {
-            // auditoriaService.registrarEvento("ERROR", "CURSOS", "Error al consultar cursos activos: " + e.getMessage(), "127.0.0.1");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

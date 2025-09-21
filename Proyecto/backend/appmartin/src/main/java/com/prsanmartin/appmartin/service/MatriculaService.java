@@ -10,9 +10,7 @@ public interface MatriculaService {
     MatriculaDTO getMatriculaById(Long id);
     MatriculaDTO createMatricula(MatriculaDTO matriculaDTO);
     MatriculaDTO updateMatricula(Long id, MatriculaDTO matriculaDTO);
-    boolean deleteMatricula(Long id);
-    List<MatriculaDTO> getMatriculasByAlumno(Long alumnoId);
-    List<MatriculaDTO> getMatriculasByCurso(Long cursoId);
-    List<MatriculaDTO> getMatriculasActivas();
-    MatriculaDTO updateMatriculaEstado(Long id, String estado);
+    void deleteMatricula(Long id);
+    Page<MatriculaDTO> getMatriculasByAlumno(Long idAlumno, Pageable pageable);
+    Page<MatriculaDTO> getMatriculasByCurso(Long idCurso, Pageable pageable);
 }

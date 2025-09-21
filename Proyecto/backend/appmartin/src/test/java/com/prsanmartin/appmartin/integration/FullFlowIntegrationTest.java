@@ -1,4 +1,3 @@
-/*
 package com.prsanmartin.appmartin.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -105,7 +104,7 @@ public class FullFlowIntegrationTest {
 
         // Step 2: Create a course
         CursoDTO cursoDTO = new CursoDTO();
-        cursoDTO.setNombre("Matemáticas Avanzadas");
+        cursoDTO.setNombreCurso("Matemáticas Avanzadas");
         cursoDTO.setDescripcion("Curso de matemáticas para estudiantes avanzados");
         cursoDTO.setIdDocente(2L); // docente1
         cursoDTO.setCreditos(4);
@@ -116,7 +115,7 @@ public class FullFlowIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(cursoDTO)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.nombre").value("Matemáticas Avanzadas"))
+                .andExpect(jsonPath("$.nombreCurso").value("Matemáticas Avanzadas"))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
@@ -141,7 +140,7 @@ public class FullFlowIntegrationTest {
                         .header("Authorization", "Bearer " + accessToken))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").isArray())
-                .andExpect(jsonPath("$.content[0].nombre").value("Matemáticas Avanzadas"));
+                .andExpect(jsonPath("$.content[0].nombreCurso").value("Matemáticas Avanzadas"));
 
         // Step 5: Get enrollments for student
         mockMvc.perform(get("/api/matriculas/alumno/3")
@@ -200,7 +199,7 @@ public class FullFlowIntegrationTest {
 
         // Student should not be able to create courses
         CursoDTO cursoDTO = new CursoDTO();
-        cursoDTO.setNombre("Test Course");
+        cursoDTO.setNombreCurso("Test Course");
         cursoDTO.setDescripcion("Test Description");
         cursoDTO.setIdDocente(2L);
         cursoDTO.setCreditos(3);
@@ -213,4 +212,3 @@ public class FullFlowIntegrationTest {
                 .andExpect(status().isForbidden());
     }
 }
-*/
