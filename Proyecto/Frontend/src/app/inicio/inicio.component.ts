@@ -1,41 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterModule, RouterLink } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AlumnosService } from '../services/alumnos.service';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { DocentesService } from '../services/docentes.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, RouterLink],
+  imports: [CommonModule, HttpClientModule, FormsModule],
   templateUrl: './inicio.component.html',
-  styleUrl: './inicio.component.css'
+  styleUrls: ['./inicio.component.css']
 })
-export class InicioComponent implements OnInit {
-  constructor(private router: Router, private alumnosService: AlumnosService) {}
+export class InicioComponent {
+  alumnos: string[] = [
+    'Juan Pérez', 'María López', 'Carlos Sánchez',
+    'Ana Torres', 'Luis Ramos', 'Valeria Díaz'
+  ];
 
-  alumnos: { id: number, nombre: string }[] = [];
-  filtro: string = '';
-  escribiendo: boolean = false;
-  nombreDocente: string = '';
+  docentes: string[] = [
+    'Prof. José Martínez', 'Prof. Laura Gutiérrez',
+    'Prof. Mario Vargas', 'Prof. Carmen Huamán'
+  ];
 
-  ngOnInit(): void {
-    
-  }
-  
-  get alumnosFiltrados() {
-    return this.alumnos.filter(a =>
-      a.nombre.toLowerCase().includes(this.filtro.toLowerCase())
-    );
-  }
-
-  goToAlumno(id: number) {
-    this.router.navigate(['/alumno', id]);
-  }
-
-  salir() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('nombre');
-    this.router.navigate(['/login']);
-  }
+  pruebas: string[] = [
+    'Prueba Matemáticas - 1', 'Prueba Comunicación - 2',
+    'Prueba Ciencias - 3', 'Prueba Historia - 4'
+  ];
 }

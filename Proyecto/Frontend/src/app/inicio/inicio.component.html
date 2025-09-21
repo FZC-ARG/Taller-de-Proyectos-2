@@ -1,1 +1,32 @@
-<p>Redirección correcta</p>
+<body>
+    <div class="overlay"></div>
+    <div class="panel-container">
+    <h2>Panel de Gestión</h2>
+
+    <div class="scrolls-container">
+        <!-- Alumnos -->
+        <div class="scroll-box">
+        <h3>Alumnos</h3>
+        <div *ngFor="let alumno of alumnos">
+            <button class="item-button">{{ alumno }}</button>
+        </div>
+        </div>
+
+        <!-- Docentes -->
+        <div class="scroll-box">
+        <h3>Docentes</h3>
+        <div *ngFor="let docente of docentes">
+            <button class="item-button">{{ docente }}</button>
+        </div>
+        </div>
+
+        <!-- Pruebas -->
+        <div class="scroll-box">
+        <h3>Pruebas</h3>
+        <div *ngFor="let prueba of pruebas">
+            <button class="item-button">{{ prueba }}</button>
+        </div>
+        </div>
+    </div>
+    </div>
+</body>

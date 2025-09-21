@@ -4,13 +4,27 @@
     <h1>INICIO DE SESIÓN</h1>
     <br>
     <h2>Ingrese sus datos</h2>
-    <div class="logoCole">
-    </div>
+    <div class="logoCole"></div>
   </header>
-  
-  <div class="login-container">
-    <input type="text" class="input-field" placeholder="Usuario" [(ngModel)]="dni">
-    <input type="password" class="input-field" placeholder="Contraseña" [(ngModel)]="contrasena">
-    <button class="login-button" (click)="login()">Ingresar</button>
+
+  <div class="login-container" [ngClass]="{'fade-mode': animar}">
+  <div style="display: flex; justify-content: space-between; gap: 10px;">
+    <button class="crear-button" 
+            [ngClass]="{'active': tipoLogin === 'docente'}" 
+            (click)="setLogin('docente')">Docentes</button>
+
+    <button class="crear-button" 
+            [ngClass]="{'active': tipoLogin === 'alumno'}" 
+            (click)="setLogin('alumno')">Alumnos</button>
+
+    <button class="crear-button" 
+            [ngClass]="{'active': tipoLogin === 'admin'}" 
+            (click)="setLogin('admin')">Administrador</button>
   </div>
+
+  <input type="text" class="input-field" placeholder="Usuario" [(ngModel)]="dni">
+  <input type="password" class="input-field" placeholder="Contraseña" [(ngModel)]="contrasena">
+
+  <button class="login-button" (click)="login()">Ingresar</button>
+</div>
 </body>

@@ -16,17 +16,34 @@ import Swal from 'sweetalert2';
 export class LoginComponent {
   dni: string = '';
   contrasena: string = '';
+  tipoLogin: string = 'docente'; // por defecto
+  animar: boolean = false;
 
   constructor(private router: Router, private docentesService: DocentesService) {}
 
+  setLogin(tipo: string) {
+    this.animar = true; // activa animación
+    setTimeout(() => {
+      this.tipoLogin = tipo;
+      this.animar = false; // termina animación
+    }, 300);
+  }
+
   login() {
+    if (this.tipoLogin === 'docente') {
+      // lógica para docentes
+    } else if (this.tipoLogin === 'alumno') {
+      // lógica para alumnos
+    } else if (this.tipoLogin === 'admin') {
+      // lógica para administrador
+    }
+
     this.router.navigate(['inicio']);
     Swal.fire({
       title: 'Ingreso exitoso',
-      text: 'Su ingreso fue exitoso',
+      text: `Ingreso como ${this.tipoLogin}`,
       icon: 'success',
       confirmButtonText: 'Aceptar',
     });
   }
-
 }
