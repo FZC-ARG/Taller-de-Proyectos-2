@@ -27,19 +27,6 @@ CREATE TABLE IF NOT EXISTS Usuarios (
     FOREIGN KEY (IdRol) REFERENCES Roles(IdRol)
 );
 
--- Tabla Administradores (para el sistema de autenticación actual)
-CREATE TABLE IF NOT EXISTS Administradores (
-    IdAdministrador INT AUTO_INCREMENT PRIMARY KEY,
-    NombreCompleto VARCHAR(100) NOT NULL,
-    Usuario VARCHAR(50) NOT NULL UNIQUE,
-    CorreoElectronico VARCHAR(150) NOT NULL UNIQUE,
-    ContrasenaHash VARCHAR(255) NOT NULL,
-    Activo BOOLEAN NOT NULL DEFAULT TRUE,
-    FechaCreacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    UltimoAcceso DATETIME NULL,
-    NivelPrivilegio INT NOT NULL DEFAULT 1
-);
-
 -- Tabla Alumnos
 CREATE TABLE IF NOT EXISTS Alumnos (
     IdAlumno INT AUTO_INCREMENT PRIMARY KEY,
@@ -143,14 +130,11 @@ INSERT IGNORE INTO Roles (NombreRol) VALUES
 ('DOCENTE'),
 ('ALUMNO');
 
--- Insertar administradores iniciales (contraseña: admin123)
-INSERT IGNORE INTO Administradores (NombreCompleto, Usuario, CorreoElectronico, ContrasenaHash, Activo, NivelPrivilegio) VALUES 
-('Administrador Principal', 'admin1', 'admin1@prmartin.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', TRUE, 1),
-('Administrador Secundario', 'admin2', 'admin2@prmartin.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', TRUE, 1),
-('Administrador Terciario', 'admin3', 'admin3@prmartin.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', TRUE, 1);
-
 -- Insertar usuarios de prueba (contraseña: password123)
 INSERT IGNORE INTO Usuarios (NombreUsuario, CorreoElectronico, ContrasenaHash, IdRol) VALUES 
+-- Administradores
+('admin1', 'admin1@prmartin.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', 1),
+('admin2', 'admin2@prmartin.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', 1),
 -- Docentes
 ('prof.martinez', 'martinez@prmartin.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', 2),
 ('prof.garcia', 'garcia@prmartin.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', 2),
@@ -163,16 +147,16 @@ INSERT IGNORE INTO Usuarios (NombreUsuario, CorreoElectronico, ContrasenaHash, I
 
 -- Insertar docentes
 INSERT IGNORE INTO Docentes (IdUsuario, Especialidad) VALUES 
-(1, 'Inteligencia Artificial'),
-(2, 'Desarrollo de Software'),
-(3, 'Base de Datos');
+(3, 'Inteligencia Artificial'),
+(4, 'Desarrollo de Software'),
+(5, 'Base de Datos');
 
 -- Insertar alumnos
 INSERT IGNORE INTO Alumnos (IdUsuario, AnioIngreso) VALUES 
-(4, 2023),
-(5, 2023),
-(6, 2024),
-(7, 2024);
+(6, 2023),
+(7, 2023),
+(8, 2024),
+(9, 2024);
 
 -- Insertar cursos
 INSERT IGNORE INTO Cursos (NombreCurso, IdDocente) VALUES 
@@ -228,7 +212,6 @@ SHOW TABLES;
 SELECT 'Datos insertados:' as Info;
 SELECT 'Roles:', COUNT(*) FROM Roles;
 SELECT 'Usuarios:', COUNT(*) FROM Usuarios;
-SELECT 'Administradores:', COUNT(*) FROM Administradores;
 SELECT 'Docentes:', COUNT(*) FROM Docentes;
 SELECT 'Alumnos:', COUNT(*) FROM Alumnos;
 SELECT 'Cursos:', COUNT(*) FROM Cursos;

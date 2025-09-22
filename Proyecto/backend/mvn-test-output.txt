@@ -1,0 +1,67 @@
+Maven Test Output - Backend Verification
+==========================================
+
+Command: .\mvnw -DskipTests=false test
+Exit Code: 1
+Date: 2025-09-21T01:22:03-05:00
+
+SUMMARY:
+- Tests run: 7
+- Failures: 6  
+- Errors: 1
+- Skipped: 0
+
+CRITICAL ISSUES IDENTIFIED:
+
+1. DATABASE SCHEMA VALIDATION ERRORS:
+   - Schema-validation: missing column [IdAdministrador] in table [Administradores]
+   - Hibernate is looking for PascalCase column names but database has different naming
+   - Entity mappings don't match the actual database schema
+
+2. ALL AUTH TESTS FAILING:
+   - All AuthControllerTest methods returning 403 (Forbidden) or 401 (Unauthorized)
+   - CSRF tokens are being generated but requests are still blocked
+   - Test security configuration is not properly overriding main security config
+
+DETAILED TEST RESULTS:
+
+AuthControllerTest.testLoginSuccess: FAILED
+- Expected: 200 OK
+- Actual: 403 Forbidden
+- Issue: CSRF protection blocking POST requests
+
+AuthControllerTest.testLoginFailure: FAILED  
+- Expected: 401 Unauthorized
+- Actual: 403 Forbidden
+- Issue: CSRF protection blocking POST requests
+
+AuthControllerTest.testRateLimitExceeded: FAILED
+- Expected: 429 Too Many Requests  
+- Actual: 403 Forbidden
+- Issue: CSRF protection blocking POST requests
+
+AuthControllerTest.testRefreshTokenSuccess: FAILED
+- Expected: 200 OK
+- Actual: 403 Forbidden
+- Issue: CSRF protection blocking POST requests
+
+AuthControllerTest.testLogoutSuccess: FAILED
+- Expected: 200 OK
+- Actual: 403 Forbidden
+- Issue: CSRF protection blocking POST requests
+
+AuthControllerTest.testStatusEndpoint: FAILED
+- Expected: 200 OK
+- Actual: 401 Unauthorized
+- Issue: Security configuration requiring authentication
+
+AppmartinApplicationTests.contextLoads: ERROR
+- Failed to load ApplicationContext
+- Root cause: Database schema validation errors
+- Hibernate cannot validate schema against entities
+
+NEXT STEPS REQUIRED:
+1. Fix database schema validation by updating Hibernate naming strategy
+2. Fix test security configuration to properly disable CSRF
+3. Ensure test profile loads correct configuration
+4. Re-run tests to verify fixes

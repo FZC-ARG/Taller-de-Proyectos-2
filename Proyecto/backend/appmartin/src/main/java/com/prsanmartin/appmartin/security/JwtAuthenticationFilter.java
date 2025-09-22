@@ -32,21 +32,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             
             try {
                 String username = jwtUtil.extractUsername(jwt);
-                Integer idAdministrador = jwtUtil.extractIdAdministrador(jwt);
-                Integer nivelPrivilegio = jwtUtil.extractNivelPrivilegio(jwt);
+                Integer idUsuario = jwtUtil.extractIdUsuario(jwt);
+                String rol = jwtUtil.extractRol(jwt);
 
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     if (jwtUtil.validateToken(jwt, username)) {
-                        // Crear autenticación para administrador
+                        // Crear autenticación con el rol correcto
                         UsernamePasswordAuthenticationToken authToken = 
                             new UsernamePasswordAuthenticationToken(
                                 username, 
                                 null, 
-                                Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMINISTRADOR"))
+                                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + rol))
                             );
                         
                         // Agregar detalles adicionales
-                        authToken.setDetails(idAdministrador);
+                        authToken.setDetails(idUsuario);
                         
                         SecurityContextHolder.getContext().setAuthentication(authToken);
                     }

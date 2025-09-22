@@ -33,5 +33,14 @@ public class Usuario {
     
     @Column(name = "FechaCreacion")
     private LocalDateTime fechaCreacion;
+    private Boolean activo;
+
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
 }
 

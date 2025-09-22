@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
@@ -34,4 +35,13 @@ public class RefreshToken {
     
     @Column(name = "Revoked")
     private Boolean revoked = false;
+
+    public RefreshToken(int id, String token, Usuario usuario, Instant fechaCreacion, Instant fechaExpiracion, boolean usado) {
+        this.idRefreshToken = id;
+        this.token = token;
+        this.usuario = usuario;
+        this.issuedAt = LocalDateTime.ofInstant(fechaCreacion, java.time.ZoneId.systemDefault());
+        this.expiresAt = LocalDateTime.ofInstant(fechaExpiracion, java.time.ZoneId.systemDefault());
+        this.revoked = !usado;
+    }
 }

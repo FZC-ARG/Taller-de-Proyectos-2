@@ -60,6 +60,10 @@ public class AuditoriaService {
         registrarAccion("ELIMINAR", entidad, idEntidad, "Entidad eliminada", direccionIP, nombreUsuario);
     }
 
+    public void registrarEvento(String accion, String entidad, String detalles, String direccionIP) {
+        registrarAccion(accion, entidad, null, detalles, direccionIP, null);
+    }
+
     public List<Auditoria> obtenerAuditoriaPorUsuario(String nombreUsuario) {
         return auditoriaRepository.findByUsuarioNombreUsuario(nombreUsuario);
     }
