@@ -14,10 +14,11 @@ import Swal from 'sweetalert2';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  dni: string = '';
+  usuario: string = '';
   contrasena: string = '';
   tipoLogin: string = 'docente'; // por defecto
   animar: boolean = false;
+  exito: boolean = false;
 
   constructor(private router: Router, private docentesService: DocentesService) {}
 
@@ -32,18 +33,41 @@ export class LoginComponent {
   login() {
     if (this.tipoLogin === 'docente') {
       // lógica para docentes
+      if (this.usuario =='docente1' && this.contrasena == '1234') {
+        this.exito = true;
+        this.router.navigate(['inicio-docentes']);
+      }
     } else if (this.tipoLogin === 'alumno') {
       // lógica para alumnos
+      if (this.usuario =='alumno1' && this.contrasena == '1234') {
+        this.exito = true;
+        this.router.navigate(['inicio-alumnos']);
+      }
     } else if (this.tipoLogin === 'admin') {
       // lógica para administrador
+      if (this.usuario =='admin1' && this.contrasena == '1234') {
+        this.exito = true;
+        this.router.navigate(['inicio']);
+      }
     }
 
-    this.router.navigate(['inicio']);
-    Swal.fire({
-      title: 'Ingreso exitoso',
-      text: `Ingreso como ${this.tipoLogin}`,
-      icon: 'success',
-      confirmButtonText: 'Aceptar',
-    });
+    if(this.exito==true)
+    {
+      Swal.fire({
+        title: 'Ingreso exitoso',
+        text: `Ingreso como ${this.tipoLogin}`,
+        icon: 'success',
+        confirmButtonText: 'Aceptar',
+      });
+    }
+    else
+    {
+      Swal.fire({
+        title: 'Error',
+        html: 'Usuario o contraseña incorrectos.<br><b>Asegúrese de seleccionar su rol correcto',
+        icon: 'error',
+        confirmButtonText: 'Aceptar',
+      });
+    }
   }
 }

@@ -73,3 +73,22 @@
   transform: scale(1.03);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+
+.logout-button {
+  margin-top: 3%;
+  background: #e74c3c;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 0.95em;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logout-button:hover {
+  background: #c0392b;
+  transform: scale(1.03);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
