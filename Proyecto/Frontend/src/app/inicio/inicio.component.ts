@@ -39,4 +39,8 @@ export class InicioComponent {
       confirmButtonText: 'Aceptar',
     });
   }
+
+  actividad() {
+    this.router.navigate(['actividad-usuarios']);
+  }
 }

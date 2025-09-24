@@ -1,0 +1,32 @@
+<div class="overlay"></div>
+
+<div class="panel-container">
+  <div class="panel-header">
+    <h2>Panel de Gestión</h2>
+    <button class="actividad-button" (click)="regresar()">Regresar</button>
+  </div>
+
+  <div class="scroll-box">
+    <h3>Registro de Actividad</h3>
+    <div class="tabla-actividades">
+      <table>
+        <thead>
+          <tr>
+            <th>ID Usuario</th>
+            <th>Rol Usuario</th>
+            <th>Fecha Acceso</th>
+            <th>Resultado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let actividad of actividades">
+            <td>{{ actividad.id_usuario }}</td>
+            <td>{{ actividad.rol_usuario }}</td>
+            <td>{{ actividad.fecha_acceso }}</td>
+            <td>{{ actividad.resultado }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

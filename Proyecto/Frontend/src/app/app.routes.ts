@@ -24,5 +24,10 @@ export const routes: Routes = [
     {
         path: 'inicio-alumnos',
         loadComponent: () => import('./inicio-alumnos/inicio-alumnos.component').then(m => m.InicioAlumnosComponent)     
+    },
+    {
+        path: 'actividad-usuarios',
+        loadComponent: () => import('./actividad-usuarios/actividad-usuarios.component').then(m => m.ActividadUsuariosComponent)
     }
+    
 ];
