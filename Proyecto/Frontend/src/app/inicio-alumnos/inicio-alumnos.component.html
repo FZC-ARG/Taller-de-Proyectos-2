@@ -1,1 +1,20 @@
-<p>inicio-alumnos works!</p>
+<body>
+  <div class="overlay"></div>
+  <div class="panel-container">
+    <h2>Alumno: </h2>
+
+    <div class="panel-header">
+      <button class="cursos-button" (click)="toggleCursos()">Cursos</button>
+    </div>
+
+    <div *ngIf="mostrarCursos" class="cursos-container">
+      <div class="cursos-lista">
+        <button *ngFor="let curso of cursos" class="curso-button">
+          {{ curso }}
+        </button>
+      </div>
+    </div>
+
+    <button class="logout-button" (click)="logout()">Cerrar Sesión</button>
+  </div>
+</body>
