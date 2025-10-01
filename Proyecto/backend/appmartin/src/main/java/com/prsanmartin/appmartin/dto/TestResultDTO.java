@@ -34,7 +34,7 @@ public class TestResultDTO {
         result.setIdTest(test.getIdTest());
         result.setIdAlumno(test.getAlumno().getIdAlumno());
         result.setInteligenciaPredominante(test.getInteligenciaPredominante());
-        result.setPuntajeTotal(test.getPuntajeTotal());
+        result.setPuntajeTotal(test.getPuntajeTotal() != null ? test.getPuntajeTotal().doubleValue() : null);
         result.setFechaCompletado(test.getFechaAplicacion());
         result.setVersion(test.getVersionGuardado());
         result.setEstado(test.getEstadoGuardado().name());

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -216,7 +217,8 @@ public class TestGardnerServiceImpl implements TestGardnerService {
             // Set scores and results
             testGardner.setPuntajes(objectMapper.writeValueAsString(scoresResult.get("puntajes")));
             testGardner.setInteligenciaPredominante((String) scoresResult.get("inteligenciaPredominante"));
-            testGardner.setPuntajeTotal((Double) scoresResult.get("puntajeTotal"));
+            Double total = (Double) scoresResult.get("puntajeTotal");
+            testGardner.setPuntajeTotal(total != null ? BigDecimal.valueOf(total).setScale(2, java.math.RoundingMode.HALF_UP) : null);
             testGardner.setEstadoGuardado(TestGardner.EstadoGuardado.CALCULADO);
             
             // Save final test

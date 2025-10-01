@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "TestsGardner")
@@ -46,7 +47,7 @@ public class TestGardner {
     private String inteligenciaPredominante;
     
     @Column(name = "puntaje_total", precision = 5, scale = 2)
-    private Double puntajeTotal;
+    private BigDecimal puntajeTotal;
     
     @Column(name = "tiempo_inicio")
     private LocalDateTime tiempoInicio;

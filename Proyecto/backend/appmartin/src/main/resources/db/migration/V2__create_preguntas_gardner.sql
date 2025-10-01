@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS preguntas_gardner (
     fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     fecha_modificacion DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX idx_tipo_inteligencia (tipo_inteligencia),
-    INDEX[idx_orden (orden_secuencia),
+    INDEX idx_orden (orden_secuencia),
     INDEX idx_activo (activo)
 );
 
@@ -81,4 +81,4 @@ INSERT INTO preguntas_gardner (texto_pregunta, opcion_a, opcion_b, opcion_c, opc
 ('¿Cómo prefieres aprender sobre ciencia?', 'Experimentando y observando directamente', 'Lectura de investigación', 'Documentales y videos', 'Trabajando en laboratorios', 'naturalista', 32);
 
 -- Add constraint to ensure unique order per intelligence type
-ALTER TABLE preguntas_gardner ADD CONSTRAINT UNIQUE idx_unique_orden_inteligencia UNIQUE (tipo_inteligencia, orden_secuencia);
+ALTER TABLE preguntas_gardner ADD CONSTRAINT idx_unique_orden_inteligencia UNIQUE (tipo_inteligencia, orden_secuencia);

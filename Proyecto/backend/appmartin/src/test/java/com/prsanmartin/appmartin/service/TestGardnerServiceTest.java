@@ -186,7 +186,7 @@ class TestGardnerServiceTest {
         submittedTest.setVersionGuardado(1);
         submittedTest.setEstadoGuardado(TestGardner.EstadoGuardado.CALCULADO);
         submittedTest.setInteligenciaPredominante("musical");
-        submittedTest.setPuntajeTotal(85.5);
+        submittedTest.setPuntajeTotal(java.math.BigDecimal.valueOf(85.5));
         submittedTest.setPuntajes("{\"musical\": 90, \"logico\": 80}");
         submittedTest.setClientRequestId("test-uuid");
         
