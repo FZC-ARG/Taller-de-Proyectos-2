@@ -28,6 +28,10 @@ export const routes: Routes = [
     {
         path: 'actividad-usuarios',
         loadComponent: () => import('./actividad-usuarios/actividad-usuarios.component').then(m => m.ActividadUsuariosComponent)
-    }
+    },
+    {
+        path: 'recuperar-contrasena',
+        loadComponent: () => import('./recuperar-contrasena/recuperar-contrasena.component').then(m => m.RecuperarContrasenaComponent)
+    },
     
 ];

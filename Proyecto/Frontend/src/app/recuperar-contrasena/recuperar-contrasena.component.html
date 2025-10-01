@@ -1,0 +1,44 @@
+<div class="overlay"></div>
+
+<div class="panel-container">
+  <div class="panel-header">
+    <h2>Recuperar Contraseña</h2>
+    <button class="actividad-button cancelar" (click)="regresar()">Cancelar</button>
+  </div>
+
+  <form (ngSubmit)="confirmar()" #formContrasena="ngForm" class="formulario">
+    <!-- Nueva contraseña -->
+    <div class="form-group">
+      <label for="nueva">Nueva Contraseña</label>
+      <input type="password" id="nueva" name="nueva" [(ngModel)]="nuevaContrasena"
+        required minlength="6" pattern="^(?=.*[0-9]).{6,}$" #nuevaCtrl="ngModel" />
+
+      <div class="error" *ngIf="nuevaCtrl.invalid && (nuevaCtrl.dirty || nuevaCtrl.touched)">
+        <span *ngIf="nuevaCtrl.errors?.['required']">La contraseña es obligatoria.</span>
+        <span *ngIf="nuevaCtrl.errors?.['minlength']">Debe tener al menos 6 caracteres.</span>
+        <span *ngIf="nuevaCtrl.errors?.['pattern']">Debe incluir al menos un número.</span>
+      </div>
+    </div>
+
+    <!-- Confirmar contraseña -->
+    <div class="form-group">
+      <label for="confirmar">Confirmar Contraseña</label>
+      <input type="password" id="confirmar" name="confirmar" [(ngModel)]="confirmarContrasena"
+        required #confirmarCtrl="ngModel" />
+
+      <div class="error" *ngIf="confirmarCtrl.invalid && (confirmarCtrl.dirty || confirmarCtrl.touched)">
+        <span *ngIf="confirmarCtrl.errors?.['required']">Debe confirmar la contraseña.</span>
+      </div>
+
+      <div class="error" *ngIf="confirmarContrasena && confirmarContrasena !== nuevaContrasena">
+        Las contraseñas no coinciden.
+      </div>
+    </div>
+
+    <!-- Botón -->
+    <button class="actividad-button" type="submit" 
+      [disabled]="formContrasena.invalid || nuevaContrasena !== confirmarContrasena">
+      Confirmar
+    </button>
+  </form>
+</div>
