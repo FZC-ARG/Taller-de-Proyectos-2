@@ -64,7 +64,7 @@ export class LoginComponent {
     {
       Swal.fire({
         title: 'Error',
-        html: 'Usuario o contraseña incorrectos.<br><b>Asegúrese de seleccionar su rol correcto',
+        html: 'Usuario o contraseña incorrectos.<br>Estas intentando ingresar como <b>' + this.tipoLogin + '</b>' +  '<br>Si no es correcto cambie de modo de ingreso.',
         icon: 'error',
         confirmButtonText: 'Aceptar',
       });
