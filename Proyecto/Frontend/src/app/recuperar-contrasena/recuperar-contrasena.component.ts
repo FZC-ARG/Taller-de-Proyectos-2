@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router , ActivatedRoute} from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
@@ -14,9 +14,23 @@ import Swal from 'sweetalert2';
 export class RecuperarContrasenaComponent {
   nuevaContrasena: string = '';
   confirmarContrasena: string = '';
+  rol: string | null = null;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router , private route: ActivatedRoute) {}
 
+  ngOnInit(): void {
+    this.route.queryParamMap.subscribe(params => {
+      this.rol = params.get('rol');
+      console.log('Rol recibido:', this.rol);
+
+      Swal.fire({
+        title: 'Panel de Recuperación de Contraseña',
+        text: 'Ingresando a Recuperar Contraseña para ' + this.rol,
+        icon: 'warning',
+        confirmButtonText: 'Aceptar',
+      });
+    });
+  }
   regresar() {
     this.router.navigate(['/login']);
   }

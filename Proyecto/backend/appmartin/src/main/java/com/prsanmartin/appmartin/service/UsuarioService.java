@@ -4,10 +4,8 @@ import com.prsanmartin.appmartin.dto.UsuarioDto;
 import com.prsanmartin.appmartin.entity.Usuario;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.stereotype.Service;
 
-@Service
-public class UsuarioService {
+public interface UsuarioService {
     boolean existsByNombreUsuario(String nombreUsuario);
     boolean existsByCorreoElectronico(String correoElectronico);
     Usuario createAdminFromDto(UsuarioDto dto);
@@ -15,12 +13,7 @@ public class UsuarioService {
     Optional<Usuario> findByIdIfRoleName(Integer id, String roleName);
     Optional<Usuario> findById(Integer id);
 
-    // Métodos para gestionar usuarios
-    public void resetPassword(Long userId, String newPassword) {
-        // Lógica para restablecer la contraseña
-    }
-
-    public void updateTeacherCredentials(Long teacherId, TeacherUpdateRequest request) {
-        // Lógica para actualizar credenciales del docente
-    }
+    // Métodos adicionales usados por controladores
+    void resetPassword(Long userId, String newPassword);
+    void updateTeacherCredentials(Long teacherId, Object teacherUpdateRequest);
 }
