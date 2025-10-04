@@ -43,4 +43,8 @@ export class InicioComponent {
   actividad() {
     this.router.navigate(['actividad-usuarios']);
   }
+
+  recuperarContrasena() {
+    this.router.navigate(['recuperar-contrasena']);
+  }
 }
