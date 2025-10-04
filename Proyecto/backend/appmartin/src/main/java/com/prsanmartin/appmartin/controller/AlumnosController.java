@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/alumnos")
 public class AlumnosController {
+    // private final List<Docente> docentes = new ArrayList<>();
     private final List<Alumno> alumnos = new ArrayList<>();
     private Long nextId = 1L;
 
