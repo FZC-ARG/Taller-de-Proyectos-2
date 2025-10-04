@@ -71,7 +71,9 @@ export class LoginComponent {
     }
   }
 
-  recuperar() {
-    this.router.navigate(['/recuperar-contrasena']);
+  recuperar() 
+  {
+    this.router.navigate(['/recuperar-contrasena'], { queryParams: { rol: this.tipoLogin } });
   }
+
 }
