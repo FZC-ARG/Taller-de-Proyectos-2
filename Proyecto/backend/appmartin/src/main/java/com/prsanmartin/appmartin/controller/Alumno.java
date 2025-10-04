@@ -1,4 +1,4 @@
-package com.prsanmartin.appmartin;
+package com.prsanmartin.appmartin.controller;
 
 public class Alumno {
     private Long id;
