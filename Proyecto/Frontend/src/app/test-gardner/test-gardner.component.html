@@ -1,0 +1,26 @@
+<body>
+  <div class="overlay"></div>
+  <div class="panel-container">
+    <h2>Test de Gardner</h2>
+
+    <form (ngSubmit)="onSubmit()">
+      <div *ngFor="let pregunta of preguntas" class="pregunta-card">
+        <p>{{pregunta.id}}. {{pregunta.texto}}</p>
+        <div class="opciones">
+          <label *ngFor="let opcion of [1,2,3,4,5,6]">
+            <input 
+              type="radio" 
+              [name]="'pregunta-' + pregunta.id" 
+              [value]="opcion" 
+              [(ngModel)]="pregunta.respuesta"
+              required
+            />
+            {{ opcion }}
+          </label>
+        </div>
+      </div>
+
+      <button type="submit" class="item-button">Enviar Test</button>
+    </form>
+  </div>
+</body>

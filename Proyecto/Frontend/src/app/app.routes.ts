@@ -33,5 +33,9 @@ export const routes: Routes = [
         path: 'recuperar-contrasena',
         loadComponent: () => import('./recuperar-contrasena/recuperar-contrasena.component').then(m => m.RecuperarContrasenaComponent)
     },
+    {
+        path: 'test-gardner',
+        loadComponent: () => import('./test-gardner/test-gardner.component').then(m => m.TestGardnerComponent)
+    }
     
 ];
