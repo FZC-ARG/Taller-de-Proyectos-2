@@ -485,3 +485,103 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
+-- DATOS DE PRUEBA PARA LA TABLA 
+
+INSERT INTO roles (IdRol, NombreRol, nombre_rol) VALUES
+(1, 'ADMIN', ''),
+(2, 'DOCENTE', ''),
+(3, 'ALUMNO', ''),
+(4, 'INVITADO', ''),
+(5, 'SUPERVISOR', '');
+
+INSERT INTO usuarios (IdUsuario, NombreUsuario, CorreoElectronico, ContrasenaHash, IdRol, contrasena_hash, correo_electronico, nombre_usuario, id_rol, activo)
+VALUES
+(1, 'admin', 'admin@colegio.edu', 'hash1', 1, 'hash1', 'admin@colegio.edu', 'admin', 1, b'1'),
+(2, 'docente1', 'profesor1@colegio.edu', 'hash2', 2, 'hash2', 'profesor1@colegio.edu', 'docente1', 2, b'1'),
+(3, 'docente2', 'profesor2@colegio.edu', 'hash3', 2, 'hash3', 'profesor2@colegio.edu', 'docente2', 2, b'1'),
+(4, 'alumno1', 'alumno1@colegio.edu', 'hash4', 3, 'hash4', 'alumno1@colegio.edu', 'alumno1', 3, b'1'),
+(5, 'alumno2', 'alumno2@colegio.edu', 'hash5', 3, 'hash5', 'alumno2@colegio.edu', 'alumno2', 3, b'1');
+
+INSERT INTO docentes (IdDocente, IdUsuario, Especialidad)
+VALUES
+(1, 2, 'Matemáticas'),
+(2, 3, 'Comunicación'),
+(3, 1, 'Informática'),
+(4, 2, 'Ciencias'),
+(5, 3, 'Inglés');
+
+INSERT INTO alumnos (IdAlumno, IdUsuario, AnioIngreso)
+VALUES
+(1, 4, 2023),
+(2, 5, 2024),
+(3, 4, 2023),
+(4, 5, 2024),
+(5, 4, 2025);
+
+INSERT INTO cursos (IdCurso, NombreCurso, IdDocente)
+VALUES
+(1, 'Matemáticas I', 1),
+(2, 'Lenguaje y Comunicación', 2),
+(3, 'Ciencias Naturales', 4),
+(4, 'Inglés Básico', 5),
+(5, 'Computación', 3);
+
+INSERT INTO matriculas (IdMatricula, IdAlumno, IdCurso, FechaMatricula)
+VALUES
+(1, 1, 1, '2025-03-10'),
+(2, 1, 2, '2025-03-10'),
+(3, 2, 3, '2025-03-11'),
+(4, 2, 4, '2025-03-11'),
+(5, 1, 5, '2025-03-12');
+
+INSERT INTO calificaciones (IdCalificacion, IdMatricula, Periodo, Nota, FechaRegistro)
+VALUES
+(1, 1, 'Bimestre 1', 18.5, '2025-04-01 10:00:00'),
+(2, 2, 'Bimestre 1', 16.0, '2025-04-01 10:00:00'),
+(3, 3, 'Bimestre 1', 14.5, '2025-04-01 10:00:00'),
+(4, 4, 'Bimestre 1', 17.2, '2025-04-01 10:00:00'),
+(5, 5, 'Bimestre 1', 19.0, '2025-04-01 10:00:00');
+
+INSERT INTO testsgardner (IdTest, IdAlumno, Respuestas, Puntajes, FechaAplicacion)
+VALUES
+(1, 1, '{"preg1":"A","preg2":"B"}', '{"Lingüística":15,"Lógica":13}', '2025-04-05 09:00:00'),
+(2, 2, '{"preg1":"C","preg2":"A"}', '{"Musical":14,"Espacial":12}', '2025-04-05 09:10:00'),
+(3, 1, '{"preg1":"B","preg2":"D"}', '{"Corporal":16,"Interpersonal":15}', '2025-04-05 09:15:00'),
+(4, 2, '{"preg1":"D","preg2":"B"}', '{"Naturalista":13,"Intrapersonal":14}', '2025-04-05 09:20:00'),
+(5, 1, '{"preg1":"A","preg2":"C"}', '{"Lógica":18,"Espacial":17}', '2025-04-05 09:30:00');
+
+INSERT INTO solicitudesia (IdSolicitud, IdDocente, IdCurso, IdAlumno, DatosEntrada, Estado, FechaSolicitud)
+VALUES
+(1, 1, 1, 1, '{"tema":"álgebra","rendimiento":18}', 'PENDIENTE', '2025-04-10 12:00:00'),
+(2, 2, 2, 2, '{"tema":"lectura","rendimiento":16}', 'PROCESADA', '2025-04-10 12:05:00'),
+(3, 3, 5, 1, '{"tema":"programación","rendimiento":19}', 'PENDIENTE', '2025-04-10 12:10:00'),
+(4, 1, 1, 2, '{"tema":"geometría","rendimiento":15}', 'PROCESADA', '2025-04-10 12:15:00'),
+(5, 2, 2, 1, '{"tema":"gramática","rendimiento":17}', 'PENDIENTE', '2025-04-10 12:20:00');
+
+INSERT INTO respuestasia (IdRespuesta, IdSolicitud, RespuestaJSON, ModeloIA, Confianza, FechaRespuesta)
+VALUES
+(1, 1, '{"sugerencia":"reforzar álgebra con ejercicios prácticos"}', 'GPT-5-Edu', 0.92, '2025-04-10 12:30:00'),
+(2, 2, '{"sugerencia":"mejorar comprensión lectora con textos breves"}', 'GPT-5-Edu', 0.88, '2025-04-10 12:31:00'),
+(3, 3, '{"sugerencia":"avanzar a temas de lógica"}', 'GPT-5-Edu', 0.95, '2025-04-10 12:32:00'),
+(4, 4, '{"sugerencia":"usar videos educativos de geometría"}', 'GPT-5-Edu', 0.90, '2025-04-10 12:33:00'),
+(5, 5, '{"sugerencia":"realizar análisis gramaticales cortos"}', 'GPT-5-Edu', 0.85, '2025-04-10 12:34:00');
+
+INSERT INTO refreshtokens (IdRefreshToken, IdUsuario, Token, IssuedAt, ExpiresAt, Revoked)
+VALUES
+(1, 1, 'token_admin', '2025-04-01 00:00:00', '2025-05-01 00:00:00', 0),
+(2, 2, 'token_doc1', '2025-04-01 00:00:00', '2025-05-01 00:00:00', 0),
+(3, 3, 'token_doc2', '2025-04-01 00:00:00', '2025-05-01 00:00:00', 0),
+(4, 4, 'token_alum1', '2025-04-01 00:00:00', '2025-05-01 00:00:00', 0),
+(5, 5, 'token_alum2', '2025-04-01 00:00:00', '2025-05-01 00:00:00', 0);
+
+
+INSERT INTO auditoria (IdAuditoria, IdUsuario, Accion, Entidad, IdEntidad, Detalles, DireccionIP, FechaEvento)
+VALUES
+(1, 1, 'INSERT', 'usuarios', 1, 'Creación de usuario admin', '192.168.0.10', '2025-04-01 09:00:00'),
+(2, 2, 'INSERT', 'cursos', 1, 'Nuevo curso Matemáticas I', '192.168.0.11', '2025-04-01 09:05:00'),
+(3, 4, 'UPDATE', 'calificaciones', 1, 'Modificación de nota', '192.168.0.12', '2025-04-01 09:10:00'),
+(4, 3, 'DELETE', 'matriculas', 2, 'Eliminación de matrícula duplicada', '192.168.0.13', '2025-04-01 09:15:00'),
+(5, 1, 'LOGIN', 'usuarios', 1, 'Inicio de sesión exitoso', '192.168.0.10', '2025-04-01 09:20:00');
