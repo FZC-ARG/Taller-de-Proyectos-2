@@ -12,6 +12,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./test-gardner.component.css']
 })
 export class TestGardnerComponent {
+  preguntasPorPagina = 5;
+  paginaActual = 1;
+
   preguntas = [
     { id: 1, texto: 'Me gusta resolver problemas matemáticos o lógicos.', respuesta: null },
     { id: 2, texto: 'Disfruto participar en actividades musicales.', respuesta: null },
@@ -21,12 +24,49 @@ export class TestGardnerComponent {
     { id: 6, texto: 'Me gusta observar la naturaleza y aprender de ella.', respuesta: null },
     { id: 7, texto: 'Soy consciente de mis emociones y cómo influyen en mí.', respuesta: null },
     { id: 8, texto: 'Me gusta moverme y aprender haciendo actividades físicas.', respuesta: null },
+    { id: 9, texto: 'Disfruto resolver acertijos y desafíos.', respuesta: null },
+    { id: 10, texto: 'Me inspiro al escuchar música.', respuesta: null },
+    { id: 11, texto: 'Me gusta leer libros.', respuesta: null },
+    { id: 12, texto: 'Me gusta jugar videojuegos.', respuesta: null },
+    { id: 13, texto: 'Me gusta jugar a los juegos de mesa.', respuesta: null },
+    { id: 14, texto: 'Me gusta jugar a los juegos de mesa.', respuesta: null },
+    { id: 15, texto: 'Me gusta jugar a los juegos de mesa.', respuesta: null },
+    { id: 16, texto: 'Me gusta jugar a los juegos de mesa.', respuesta: null },
+    { id: 17, texto: 'Me gusta jugar a los juegos de mesa.', respuesta: null },
+    { id: 18, texto: 'Me gusta jugar a los juegos de mesa.', respuesta: null },
+    { id: 19, texto: 'Me gusta jugar a los juegos de mesa.', respuesta: null },
+    { id: 20, texto: 'Me gusta jugar a los juegos de mesa.', respuesta: null }, 
+    { id: 21, texto: 'Me gusta jugar a los juegos de mesa.', respuesta: null },
   ];
 
   constructor(private router: Router) {}
 
+  get totalPaginas() {
+    return Math.ceil(this.preguntas.length / this.preguntasPorPagina);
+  }
+
+  get inicioIndice() {
+    return (this.paginaActual - 1) * this.preguntasPorPagina + 1;
+  }
+
+  get preguntasPaginadas() {
+    const inicio = (this.paginaActual - 1) * this.preguntasPorPagina;
+    return this.preguntas.slice(inicio, inicio + this.preguntasPorPagina);
+  }
+
+  siguientePagina() {
+    if (this.paginaActual < this.totalPaginas) this.paginaActual++;
+  }
+
+  anteriorPagina() {
+    if (this.paginaActual > 1) this.paginaActual--;
+  }
+
+  irAPagina(id: number) {
+    this.paginaActual = Math.ceil(id / this.preguntasPorPagina);
+  }
+
   onSubmit() {
-    // Validar que todas las preguntas tengan respuesta
     const incompletas = this.preguntas.filter(p => p.respuesta === null);
     if (incompletas.length > 0) {
       Swal.fire({
@@ -37,7 +77,6 @@ export class TestGardnerComponent {
       return;
     }
 
-    // En esta parte en el futuro enviarás las respuestas a la base de datos
     console.log('Respuestas del test:', this.preguntas);
 
     Swal.fire({

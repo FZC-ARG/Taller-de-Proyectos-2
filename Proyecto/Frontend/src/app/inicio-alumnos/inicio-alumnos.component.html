@@ -4,14 +4,23 @@
     <h2>Alumno: </h2>
 
     <div class="panel-header">
-      <button class="cursos-button" (click)="toggleCursos()">Cursos</button>
+      <button class="cursos-button" (click)="mostrarSeccion('cursos')">Cursos</button>
+      <button class="test-button" (click)="mostrarSeccion('test')">Test</button>
     </div>
 
-    <div *ngIf="mostrarCursos" class="cursos-container">
+    <!-- Sección de cursos -->
+    <div *ngIf="seccionActual === 'cursos'" class="cursos-container">
       <div class="cursos-lista">
         <button *ngFor="let curso of cursos" class="curso-button">
           {{ curso }}
         </button>
+      </div>
+    </div>
+
+    <!-- Sección de test -->
+    <div *ngIf="seccionActual === 'test'" class="cursos-container">
+      <div class="cursos-lista">
+        <button class="curso-button" (click)="irATestGardner()">Test de Gardner</button>
       </div>
     </div>
 

@@ -3,24 +3,77 @@
   <div class="panel-container">
     <h2>Test de Gardner</h2>
 
-    <form (ngSubmit)="onSubmit()">
-      <div *ngFor="let pregunta of preguntas" class="pregunta-card">
-        <p>{{pregunta.id}}. {{pregunta.texto}}</p>
-        <div class="opciones">
-          <label *ngFor="let opcion of [1,2,3,4,5,6]">
-            <input 
-              type="radio" 
-              [name]="'pregunta-' + pregunta.id" 
-              [value]="opcion" 
-              [(ngModel)]="pregunta.respuesta"
-              required
-            />
-            {{ opcion }}
-          </label>
-        </div>
+    <div class="test-layout">
+      <!-- Panel izquierdo: preguntas -->
+      <div class="preguntas-section">
+        <form (ngSubmit)="onSubmit()">
+          <div *ngFor="let pregunta of preguntasPaginadas" class="pregunta-card">
+            <p>{{pregunta.id}}. {{pregunta.texto}}</p>
+            <div class="opciones">
+              <label *ngFor="let opcion of [1,2,3,4,5,6]" [class.selected]="pregunta.respuesta === opcion">
+                <input 
+                  type="radio" 
+                  [name]="'pregunta-' + pregunta.id" 
+                  [value]="opcion" 
+                  [(ngModel)]="pregunta.respuesta"
+                  required
+                />
+                {{ opcion }}
+              </label>
+            </div>
+          </div>
+
+          <!-- Usa el template -->
+          <ng-container *ngTemplateOutlet="navegacion"></ng-container>
+
+          <button type="submit" class="item-button">Enviar Test</button>
+        </form>
       </div>
 
-      <button type="submit" class="item-button">Enviar Test</button>
-    </form>
+      <!-- Panel derecho: índice -->
+      <div class="indice-section">
+        <h3>Preguntas</h3>
+        <div class="indice-lista">
+          <button 
+            *ngFor="let pregunta of preguntas" 
+            class="indice-item"
+            [class.respondida]="pregunta.respuesta !== null"
+            [class.activa]="pregunta.id >= inicioIndice && pregunta.id < inicioIndice + preguntasPorPagina"
+            (click)="irAPagina(pregunta.id)">
+            {{ pregunta.id }}
+          </button>
+        </div>
+
+        <!-- Usa el mismo template -->
+        <ng-container *ngTemplateOutlet="navegacion"></ng-container>
+      </div>
+    </div>
   </div>
+
+  <!-- Template reutilizable -->
+  <ng-template #navegacion>
+    <div class="navegacion">
+      <div class="nav-izquierda">
+        <button
+          type="button"
+          class="nav-button"
+          [class.oculto]="paginaActual <= 1"
+          (click)="anteriorPagina()"
+        >
+          Anterior
+        </button>
+      </div>
+
+      <div class="nav-derecha">
+        <button
+          type="button"
+          class="nav-button"
+          [class.oculto]="paginaActual >= totalPaginas"
+          (click)="siguientePagina()"
+        >
+          Siguiente
+        </button>
+      </div>
+    </div>
+  </ng-template>
 </body>

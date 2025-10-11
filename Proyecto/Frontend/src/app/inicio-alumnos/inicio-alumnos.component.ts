@@ -2,14 +2,15 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-inicio-alumnos',
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './inicio-alumnos.component.html',
   styleUrl: './inicio-alumnos.component.css'
 })
 export class InicioAlumnosComponent {
-  mostrarCursos = true;
+  seccionActual: 'cursos' | 'test' = 'cursos';
 
   cursos = [
     'Matemáticas',
@@ -21,8 +22,12 @@ export class InicioAlumnosComponent {
 
   constructor(private router: Router) {}
 
-  toggleCursos() {
-    this.mostrarCursos = !this.mostrarCursos;
+  mostrarSeccion(seccion: 'cursos' | 'test') {
+    this.seccionActual = seccion;
+  }
+
+  irATestGardner() {
+    this.router.navigate(['/test-gardner']);
   }
 
   logout() {

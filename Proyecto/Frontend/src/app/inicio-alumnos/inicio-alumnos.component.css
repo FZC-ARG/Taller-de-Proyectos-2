@@ -129,3 +129,29 @@
   transform: scale(1.03);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+.test-button {
+  margin-top: 3%;
+  background: #ff9800;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 0.95em;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.test-button:hover {
+  background: #e68900;
+  transform: scale(1.03);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Botón activo */
+.cursos-button.active,
+.test-button.active {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.1);
+}
