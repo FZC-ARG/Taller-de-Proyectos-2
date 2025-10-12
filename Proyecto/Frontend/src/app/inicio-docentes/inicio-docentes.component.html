@@ -1,1 +1,29 @@
-<p>inicio-docentes works!</p>
+<body>
+  <div class="overlay"></div>
+  <div class="panel-container">
+    <h2>Docente: </h2>
+
+    <div class="panel-header">
+      <button class="alumnos-button" (click)="mostrarSeccion('alumnos')">alumnos</button>
+      <button class="test-button" (click)="mostrarSeccion('test')">Test</button>
+    </div>
+
+    <!-- Sección de alumnos -->
+    <div *ngIf="seccionActual === 'alumnos'" class="alumnos-container">
+      <div class="alumnos-lista">
+        <button *ngFor="let alumnos of alumnos" class="alumno-button">
+          {{ alumnos }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Sección de test -->
+    <div *ngIf="seccionActual === 'test'" class="alumnos-container">
+      <div class="alumnos-lista">
+        <button class="alumno-button" (click)="irATestGardner()">Test de Gardner</button>
+      </div>
+    </div>
+
+    <button class="logout-button" (click)="logout()">Cerrar Sesión</button>
+  </div>
+</body>
