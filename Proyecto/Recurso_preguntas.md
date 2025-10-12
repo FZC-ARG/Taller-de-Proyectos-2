@@ -5,37 +5,30 @@
 5. ¿Se cuestiona acerca del funcionamiento de las cosas? 
 6. ¿Identifica la música desentonada o que suena mal? 
 7. ¿Parece tener un gran sentido de independencia o voluntad fuerte? 
-8. ¿Encuentra placer al realizar las experiencias táctiles   ( plastilina,  
-     cerámica, macilla, etc.)? 
-9. ¿Su nivel de pensamiento es mas abstracto y conceptual que sus  
-     compañeros? 
+8. ¿Encuentra placer al realizar las experiencias táctiles   ( plastilina, cerámica, macilla, etc.)? 
+9. ¿Su nivel de pensamiento es mas abstracto y conceptual que sus compañeros? 
 10. ¿Disfruta escuchar música? 
 11. ¿Utiliza sus errores y logros de la vida para aprender de ellos? 
 12. ¿Sobresale en la practica de uno o mas deportes? 
-13. ¿Es capaz de resolver problemas de matemáticas mentalmente y con    
-      rapidez? 
+13. ¿Es capaz de resolver problemas de matemáticas mentalmente y con rapidez? 
 14. ¿Tiene buena memoria para las melodías de las canciones? 
 15. ¿Posee un concepto practico de sus habilidades y debilidades?  
 16. ¿Comunica sensaciones físicas diferentes mientras piensa o trabaja?  
-17. ¿Muestra en sus experimentos procesos de pensamiento cognitivo de orden  
-       superior? 
+17. ¿Muestra en sus experimentos procesos de pensamiento cognitivo de orden superior? 
 18. ¿Demuestra sensibilidad ante los ruidos del ambiente? 
 19. ¿Es capaz de expresar sus sentimientos acertadamente? 
 20. ¿Suele moverse, estar inquieto al estar sentado por largo tiempo? 
 21. ¿Disfruta las clases de matemáticas? 
 22. ¿Tiene buena voz para cantar? 
 23. ¿Tiene un buen desempeño cuando trabaja solo? 
-24. ¿Demuestra destreza en actividades que requieren de coordinación motora  
-        sutil? 
+24. ¿Demuestra destreza en actividades que requieren de coordinación motora sutil? 
 25. ¿Le agrada clasificar y jerarquizar cosas? 
-26. ¿Tamborilea rítmicamente sobre la mesa o escritorio mientras esta    
-       trabajando? 
+26. ¿Tamborilea rítmicamente sobre la mesa o escritorio mientras esta trabajando? 
 27. ¿Le gusta mas trabajar solo que en grupo? 
 28. ¿Encuentra placer al desarmar y volver a armar las cosas? 
 29. ¿Encuentra placer resolviendo juego de matemáticas en la computadora? 
 30. ¿Posee algún instrumento musical que sepa tocar? 
-31. ¿Lleva un compás totalmente diferente en cuanto a su estilo de vida y  
-       aprendizaje? 
+31. ¿Lleva un compás totalmente diferente en cuanto a su estilo de vida y aprendizaje? 
 32. ¿Es bueno imitando los movimientos típicos y gestos de otra persona? 
 33. ¿Es capaz de resolver juegos que requieren lógica? 
 34. ¿Canta sin darse cuenta? 
