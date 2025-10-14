@@ -1,0 +1,165 @@
+/* Fondo */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(47, 116, 87, 0.6);
+  z-index: -1;
+}
+
+/* Panel principal */
+.panel-container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+}
+
+.panel-container h2 {
+  margin-bottom: 20px;
+  color: #2f7457;
+  font-size: 1.6em;
+}
+
+/* Navegación */
+.panel-header {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.panel-header button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 0.95em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.perfil-button { background: #0077b6; }
+.cursos-button { background: #a218cc; }
+.test-button   { background: #ff9800; }
+
+.panel-header button:hover {
+  transform: scale(1.05);
+}
+
+.panel-header button.active {
+  filter: brightness(1.1);
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+/* Perfil */
+.perfil-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.foto-perfil {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #2f7457;
+  background: white;
+}
+
+.datos-alumno p {
+  margin: 3px 0;
+  font-size: 0.95em;
+}
+
+/* Cursos */
+.cursos-container {
+  background: rgba(240, 240, 240, 0.9);
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.cursos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.curso-button {
+  background: #2d45b1;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.curso-button:hover {
+  background: #14277c;
+  transform: scale(1.03);
+}
+
+/* Inteligencias múltiples */
+.inteligencias-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.inteligencia-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.tipo {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.barra {
+  width: 100%;
+  background: #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.progreso {
+  background: linear-gradient(90deg, #2f7457, #4ec28f);
+  color: white;
+  text-align: right;
+  padding-right: 8px;
+  font-size: 0.85em;
+  height: 20px;
+  line-height: 20px;
+  border-radius: 8px 0 0 8px;
+  transition: width 0.5s ease;
+}
+
+/* Logout */
+.logout-button {
+  margin-top: 20px;
+  background: #e74c3c;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logout-button:hover {
+  background: #c0392b;
+  transform: scale(1.03);
+}

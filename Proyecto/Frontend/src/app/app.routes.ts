@@ -36,6 +36,10 @@ export const routes: Routes = [
     {
         path: 'test-gardner',
         loadComponent: () => import('./test-gardner/test-gardner.component').then(m => m.TestGardnerComponent)
+    },
+    {
+        path: 'perfil-alumno',
+        loadComponent: () => import('./perfil-alumno/perfil-alumno.component').then(m => m.PerfilAlumnoComponent)
     }
     
 ];

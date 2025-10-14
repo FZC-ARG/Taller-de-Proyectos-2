@@ -1,0 +1,44 @@
+<body>
+  <div class="overlay"></div>
+
+  <div class="panel-container">
+    <h2>Perfil del Alumno</h2>
+
+    <div class="panel-header">
+      <button class="perfil-button" [class.active]="seccionActual==='perfil'" (click)="mostrarSeccion('perfil')">Perfil</button>
+      <button class="cursos-button" [class.active]="seccionActual==='cursos'" (click)="mostrarSeccion('cursos')">Cursos</button>
+      <button class="test-button" [class.active]="seccionActual==='inteligencias'" (click)="mostrarSeccion('inteligencias')">Inteligencias</button>
+    </div>
+
+    <!-- Sección Perfil -->
+    <div *ngIf="seccionActual === 'perfil'" class="perfil-container">
+      <img [src]="getFotoPerfil()" alt="Foto de perfil" class="foto-perfil">
+
+      <div class="datos-alumno">
+        <p><strong>Nombre:</strong> {{ alumno.nombre }}</p>
+        <p><strong>Edad:</strong> {{ alumno.edad }} años</p>
+      </div>
+    </div>
+
+    <!-- Sección Cursos -->
+    <div *ngIf="seccionActual === 'cursos'" class="cursos-container">
+      <div class="cursos-lista">
+        <button *ngFor="let curso of cursos" class="curso-button">
+          {{ curso }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Sección Inteligencias -->
+    <div *ngIf="seccionActual === 'inteligencias'" class="inteligencias-container">
+      <div *ngFor="let intel of inteligencias" class="inteligencia-item">
+        <span class="tipo">{{ intel.tipo }}</span>
+        <div class="barra">
+          <div class="progreso" [style.width.%]="intel.nivel">{{ intel.nivel }}%</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="logout-button" (click)="logout()">Cerrar Sesión</button>
+  </div>
+</body>
