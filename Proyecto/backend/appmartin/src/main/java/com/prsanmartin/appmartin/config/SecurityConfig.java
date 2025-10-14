@@ -44,28 +44,33 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // Endpoints públicos
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/test/**").permitAll()
-                .requestMatchers("/actuator/health").permitAll()
-                .requestMatchers("/actuator/info").permitAll()
-                .requestMatchers("/swagger-ui/**").permitAll()
-                .requestMatchers("/v3/api-docs/**").permitAll()
-                .requestMatchers("/swagger-resources/**").permitAll()
-                .requestMatchers("/webjars/**").permitAll()
-                .requestMatchers("/").permitAll()
-                .requestMatchers("/error").permitAll()
-                // Endpoints de administrador requieren autenticación
-                .requestMatchers("/api/admin/**").hasRole("ADMINISTRADOR")
-                .requestMatchers("/api/docente/**").hasAnyRole("ADMINISTRADOR", "DOCENTE")
-                .requestMatchers("/api/alumno/**").hasAnyRole("ADMINISTRADOR", "DOCENTE", "ALUMNO")
-                .requestMatchers("/api/auditoria/**").hasRole("ADMINISTRADOR")
-                // Actuator endpoints protegidos
-                .requestMatchers("/actuator/**").hasRole("ADMINISTRADOR")
-                // Todos los demás endpoints requieren autenticación
-                .anyRequest().authenticated()
+                // TEMPORAL: Permitir TODAS las rutas sin autenticación para pruebas
+                .anyRequest().permitAll()
+                
+                // CONFIGURACIÓN ORIGINAL (COMENTADA TEMPORALMENTE):
+                // // Endpoints públicos
+                // .requestMatchers("/api/auth/**").permitAll()
+                // .requestMatchers("/api/test/**").permitAll()
+                // .requestMatchers("/actuator/health").permitAll()
+                // .requestMatchers("/actuator/info").permitAll()
+                // .requestMatchers("/swagger-ui/**").permitAll()
+                // .requestMatchers("/v3/api-docs/**").permitAll()
+                // .requestMatchers("/swagger-resources/**").permitAll()
+                // .requestMatchers("/webjars/**").permitAll()
+                // .requestMatchers("/").permitAll()
+                // .requestMatchers("/error").permitAll()
+                // // Endpoints de administrador requieren autenticación
+                // .requestMatchers("/api/admin/**").hasRole("ADMINISTRADOR")
+                // .requestMatchers("/api/docente/**").hasAnyRole("ADMINISTRADOR", "DOCENTE")
+                // .requestMatchers("/api/alumno/**").hasAnyRole("ADMINISTRADOR", "DOCENTE", "ALUMNO")
+                // .requestMatchers("/api/auditoria/**").hasRole("ADMINISTRADOR")
+                // // Actuator endpoints protegidos
+                // .requestMatchers("/actuator/**").hasRole("ADMINISTRADOR")
+                // // Todos los demás endpoints requieren autenticación
+                // .anyRequest().authenticated()
             )
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            // TEMPORAL: Desactivar JWT filter para pruebas sin autenticación
+            // .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .headers(headers -> headers
                 .frameOptions().deny()
                 .contentTypeOptions().and()

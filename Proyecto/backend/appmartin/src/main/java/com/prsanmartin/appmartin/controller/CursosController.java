@@ -25,7 +25,8 @@ public class CursosController {
     private AuditoriaService auditoriaService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN') or hasRole('DOCENTE') or hasRole('ALUMNO')")
+    // TEMPORAL: Desactivar autenticación para pruebas
+    // @PreAuthorize("hasRole('ADMIN') or hasRole('DOCENTE') or hasRole('ALUMNO')")
     public ResponseEntity<Page<CursoDTO>> getAllCursos(Pageable pageable) {
         try {
             Page<CursoDTO> cursos = cursoService.getAllCursos(pageable);
@@ -38,7 +39,8 @@ public class CursosController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('DOCENTE') or hasRole('ALUMNO')")
+    // TEMPORAL: Desactivar autenticación para pruebas
+    // @PreAuthorize("hasRole('ADMIN') or hasRole('DOCENTE') or hasRole('ALUMNO')")
     public ResponseEntity<CursoDTO> getCursoById(@PathVariable Long id) {
         try {
             CursoDTO curso = cursoService.getCursoById(id);
@@ -56,7 +58,8 @@ public class CursosController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN') or hasRole('DOCENTE')")
+    // TEMPORAL: Desactivar autenticación para pruebas
+    // @PreAuthorize("hasRole('ADMIN') or hasRole('DOCENTE')")
     public ResponseEntity<CursoDTO> createCurso(@RequestBody CursoDTO cursoDTO) {
         try {
             CursoDTO createdCurso = cursoService.createCurso(cursoDTO);
@@ -69,7 +72,8 @@ public class CursosController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('DOCENTE')")
+    // TEMPORAL: Desactivar autenticación para pruebas
+    // @PreAuthorize("hasRole('ADMIN') or hasRole('DOCENTE')")
     public ResponseEntity<CursoDTO> updateCurso(@PathVariable Long id, @RequestBody CursoDTO cursoDTO) {
         try {
             CursoDTO updatedCurso = cursoService.updateCurso(id, cursoDTO);
@@ -87,7 +91,8 @@ public class CursosController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    // TEMPORAL: Desactivar autenticación para pruebas
+    // @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteCurso(@PathVariable Long id) {
         try {
             cursoService.deleteCurso(id);
@@ -100,7 +105,8 @@ public class CursosController {
     }
 
     @GetMapping("/docente/{idDocente}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('DOCENTE')")
+    // TEMPORAL: Desactivar autenticación para pruebas
+    // @PreAuthorize("hasRole('ADMIN') or hasRole('DOCENTE')")
     public ResponseEntity<Page<CursoDTO>> getCursosByDocente(@PathVariable Long idDocente, Pageable pageable) {
         try {
             Page<CursoDTO> cursos = cursoService.getCursosByDocente(idDocente, pageable);

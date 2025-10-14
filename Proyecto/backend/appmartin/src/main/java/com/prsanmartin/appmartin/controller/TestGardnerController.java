@@ -38,7 +38,8 @@ public class TestGardnerController {
         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @GetMapping("/questions")
-    @PreAuthorize("hasRole('ALUMNO') or hasRole('DOCENTE')")
+    // TEMPORAL: Desactivar autenticación para pruebas
+    // @PreAuthorize("hasRole('ALUMNO') or hasRole('DOCENTE')")
     public ResponseEntity<Page<PreguntaGardnerDTO>> getQuestions(
             @Parameter(description = "Parámetros de paginación") Pageable pageable) {
         try {
@@ -52,7 +53,8 @@ public class TestGardnerController {
     @Operation(summary = "Obtener todas las preguntas activas", 
                description = "Obtiene todas las preguntas activas del test Gardner")
     @GetMapping("/questions/all")
-    @PreAuthorize("hasRole('ALUMNO') or hasRole('DOCENTE')")
+    // TEMPORAL: Desactivar autenticación para pruebas
+    // @PreAuthorize("hasRole('ALUMNO') or hasRole('DOCENTE')")
     public ResponseEntity<List<PreguntaGardnerDTO>> getAllQuestions() {
         try {
             List<PreguntaGardnerDTO> questions = testGardnerService.getAllActiveQuestions();
@@ -65,7 +67,8 @@ public class TestGardnerController {
     @Operation(summary = "Obtener preguntas por tipo de inteligencia", 
                description = "Obtiene preguntas filtradas por tipo específico de inteligencia")
     @GetMapping("/questions/by-type/{tipoInteligencia}")
-    @PreAuthorize("hasRole('ALUMNO') or hasRole('DOCENTE')")
+    // TEMPORAL: Desactivar autenticación para pruebas
+    // @PreAuthorize("hasRole('ALUMNO') or hasRole('DOCENTE')")
     public ResponseEntity<List<PreguntaGardnerDTO>> getQuestionsByType(
             @Parameter(description = "Tipo de inteligencia") 
             @PathVariable PreguntaGardner.TipoInteligencia tipoInteligencia) {
@@ -80,7 +83,8 @@ public class TestGardnerController {
     @Operation(summary = "Autoguardado de respuestas", 
                description = "Permite guardar respuestas parciales del test de forma idempotente")
     @PostMapping("/{idAlumno}/autosave")
-    @PreAuthorize("hasRole('ALUMNO')")
+    // TEMPORAL: Desactivar autenticación para pruebas
+    // @PreAuthorize("hasRole('ALUMNO')")
     public ResponseEntity<AutosaveResponseDTO> autosaveTest(
             @Parameter(description = "ID del alumno") 
             @PathVariable Integer idAlumno,
@@ -114,7 +118,8 @@ public class TestGardnerController {
     @Operation(summary = "Envío final del test", 
                description = "Envía el test final y calcula las puntuaciones de inteligencias múltiples")
     @PostMapping("/{idAlumno}/submit")
-    @PreAuthorize("hasRole('ALUMNO')")
+    // TEMPORAL: Desactivar autenticación para pruebas
+    // @PreAuthorize("hasRole('ALUMNO')")
     public ResponseEntity<TestResultDTO> submitTest(
             @Parameter(description = "ID del alumno") 
             @PathVariable Integer idAlumno,
@@ -142,7 +147,8 @@ public class TestGardnerController {
     @Operation(summary = "Obtener historial de tests del alumno", 
                description = "Obtiene el historial completo de tests realizados por un alumno")
     @GetMapping("/{idAlumno}/history")
-    @PreAuthorize("hasRole('ALUMNO')")
+    // TEMPORAL: Desactivar autenticación para pruebas
+    // @PreAuthorize("hasRole('ALUMNO')")
     public ResponseEntity<List<TestResultDTO>> getTestHistory(
             @Parameter(description = "ID del alumno") 
             @PathVariable Integer idAlumno) {
@@ -157,7 +163,8 @@ public class TestGardnerController {
     @Operation(summary = "Obtener último test del alumno", 
                description = "Obtiene el resultado del último test realizado por el alumno")
     @GetMapping("/{idAlumno}/latest")
-    @PreAuthorize("hasRole('ALUMNO')")
+    // TEMPORAL: Desactivar autenticación para pruebas
+    // @PreAuthorize("hasRole('ALUMNO')")
     public ResponseEntity<TestResultDTO> getLatestTest(
             @Parameter(description = "ID del alumno") 
             @PathVariable Integer idAlumno) {
@@ -173,7 +180,8 @@ public class TestGardnerController {
     @Operation(summary = "Obtener resultado específico del test", 
                description = "Obtiene el resultado de un test específico con control de acceso")
     @GetMapping("/{idAlumno}/results/{testId}")
-    @PreAuthorize("hasRole('ALUMNO')")
+    // TEMPORAL: Desactivar autenticación para pruebas
+    // @PreAuthorize("hasRole('ALUMNO')")
     public ResponseEntity<TestResultDTO> getTestResult(
             @Parameter(description = "ID del alumno") 
             @PathVariable Integer idAlumno,
@@ -191,7 +199,8 @@ public class TestGardnerController {
     @Operation(summary = "Verificar si el alumno puede tomar el test", 
                description = "Verifica si el alumno puede tomar el test (no tomado recientemente)")
     @GetMapping("/{idAlumno}/can-take")
-    @PreAuthorize("hasRole('ALUMNO')")
+    // TEMPORAL: Desactivar autenticación para pruebas
+    // @PreAuthorize("hasRole('ALUMNO')")
     public ResponseEntity<Map<String, Object>> canStudentTakeTest(
             @Parameter(description = "ID del alumno") 
             @PathVariable Integer idAlumno) {
@@ -210,7 +219,8 @@ public class TestGardnerController {
     @Operation(summary = "Obtener estadísticas de tipos de inteligencia", 
                description = "Obtiene estadísticas sobre la distribución de preguntas por tipo de inteligencia")
     @GetMapping("/statistics/intelligence-types")
-    @PreAuthorize("hasRole('DOCENTE') or hasRole('ADMIN')")
+    // TEMPORAL: Desactivar autenticación para pruebas
+    // @PreAuthorize("hasRole('DOCENTE') or hasRole('ADMIN')")
     public ResponseEntity<Map<String, Long>> getIntelligenceTypeStatistics() {
         try {
             Map<String, Long> statistics = testGardnerService.getIntelligenceTypeStatistics();
