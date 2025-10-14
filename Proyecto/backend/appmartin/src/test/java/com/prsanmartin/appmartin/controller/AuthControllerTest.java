@@ -76,7 +76,14 @@ class AuthControllerTest {
     mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         adminRol = new Rol(1, "ADMIN");
-        testUser = new Usuario(1, "testUser", "admin1@example.com", "encodedPassword", adminRol, LocalDateTime.now(), true);
+        testUser = new Usuario();
+        testUser.setIdUsuario(1); // usa el nombre real del setter en tu entidad
+        testUser.setNombreUsuario("testuser");
+        testUser.setCorreoElectronico("test@example.com");
+        testUser.setContrasenaHash("hashedpw");
+        testUser.setRol(adminRol); // rol debe estar instanciado
+        testUser.setFechaCreacion(LocalDateTime.now());
+        testUser.setActivo(true);
 
         // CORRECCIÓN: El mock debe devolver Optional<Usuario>, no Optional<String>
         when(usuarioRepository.findByNombreUsuario(anyString())).thenReturn(Optional.of(testUser));

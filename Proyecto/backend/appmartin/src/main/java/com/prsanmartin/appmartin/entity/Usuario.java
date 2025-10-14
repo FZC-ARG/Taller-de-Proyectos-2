@@ -35,6 +35,15 @@ public class Usuario {
     private LocalDateTime fechaCreacion;
     private Boolean activo;
 
+    @Column(name = "password_reset_token")
+    private String passwordResetToken;
+
+    @Column(name = "password_reset_expiry")
+    private LocalDateTime passwordResetExpiry;
+
+    @Column(name = "failed_attempts")
+    private Integer failedAttempts = 0;
+
     public Boolean getActivo() {
         return activo;
     }

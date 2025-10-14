@@ -12,4 +12,8 @@ public interface UsuarioService {
     List<Usuario> findAllByRoleName(String roleName);
     Optional<Usuario> findByIdIfRoleName(Integer id, String roleName);
     Optional<Usuario> findById(Integer id);
+
+    // Métodos adicionales usados por controladores
+    void resetPassword(Long userId, String newPassword);
+    void updateTeacherCredentials(Long teacherId, Object teacherUpdateRequest);
 }
