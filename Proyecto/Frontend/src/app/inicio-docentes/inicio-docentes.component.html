@@ -21,9 +21,35 @@
     <div *ngIf="seccionActual === 'test'" class="alumnos-container">
       <div class="alumnos-lista">
         <button class="alumno-button" (click)="irATestGardner()">Test de Gardner</button>
+
+        <!-- Nuevo botón Información -->
+        <button class="info-button" (click)="abrirModal()">Información</button>
       </div>
     </div>
 
     <button class="logout-button" (click)="logout()">Cerrar Sesión</button>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" *ngIf="modalAbierto">
+    <div class="modal">
+      <h3>Teorías de Gardner</h3>
+      <p>
+        La teoría de las inteligencias múltiples, propuesta por Howard Gardner,
+        sostiene que no existe una única inteligencia, sino varias formas de
+        inteligencia que las personas desarrollan en distintos grados. Estas incluyen,
+        entre otras: la lingüística, lógico-matemática, espacial, musical,
+        corporal-kinestésica, interpersonal, intrapersonal y naturalista.
+      </p>
+      <p>
+        En el ámbito educativo, esta teoría es fundamental porque permite reconocer
+        y potenciar las habilidades diversas de los estudiantes, promoviendo una
+        enseñanza más inclusiva, personalizada y efectiva.
+      </p>
+      <div class="modal-buttons">
+        <button class="link-button" (click)="abrirEnlace()">Más información</button>
+        <button class="close-button" (click)="cerrarModal()">Cerrar</button>
+      </div>
+    </div>
   </div>
 </body>

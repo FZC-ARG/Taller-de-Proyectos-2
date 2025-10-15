@@ -12,28 +12,12 @@ import { CommonModule } from '@angular/common';
 export class InicioDocentesComponent {
 
   seccionActual: 'alumnos' | 'test' = 'alumnos';
+  modalAbierto = false;
 
   alumnos = [
-    'Juan',
-    'Pedro',
-    'Luis',
-    'Enrique',
-    'Carlos',
-    'Diego',
-    'Fernando',
-    'Gabriel',
-    'Miguel',
-    'Jose',
-    'Maria',
-    'Ana',
-    'María',
-    'Laura',
-    'Sofía',
-    'Pablo',
-    'Javier',
-    'Daniel',
-    'Ángel',
-    'Lucas',
+    'Juan', 'Pedro', 'Luis', 'Enrique', 'Carlos', 'Diego', 'Fernando',
+    'Gabriel', 'Miguel', 'Jose', 'Maria', 'Ana', 'María', 'Laura',
+    'Sofía', 'Pablo', 'Javier', 'Daniel', 'Ángel', 'Lucas',
   ];
 
   constructor(private router: Router) {}
@@ -46,9 +30,20 @@ export class InicioDocentesComponent {
     this.router.navigate(['/test-gardner']);
   }
 
+  abrirModal() {
+    this.modalAbierto = true;
+  }
+
+  cerrarModal() {
+    this.modalAbierto = false;
+  }
+
+  abrirEnlace() {
+    window.open('https://utecno.wordpress.com/wp-content/uploads/2014/07/howard_gardner_-_estructuras_de_la_mente.pdf', '_blank'); // Cambia este enlace
+  }
+
   logout() {
     localStorage.clear();
     this.router.navigate(['/login']);
   }
 }
-
