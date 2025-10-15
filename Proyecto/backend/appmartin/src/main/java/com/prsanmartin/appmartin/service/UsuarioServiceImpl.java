@@ -1,9 +1,10 @@
-// UsuarioServiceImpl.java (implementación)
 package com.prsanmartin.appmartin.service;
 
 import com.prsanmartin.appmartin.dto.UsuarioDto;
 import com.prsanmartin.appmartin.entity.Usuario;
+import com.prsanmartin.appmartin.entity.Rol;
 import com.prsanmartin.appmartin.repository.UsuarioRepository;
+import com.prsanmartin.appmartin.repository.RolRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RolRepository rolRepository;
 
     @Autowired
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder, RolRepository rolRepository) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
+        this.rolRepository = rolRepository;
     }
 
     @Override
@@ -43,19 +46,31 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Usuario createAdminFromDto(UsuarioDto dto) {
-        // implementar según tu DTO
-        return null;
+        if (dto == null) return null;
+        Usuario u = new Usuario();
+        u.setNombreUsuario(dto.getNombreUsuario());
+        u.setCorreoElectronico(dto.getCorreoElectronico());
+        u.setContrasenaHash(passwordEncoder.encode(dto.getContrasena()));
+        Rol admin = rolRepository.findByNombreRol("ADMIN");
+        if (admin != null) {
+            u.setRol(admin);
+        }
+        u.setActivo(true);
+        return usuarioRepository.save(u);
     }
 
     @Override
     public List<Usuario> findAllByRoleName(String roleName) {
-        // implementar si tu repo tiene findAllByRolNombre or similar
-        return null;
+        return usuarioRepository.findAllByRoleName(roleName);
     }
 
     @Override
     public Optional<Usuario> findByIdIfRoleName(Integer id, String roleName) {
-        // implementación según tu lógica
+        if (id == null) return Optional.empty();
+        Optional<Usuario> u = usuarioRepository.findById(id);
+        if (u.isPresent() && u.get().getRol() != null && roleName.equalsIgnoreCase(u.get().getRol().getNombreRol())) {
+            return u;
+        }
         return Optional.empty();
     }
 
@@ -80,7 +95,14 @@ public class UsuarioServiceImpl implements UsuarioService {
         if (teacherId == null) return;
         Integer id = teacherId.intValue();
         usuarioRepository.findById(id).ifPresent(u -> {
-            // TODO: castear teacherUpdateRequest al DTO real y aplicar cambios sobre 'u'
+            if (teacherUpdateRequest instanceof com.prsanmartin.appmartin.dto.TeacherUpdateRequest req) {
+                if (req.getUsername() != null && !req.getUsername().isBlank()) {
+                    u.setNombreUsuario(req.getUsername());
+                }
+                if (req.getEmail() != null && !req.getEmail().isBlank()) {
+                    u.setCorreoElectronico(req.getEmail());
+                }
+            }
             usuarioRepository.save(u);
         });
     }
