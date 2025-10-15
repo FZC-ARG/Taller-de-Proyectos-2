@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -15,12 +15,24 @@ export class InicioDocentesComponent {
   modalAbierto = false;
 
   alumnos = [
-    'Juan', 'Pedro', 'Luis', 'Enrique', 'Carlos', 'Diego', 'Fernando',
-    'Gabriel', 'Miguel', 'Jose', 'Maria', 'Ana', 'María', 'Laura',
-    'Sofía', 'Pablo', 'Javier', 'Daniel', 'Ángel', 'Lucas',
+    { id: '1', nombre: 'Juan' },
+    { id: '2', nombre: 'Pedro' },
+    { id: '3', nombre: 'Luis' },
+    { id: '4', nombre: 'Enrique' },
+    { id: '5', nombre: 'Carlos' },
+    { id: '6', nombre: 'Diego' },
+    { id: '7', nombre: 'Fernando' },
+    { id: '8', nombre: 'Gabriel' },
+    { id: '9', nombre: 'Miguel' },
+    { id: '10', nombre: 'Jose' },
+    { id: '11', nombre: 'Maria' },
+    { id: '12', nombre: 'Ana' },
+    { id: '13', nombre: 'María' },
+    { id: '14', nombre: 'Laura' },
+    { id: '15', nombre: 'Sofía' },
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router ,private route: ActivatedRoute) {}
 
   mostrarSeccion(seccion: 'alumnos' | 'test') {
     this.seccionActual = seccion;
@@ -45,5 +57,8 @@ export class InicioDocentesComponent {
   logout() {
     localStorage.clear();
     this.router.navigate(['/login']);
+  }
+  mostrarPerfil(id: string , nombre: string) {
+    this.router.navigate(['/perfil-alumno'], { queryParams: { id: id, nombre: nombre } });
   }
 }
