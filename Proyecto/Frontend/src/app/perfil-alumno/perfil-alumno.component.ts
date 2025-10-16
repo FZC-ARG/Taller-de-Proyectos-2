@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router,ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-perfil-alumno',
@@ -11,24 +10,14 @@ import { Location } from '@angular/common';
   styleUrls: ['./perfil-alumno.component.css']
 })
 export class PerfilAlumnoComponent {
-  constructor (private router: Router , private route: ActivatedRoute, private location: Location) {}
+  constructor (private router: Router) { }
   seccionActual: string = 'perfil';
 
-  alumno!: {
-    nombre: string;
-    genero: string;
-    edad: number;
+  alumno = {
+    nombre: 'Juan Pérez',
+    genero: 'M', // 'M' o 'F'
+    edad: 16,
   };
-
-  ngOnInit() {
-    const nombre = this.route.snapshot.queryParams['nombre'] || 'Invitado';
-    this.alumno = {
-      nombre: nombre,
-      genero: 'M',
-      edad: 16,
-    };
-  }
-
 
   inteligencias = [
     { tipo: 'Lingüística', nivel: 85 },
@@ -47,8 +36,10 @@ export class PerfilAlumnoComponent {
     this.seccionActual = seccion;
   }
 
-  Regresar() {
-    this.location.back();
+  logout() {
+    console.log('Sesión cerrada');
+    this.router.navigate(['/login']);
+
   }
 
   getFotoPerfil(): string {

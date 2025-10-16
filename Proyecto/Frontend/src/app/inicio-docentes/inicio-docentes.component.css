@@ -103,9 +103,6 @@
   background: rgba(240, 240, 240, 0.9);
   border-radius: 12px;
   box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.1);
-  max-height: 500px;
-  overflow-y: auto;
-  overflow-x: hidden;
 }
 
 .alumnos-lista {
@@ -116,7 +113,7 @@
 }
 
 .alumno-button {
-  width: 15%;
+  width: 100%;
   background: #2d45b1;
   color: white;
   padding: 10px;

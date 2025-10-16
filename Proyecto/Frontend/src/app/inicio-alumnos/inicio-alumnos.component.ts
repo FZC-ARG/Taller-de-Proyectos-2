@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-inicio-alumnos',
@@ -33,5 +35,12 @@ export class InicioAlumnosComponent {
   logout() {
     localStorage.clear();
     this.router.navigate(['/login']);
+
+    Swal.fire({
+      title: 'Sesión cerrada',
+      text: 'Ahora no tienes acceso a la aplicación',
+      icon: 'success',
+      confirmButtonText: 'Aceptar',
+    });
   }
 }
