@@ -20,4 +20,11 @@ public interface DocenteRepository extends JpaRepository<Docente, Integer> {
     
     @Query("SELECT d FROM Docente d WHERE d.usuario.nombreUsuario = :nombreUsuario")
     Optional<Docente> findByUsuarioNombreUsuario(String nombreUsuario);
+
+    // Additional methods for statistics
+    @Query("SELECT COUNT(d) FROM Docente d WHERE d.usuario.activo = true")
+    long countActiveTeachers();
+
+    @Query("SELECT d.especialidad, COUNT(d) FROM Docente d GROUP BY d.especialidad")
+    List<Object[]> countTeachersBySpecialty();
 }

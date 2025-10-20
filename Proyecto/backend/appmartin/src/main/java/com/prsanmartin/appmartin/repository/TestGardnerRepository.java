@@ -39,4 +39,11 @@ public interface TestGardnerRepository extends JpaRepository<TestGardner, Intege
     
     @Query("SELECT t FROM TestGardner t WHERE t.alumno.idAlumno = :idAlumno AND t.idTest = :testId")
     Optional<TestGardner> findByAlumnoAndTestId(@Param("idAlumno") Integer idAlumno, @Param("testId") Integer testId);
+    
+    // Additional methods for intelligence results
+    @Query("SELECT t FROM TestGardner t ORDER BY t.fechaAplicacion DESC")
+    List<TestGardner> findTop10ByOrderByFechaAplicacionDesc();
+    
+    @Query("SELECT t.inteligenciaPredominante, COUNT(t) FROM TestGardner t WHERE t.inteligenciaPredominante IS NOT NULL GROUP BY t.inteligenciaPredominante")
+    List<Object[]> countPredominantIntelligence();
 }

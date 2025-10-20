@@ -72,4 +72,34 @@ public interface TestGardnerService {
      * Check if student can take test (not recently taken)
      */
     boolean canStudentTakeTest(Integer idAlumno);
+    
+    /**
+     * Get all intelligence results with automatic update
+     */
+    IntelligenceResultsDTO getAllIntelligenceResults();
+    
+    /**
+     * Get student historical data including intelligence evolution
+     */
+    Map<String, Object> getStudentHistoricalData(Integer idAlumno);
+    
+    /**
+     * Get predominant intelligence statistics
+     */
+    Map<String, Long> getPredominantIntelligenceStatistics();
+    
+    /**
+     * Compare intelligence results between students
+     */
+    Map<String, Object> compareIntelligenceResults(List<Integer> studentIds);
+    
+    /**
+     * Get intelligence evolution for a student
+     */
+    Map<String, Object> getIntelligenceEvolution(Integer idAlumno);
+    
+    /**
+     * Regenerate academic recommendations
+     */
+    String regenerateRecommendations(Integer idAlumno);
 }

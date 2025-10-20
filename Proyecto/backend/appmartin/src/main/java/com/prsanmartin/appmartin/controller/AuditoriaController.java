@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/auditoria")
+@RequestMapping("/api/actividades")
 @CrossOrigin(origins = "*")
 // @Tag(name = "Auditoría", description = "Endpoints para consultar registros de auditoría")
 // @SecurityRequirement(name = "bearerAuth")

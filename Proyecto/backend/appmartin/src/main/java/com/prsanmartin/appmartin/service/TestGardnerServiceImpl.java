@@ -475,4 +475,272 @@ public class TestGardnerServiceImpl implements TestGardnerService {
         );
         return recommendations.getOrDefault(inteligencia, "Explora diferentes áreas para encontrar tu pasión académica.");
     }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public IntelligenceResultsDTO getAllIntelligenceResults() {
+        try {
+            IntelligenceResultsDTO results = new IntelligenceResultsDTO();
+            
+            // Get total tests and students
+            long totalTests = testRepository.count();
+            long totalStudents = alumnoRepository.count();
+            
+            // Get intelligence distribution
+            Map<String, Long> intelligenceDistribution = getIntelligenceTypeStatistics();
+            
+            // Get predominant intelligence statistics
+            Map<String, Long> predominantStatsLong = getPredominantIntelligenceStatistics();
+            
+            // Convert Long to Integer for the DTO
+            Map<String, Integer> predominantStats = predominantStatsLong.entrySet().stream()
+                    .collect(Collectors.toMap(
+                            Map.Entry::getKey,
+                            entry -> entry.getValue().intValue()
+                    ));
+            
+            // Get recent results (last 10)
+            List<TestGardner> recentTests = testRepository.findTop10ByOrderByFechaAplicacionDesc();
+            List<TestResultDTO> recentResults = recentTests.stream()
+                    .map(TestResultDTO::fromTestGardner)
+                    .collect(Collectors.toList());
+            
+            // Calculate average scores
+            Map<String, Double> averageScores = calculateAverageIntelligenceScores();
+            
+            // Get top intelligences
+            List<String> topIntelligences = predominantStatsLong.entrySet().stream()
+                    .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                    .limit(3)
+                    .map(Map.Entry::getKey)
+                    .collect(Collectors.toList());
+            
+            results.setTotalTests((int) totalTests);
+            results.setTotalStudents((int) totalStudents);
+            results.setLastUpdate(LocalDateTime.now());
+            results.setIntelligenceDistribution(intelligenceDistribution);
+            results.setAverageScores(averageScores);
+            results.setRecentResults(recentResults);
+            results.setPredominantIntelligenceCount(predominantStats);
+            results.setTopIntelligences(topIntelligences);
+            results.setSystemStatus("ACTIVE");
+            
+            return results;
+            
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener resultados de inteligencias: " + e.getMessage(), e);
+        }
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public Map<String, Object> getStudentHistoricalData(Integer idAlumno) {
+        try {
+            Map<String, Object> historicalData = new HashMap<>();
+            
+            // Get all tests for the student
+            List<TestGardner> tests = testRepository.findByAlumnoCompletedTests(idAlumno);
+            
+            if (tests.isEmpty()) {
+                historicalData.put("message", "No se encontraron datos históricos para el estudiante");
+                return historicalData;
+            }
+            
+            // Get student info
+            Alumno alumno = alumnoRepository.findById(idAlumno).orElse(null);
+            if (alumno != null) {
+                historicalData.put("studentName", alumno.getUsuario().getNombreUsuario());
+                historicalData.put("yearOfEntry", alumno.getAnioIngreso());
+            }
+            
+            // Process test results
+            List<Map<String, Object>> testHistory = new ArrayList<>();
+            Map<String, List<Integer>> intelligenceEvolution = new HashMap<>();
+            
+            for (TestGardner test : tests) {
+                Map<String, Object> testData = new HashMap<>();
+                testData.put("testId", test.getIdTest());
+                testData.put("date", test.getFechaAplicacion());
+                testData.put("predominantIntelligence", test.getInteligenciaPredominante());
+                testData.put("totalScore", test.getPuntajeTotal());
+                testData.put("version", test.getVersionGuardado());
+                
+                // Parse scores if available
+                if (test.getPuntajes() != null) {
+                    try {
+                        Map<String, Integer> scores = objectMapper.readValue(
+                            test.getPuntajes(),
+                            new TypeReference<Map<String, Integer>>() {}
+                        );
+                        testData.put("scores", scores);
+                        
+                        // Track evolution
+                        for (Map.Entry<String, Integer> entry : scores.entrySet()) {
+                            intelligenceEvolution.computeIfAbsent(entry.getKey(), k -> new ArrayList<>())
+                                    .add(entry.getValue());
+                        }
+                    } catch (Exception e) {
+                        // Skip if parsing fails
+                    }
+                }
+                
+                testHistory.add(testData);
+            }
+            
+            historicalData.put("testHistory", testHistory);
+            historicalData.put("intelligenceEvolution", intelligenceEvolution);
+            historicalData.put("totalTests", tests.size());
+            historicalData.put("firstTestDate", tests.get(tests.size() - 1).getFechaAplicacion());
+            historicalData.put("lastTestDate", tests.get(0).getFechaAplicacion());
+            
+            return historicalData;
+            
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener datos históricos: " + e.getMessage(), e);
+        }
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public Map<String, Long> getPredominantIntelligenceStatistics() {
+        List<Object[]> stats = testRepository.countPredominantIntelligence();
+        return stats.stream()
+                .collect(Collectors.toMap(
+                    arr -> (String) arr[0],
+                    arr -> (Long) arr[1]
+                ));
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public Map<String, Object> compareIntelligenceResults(List<Integer> studentIds) {
+        try {
+            Map<String, Object> comparison = new HashMap<>();
+            Map<String, List<TestResultDTO>> studentResults = new HashMap<>();
+            
+            for (Integer studentId : studentIds) {
+                List<TestResultDTO> results = getTestHistory(studentId);
+                Alumno alumno = alumnoRepository.findById(studentId).orElse(null);
+                String studentName = alumno != null ? alumno.getUsuario().getNombreUsuario() : "Estudiante " + studentId;
+                studentResults.put(studentName, results);
+            }
+            
+            comparison.put("studentResults", studentResults);
+            comparison.put("comparisonDate", LocalDateTime.now());
+            comparison.put("totalStudents", studentIds.size());
+            
+            return comparison;
+            
+        } catch (Exception e) {
+            throw new RuntimeException("Error al comparar resultados: " + e.getMessage(), e);
+        }
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public Map<String, Object> getIntelligenceEvolution(Integer idAlumno) {
+        try {
+            Map<String, Object> evolution = new HashMap<>();
+            
+            List<TestGardner> tests = testRepository.findByAlumnoCompletedTests(idAlumno);
+            if (tests.isEmpty()) {
+                evolution.put("message", "No se encontraron tests para el estudiante");
+                return evolution;
+            }
+            
+            // Sort by date
+            tests.sort((t1, t2) -> t1.getFechaAplicacion().compareTo(t2.getFechaAplicacion()));
+            
+            Map<String, List<Map<String, Object>>> intelligenceData = new HashMap<>();
+            
+            for (TestGardner test : tests) {
+                if (test.getPuntajes() != null) {
+                    try {
+                        Map<String, Integer> scores = objectMapper.readValue(
+                            test.getPuntajes(),
+                            new TypeReference<Map<String, Integer>>() {}
+                        );
+                        
+                        for (Map.Entry<String, Integer> entry : scores.entrySet()) {
+                            String intelligence = entry.getKey();
+                            Map<String, Object> dataPoint = new HashMap<>();
+                            dataPoint.put("date", test.getFechaAplicacion());
+                            dataPoint.put("score", entry.getValue());
+                            dataPoint.put("testId", test.getIdTest());
+                            
+                            intelligenceData.computeIfAbsent(intelligence, k -> new ArrayList<>())
+                                    .add(dataPoint);
+                        }
+                    } catch (Exception e) {
+                        // Skip if parsing fails
+                    }
+                }
+            }
+            
+            evolution.put("intelligenceEvolution", intelligenceData);
+            evolution.put("totalTests", tests.size());
+            evolution.put("evolutionPeriod", Map.of(
+                "start", tests.get(0).getFechaAplicacion(),
+                "end", tests.get(tests.size() - 1).getFechaAplicacion()
+            ));
+            
+            return evolution;
+            
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener evolución de inteligencias: " + e.getMessage(), e);
+        }
+    }
+    
+    @Override
+    public String regenerateRecommendations(Integer idAlumno) {
+        try {
+            Optional<TestGardner> latestTest = testRepository.findFirstByAlumnoIdAlumnoOrderByFechaAplicacionDesc(idAlumno);
+            
+            if (latestTest.isPresent()) {
+                TestGardner test = latestTest.get();
+                String inteligenciaPredominante = test.getInteligenciaPredominante();
+                return getAcademicRecommendations(inteligenciaPredominante);
+            } else {
+                return "No se encontraron resultados de test para generar recomendaciones";
+            }
+            
+        } catch (Exception e) {
+            return "Error al regenerar recomendaciones: " + e.getMessage();
+        }
+    }
+    
+    // Helper method to calculate average intelligence scores
+    private Map<String, Double> calculateAverageIntelligenceScores() {
+        List<TestGardner> allTests = testRepository.findAll();
+        Map<String, List<Integer>> intelligenceScores = new HashMap<>();
+        
+        for (TestGardner test : allTests) {
+            if (test.getPuntajes() != null) {
+                try {
+                    Map<String, Integer> scores = objectMapper.readValue(
+                        test.getPuntajes(),
+                        new TypeReference<Map<String, Integer>>() {}
+                    );
+                    
+                    for (Map.Entry<String, Integer> entry : scores.entrySet()) {
+                        intelligenceScores.computeIfAbsent(entry.getKey(), k -> new ArrayList<>())
+                                .add(entry.getValue());
+                    }
+                } catch (Exception e) {
+                    // Skip if parsing fails
+                }
+            }
+        }
+        
+        Map<String, Double> averages = new HashMap<>();
+        for (Map.Entry<String, List<Integer>> entry : intelligenceScores.entrySet()) {
+            double average = entry.getValue().stream()
+                    .mapToInt(Integer::intValue)
+                    .average()
+                    .orElse(0.0);
+            averages.put(entry.getKey(), average);
+        }
+        
+        return averages;
+    }
 }
