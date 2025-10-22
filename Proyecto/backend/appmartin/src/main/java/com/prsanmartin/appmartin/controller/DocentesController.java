@@ -140,4 +140,16 @@ public class DocentesController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @Operation(summary = "Obtener todos los docentes (Prueba)",
+               description = "Obtiene la lista completa de docentes registrados (Endpoint de prueba)")
+    @GetMapping("/test-docentes")
+    public ResponseEntity<List<DocenteDTO>> listarDocentesPrueba() {
+        try {
+            List<DocenteDTO> docentes = docenteService.getAllTeachers();
+            return ResponseEntity.ok(docentes);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
