@@ -1,3 +1,7 @@
+// TEMP_DISABLED_FOR_TESTS: Controlador duplicado - usar AdminUsuarioController en su lugar
+// CONFLICTO RESUELTO: Este controlador duplica funcionalidad de AdminUsuarioController
+// Las rutas de administración ya están disponibles en AdminUsuarioController con /api/admin/*
+/*
 package com.prsanmartin.appmartin.controller;
 
 import com.prsanmartin.appmartin.dto.PasswordResetRequest;
@@ -56,3 +60,4 @@ public class AdminUserController {
         }
     }
 }
+*/

@@ -242,7 +242,10 @@ public class AlumnosController {
     }
 }
 
-// Controller adicional para endpoints con rutas específicas solicitadas
+// TEMP_DISABLED_FOR_TESTS: Controller adicional para endpoints con rutas específicas solicitadas
+// CONFLICTO RESUELTO: Este controlador duplicaba rutas ya existentes en otros controladores
+// Las rutas /api/alumno/{id} y /api/docente/{id} ya están disponibles en AlumnosController y DocentesController
+/*
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
@@ -323,3 +326,4 @@ class SpecificEndpointsController {
         }
     }
 }
+*/

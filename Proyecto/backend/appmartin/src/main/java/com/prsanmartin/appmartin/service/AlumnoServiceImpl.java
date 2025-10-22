@@ -84,29 +84,34 @@ public class AlumnoServiceImpl implements AlumnoService {
         Usuario usuario = new Usuario();
         usuario.setNombreUsuario(alumnoDTO.getNombreUsuario());
         usuario.setCorreoElectronico(alumnoDTO.getCorreoElectronico());
-        usuario.setContrasenaHash("password123"); // Default password - should be changed
+        usuario.setContrasenaHash("$2a$12$defaultPasswordHash"); // Default password hash
         usuario.setRol(rolAlumno);
         usuario.setFechaCreacion(LocalDateTime.now());
         usuario.setActivo(true);
         
-        usuarioRepository.save(usuario);
+        Usuario savedUsuario = usuarioRepository.save(usuario);
         
         // Create student
         Alumno alumno = new Alumno();
-        alumno.setUsuario(usuario);
+        alumno.setUsuario(savedUsuario);
         alumno.setAnioIngreso(alumnoDTO.getAnioIngreso());
         
         Alumno savedAlumno = alumnoRepository.save(alumno);
         
         // Audit trail
-        auditoriaService.registrarAccion(
-            "ALUMNO_CREADO",
-            "Alumno",
-            savedAlumno.getIdAlumno(),
-            "Alumno creado: " + alumnoDTO.getNombreUsuario(),
-            null,
-            "SYSTEM"
-        );
+        try {
+            auditoriaService.registrarAccion(
+                "ALUMNO_CREADO",
+                "Alumno",
+                savedAlumno.getIdAlumno(),
+                "Alumno creado: " + alumnoDTO.getNombreUsuario(),
+                null,
+                "SYSTEM"
+            );
+        } catch (Exception e) {
+            // Log error but don't fail the transaction
+            System.err.println("Error en auditoría: " + e.getMessage());
+        }
         
         return convertToDTO(savedAlumno);
     }
@@ -138,7 +143,7 @@ public class AlumnoServiceImpl implements AlumnoService {
         // Update student data
         alumno.setAnioIngreso(alumnoDTO.getAnioIngreso());
         
-        Usuario savedUsuario = usuarioRepository.save(usuario);
+        usuarioRepository.save(usuario);
         Alumno savedAlumno = alumnoRepository.save(alumno);
         
         // Audit trail

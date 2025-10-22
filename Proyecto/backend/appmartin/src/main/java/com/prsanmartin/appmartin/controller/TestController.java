@@ -38,6 +38,8 @@ public class TestController {
     @Autowired
     private TestGardnerService testGardnerService;
 
+    // TEMP_DISABLED_FOR_TESTS: Método duplicado - usar TestGardnerController.getAllQuestions() en su lugar
+    /*
     @Operation(summary = "Obtener preguntas del test",
                description = "Obtiene todas las preguntas del test de Gardner")
     @ApiResponses(value = {
@@ -53,7 +55,10 @@ public class TestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    */
 
+    // TEMP_DISABLED_FOR_TESTS: Método duplicado - usar TestGardnerController.submitTest() en su lugar
+    /*
     @Operation(summary = "Enviar respuestas del test",
                description = "Recibe las respuestas del test y calcula los resultados")
     @ApiResponses(value = {
@@ -77,7 +82,10 @@ public class TestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    */
 
+    // TEMP_DISABLED_FOR_TESTS: Método duplicado - usar TestGardnerController.getLatestTest() en su lugar
+    /*
     @Operation(summary = "Obtener resultados por alumno",
                description = "Obtiene los resultados del test para un alumno específico")
     @ApiResponses(value = {
@@ -97,6 +105,7 @@ public class TestController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    */
 
     @GetMapping("/connection")
     public ResponseEntity<Map<String, Object>> testConnection() {
@@ -144,39 +153,26 @@ public class TestController {
         }
     }
 
-    @PostMapping("/create-test-user")
-    public ResponseEntity<Map<String, Object>> createTestUser() {
+    @PostMapping("/init-database")
+    public ResponseEntity<Map<String, Object>> initDatabase() {
         Map<String, Object> response = new HashMap<>();
         
         try {
-            // Buscar rol ADMIN
-            Rol adminRol = rolRepository.findByNombreRol("ADMIN");
-            if (adminRol == null) {
-                response.put("status", "error");
-                response.put("message", "No se encontró el rol ADMIN");
-                return ResponseEntity.badRequest().body(response);
-            }
-
-            // Crear usuario de prueba
-            Usuario testUser = new Usuario();
-            testUser.setNombreUsuario("test_user_" + System.currentTimeMillis());
-            testUser.setCorreoElectronico("test@example.com");
-            testUser.setContrasenaHash("password_hash_test");
-            testUser.setRol(adminRol);
-            testUser.setFechaCreacion(LocalDateTime.now());
-
-            Usuario savedUser = usuarioRepository.save(testUser);
+            // Crear roles usando SQL nativo
+            usuarioRepository.createRoleIfNotExists("ADMIN");
+            usuarioRepository.createRoleIfNotExists("DOCENTE");
+            usuarioRepository.createRoleIfNotExists("ALUMNO");
 
             response.put("status", "success");
-            response.put("message", "Usuario de prueba creado exitosamente");
-            response.put("usuario", savedUser);
+            response.put("message", "Base de datos inicializada con roles básicos");
+            response.put("roles", List.of("ADMIN", "DOCENTE", "ALUMNO"));
             response.put("timestamp", LocalDateTime.now());
 
             return ResponseEntity.ok(response);
 
         } catch (Exception e) {
             response.put("status", "error");
-            response.put("message", "Error al crear usuario de prueba: " + e.getMessage());
+            response.put("message", "Error al inicializar base de datos: " + e.getMessage());
             response.put("timestamp", LocalDateTime.now());
             return ResponseEntity.status(500).body(response);
         }

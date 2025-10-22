@@ -17,7 +17,7 @@ public class AlumnoDTO {
     
     private Integer idAlumno;
     
-    @NotNull(message = "ID de usuario es obligatorio")
+    // No requerido en creación - se genera automáticamente
     private Integer idUsuario;
     
     @NotBlank(message = "Nombre de usuario es obligatorio")

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Usuarios")
+@Table(name = "usuarios")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,21 +18,23 @@ public class Usuario {
     @Column(name = "IdUsuario")
     private Integer idUsuario;
     
-    @Column(name = "NombreUsuario", nullable = false, unique = true, length = 80)
+    @Column(name = "nombre_usuario", nullable = false, unique = true, length = 80)
     private String nombreUsuario;
     
-    @Column(name = "CorreoElectronico", nullable = false, unique = true, length = 150)
+    @Column(name = "correo_electronico", nullable = false, unique = true, length = 150)
     private String correoElectronico;
     
-    @Column(name = "ContrasenaHash", nullable = false, length = 255)
+    @Column(name = "contrasena_hash", nullable = false, length = 255)
     private String contrasenaHash;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "IdRol", nullable = false)
+    @JoinColumn(name = "id_rol", nullable = false)
     private Rol rol;
     
-    @Column(name = "FechaCreacion")
+    @Column(name = "fecha_creacion")
     private LocalDateTime fechaCreacion;
+    
+    @Column(name = "activo")
     private Boolean activo;
 
     @Column(name = "password_reset_token")
