@@ -10,14 +10,14 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 20px;
             min-height: 100vh;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -26,14 +26,14 @@
             padding: 30px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
-        
+
         h1 {
             color: #667eea;
             text-align: center;
             margin-bottom: 30px;
             font-size: 2.5em;
         }
-        
+
         .section {
             margin-bottom: 40px;
             padding: 20px;
@@ -41,24 +41,24 @@
             border-radius: 10px;
             border-left: 5px solid #667eea;
         }
-        
+
         .section h2 {
             color: #764ba2;
             margin-bottom: 20px;
             font-size: 1.5em;
         }
-        
+
         .form-group {
             margin-bottom: 15px;
         }
-        
+
         label {
             display: block;
             margin-bottom: 5px;
             color: #333;
             font-weight: 600;
         }
-        
+
         input, textarea, select {
             width: 100%;
             padding: 10px;
@@ -67,12 +67,12 @@
             font-size: 14px;
             transition: border-color 0.3s;
         }
-        
+
         input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: #667eea;
         }
-        
+
         button {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -86,20 +86,20 @@
             margin-right: 10px;
             margin-bottom: 10px;
         }
-        
+
         button:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
-        
+
         .btn-danger {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         }
-        
+
         .btn-danger:hover {
             box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
         }
-        
+
         .response-area {
             background: #2d2d2d;
             color: #00ff00;
@@ -113,7 +113,7 @@
             white-space: pre-wrap;
             word-wrap: break-word;
         }
-        
+
         .chat-area {
             background: #f0f0f0;
             padding: 15px;
@@ -122,7 +122,7 @@
             overflow-y: auto;
             margin-bottom: 15px;
         }
-        
+
         .chat-message {
             background: white;
             padding: 10px;
@@ -130,20 +130,20 @@
             border-radius: 5px;
             border-left: 4px solid #667eea;
         }
-        
+
         .chat-message.ia {
             border-left-color: #f5576c;
         }
-        
+
         .inline-inputs {
             display: flex;
             gap: 10px;
         }
-        
+
         .inline-inputs input {
             flex: 1;
         }
-        
+
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -154,9 +154,9 @@
 <body>
     <div class="container">
         <h1>🚀 Desmartin API Testing Interface</h1>
-        
+
         <div id="response" class="response-area">Las respuestas aparecerán aquí...</div>
-        
+
         <!-- Autenticación -->
         <div class="section">
             <h2>🔐 Autenticación</h2>
@@ -173,7 +173,7 @@
                     </div>
                     <button onclick="loginAdmin()">Login Admin</button>
                 </div>
-                
+
                 <div>
                     <h3>Login Docente</h3>
                     <div class="form-group">
@@ -186,7 +186,7 @@
                     </div>
                     <button onclick="loginDocente()">Login Docente</button>
                 </div>
-                
+
                 <div>
                     <h3>Login Alumno</h3>
                     <div class="form-group">
@@ -201,7 +201,26 @@
                 </div>
             </div>
         </div>
-        
+        <!-- Gestión de Admin -->
+        <div class="section">
+            <h2>👨Gestión de Admin</h2>
+            <div class="form-group">
+                <label>Usuario:</label>
+                <input type="text" id="adminNombre">
+            </div>
+            <div class="form-group">
+                <label>Contraseña:</label>
+                <input type="password" id="adminContrasena">
+            </div>
+            <button onclick="crearAdmin()">Crear Admin</button>
+            <button onclick="listarAdmin()">Listar Admin</button>
+            <div class="form-group inline-inputs">
+                <input type="number" id="adminId" placeholder="ID para actualizar/eliminar">
+                <button onclick="actualizarAdmin()">Actualizar</button>
+                <button class="btn-danger" onclick="eliminarAdmin()">Eliminar</button>
+            </div>
+        </div>
+
         <!-- Gestión de Docentes -->
         <div class="section">
             <h2>👨‍🏫 Gestión de Docentes</h2>
@@ -221,14 +240,10 @@
                 <button class="btn-danger" onclick="eliminarDocente()">Eliminar</button>
             </div>
         </div>
-        
+
         <!-- Gestión de Alumnos -->
         <div class="section">
             <h2>👨‍🎓 Gestión de Alumnos</h2>
-            <div class="form-group">
-                <label>Nombre Completo:</label>
-                <input type="text" id="alumnoNombre">
-            </div>
             <div class="form-group">
                 <label>Usuario:</label>
                 <input type="text" id="alumnoUsuario">
@@ -245,7 +260,57 @@
                 <button class="btn-danger" onclick="eliminarAlumno()">Eliminar</button>
             </div>
         </div>
-        
+        <!-- Gestión de Cursos -->
+        <div class="section">
+            <h2>📘 Gestión de Cursos</h2>
+
+            <div class="form-group">
+                <label>Nombre del curso:</label>
+                <input type="text" id="cursoNombre" placeholder="Ejemplo: Matemática 1">
+            </div>
+            <div class="form-group">
+                <label>Descripción:</label>
+                <input type="text" id="cursoDescripcion" placeholder="Ejemplo: Curso básico de aritmética">
+            </div>
+            <div class="form-group">
+                <label>ID del docente (quien dicta el curso):</label>
+                <input type="number" id="cursoDocenteId" placeholder="Ejemplo: 3">
+            </div>
+            <button onclick="crearCurso()">Crear Curso</button>
+            <button onclick="listarCursos()">Listar Todos los Cursos</button>
+
+            <div class="form-group inline-inputs">
+                <input type="number" id="cursoId" placeholder="ID curso para actualizar/eliminar">
+                <button onclick="actualizarCurso()">Actualizar</button>
+                <button class="btn-danger" onclick="eliminarCurso()">Eliminar</button>
+            </div>
+
+            <hr>
+            <h3>🎓 Gestión de Matrículas</h3>
+            <div class="form-group">
+                <label>ID Alumno:</label>
+                <input type="number" id="matriculaAlumnoId" placeholder="Ejemplo: 5">
+            </div>
+            <div class="form-group">
+                <label>ID Curso:</label>
+                <input type="number" id="matriculaCursoId" placeholder="Ejemplo: 2">
+            </div>
+            <button onclick="matricularAlumno()">Matricular Alumno</button>
+
+            <hr>
+            <h3>🔍 Consultas Específicas</h3>
+            <div class="form-group inline-inputs">
+                <input type="number" id="docenteCursoId" placeholder="ID Docente">
+                <button onclick="listarCursosDocente()">Listar Cursos de Docente</button>
+            </div>
+
+            <div class="form-group inline-inputs">
+                <input type="number" id="cursoAlumnosId" placeholder="ID Curso">
+                <button onclick="listarAlumnosCurso()">Listar Alumnos del Curso</button>
+            </div>
+        </div>
+
+
         <!-- Test de Inteligencia -->
         <div class="section">
             <h2>🧠 Test de Inteligencia</h2>
@@ -260,7 +325,7 @@
             </div>
             <button onclick="completarTest()">Completar Test</button>
         </div>
-        
+
         <!-- Resultados -->
         <div class="section">
             <h2>📊 Resultados</h2>
@@ -271,7 +336,7 @@
             </div>
             <button onclick="listarLogs()">Ver Logs de Acceso</button>
         </div>
-        
+
         <!-- Chat con IA -->
         <div class="section">
             <h2>💬 Chat con IA</h2>
@@ -301,14 +366,14 @@
             <div id="chatMessages" class="chat-area" style="margin-top: 20px;"></div>
         </div>
     </div>
-    
+
     <script>
         const API_BASE = 'http://localhost:8081/api';
-        
+
         function showResponse(data) {
             document.getElementById('response').textContent = JSON.stringify(data, null, 2);
         }
-        
+
         async function apiCall(endpoint, method = 'GET', body = null) {
             try {
                 const options = {
@@ -317,11 +382,11 @@
                         'Content-Type': 'application/json'
                     }
                 };
-                
+
                 if (body) {
                     options.body = JSON.stringify(body);
                 }
-                
+
                 const response = await fetch(`${API_BASE}${endpoint}`, options);
                 const data = await response.json();
                 showResponse(data);
@@ -330,117 +395,198 @@
                 showResponse({ error: error.message });
             }
         }
-        
+
         // Autenticación
         function loginAdmin() {
             const user = document.getElementById('adminUser').value;
             const pass = document.getElementById('adminPass').value;
             apiCall('/auth/login/admin', 'POST', { nombreUsuario: user, contrasena: pass });
         }
-        
+
         function loginDocente() {
             const user = document.getElementById('docenteUser').value;
             const pass = document.getElementById('docentePass').value;
             apiCall('/auth/login/docente', 'POST', { nombreUsuario: user, contrasena: pass });
         }
-        
+
         function loginAlumno() {
             const user = document.getElementById('alumnoUser').value;
             const pass = document.getElementById('alumnoPass').value;
             apiCall('/auth/login/alumno', 'POST', { nombreUsuario: user, contrasena: pass });
         }
-        
+        // administrador
+        function crearAdmin() {
+            const nombre = document.getElementById('adminNombre').value;
+            const pass = document.getElementById('adminContrasena').value;
+            apiCall('/admin/administradores', 'POST', { nombreUsuario: nombre, contrasena: pass });
+        }
+
+        function listarAdmin() {
+            apiCall('/admin/administradores');
+        }
+
+        function actualizarAdmin() {
+            const id = document.getElementById('adminId').value;
+            const nombre = document.getElementById('adminNombre').value;
+            const pass = document.getElementById('adminContrasena').value;
+            apiCall(`/admin/administradores/${id}`, 'PUT', { nombreUsuario: nombre, contrasena: pass });
+        }
+
+        function eliminarAdmin() {
+            const id = document.getElementById('adminId').value;
+            apiCall(`/admin/administradores/${id}`, 'DELETE');
+        }
+
         // Docentes
         function crearDocente() {
             const nombre = document.getElementById('docenteNombre').value;
             const pass = document.getElementById('docenteContrasena').value;
             apiCall('/admin/docentes', 'POST', { nombreUsuario: nombre, contrasena: pass });
         }
-        
+
         function listarDocentes() {
             apiCall('/admin/docentes');
         }
-        
+
         function actualizarDocente() {
             const id = document.getElementById('docenteId').value;
             const nombre = document.getElementById('docenteNombre').value;
             const pass = document.getElementById('docenteContrasena').value;
             apiCall(`/admin/docentes/${id}`, 'PUT', { nombreUsuario: nombre, contrasena: pass });
         }
-        
+
         function eliminarDocente() {
             const id = document.getElementById('docenteId').value;
             apiCall(`/admin/docentes/${id}`, 'DELETE');
         }
-        
+
         // Alumnos
         function crearAlumno() {
-            const nombre = document.getElementById('alumnoNombre').value;
             const usuario = document.getElementById('alumnoUsuario').value;
             const pass = document.getElementById('alumnoContrasena').value;
-            apiCall('/admin/alumnos', 'POST', { nombreCompleto: nombre, nombreUsuario: usuario, contrasena: pass });
+            apiCall('/admin/alumnos', 'POST', { nombreUsuario: usuario, contrasena: pass });
         }
-        
+
         function listarAlumnos() {
             apiCall('/admin/alumnos');
         }
-        
+
         function actualizarAlumno() {
             const id = document.getElementById('alumnoId').value;
-            const nombre = document.getElementById('alumnoNombre').value;
             const usuario = document.getElementById('alumnoUsuario').value;
             const pass = document.getElementById('alumnoContrasena').value;
-            apiCall(`/admin/alumnos/${id}`, 'PUT', { nombreCompleto: nombre, nombreUsuario: usuario, contrasena: pass });
+            apiCall(`/admin/alumnos/${id}`, 'PUT', { nombreUsuario: usuario, contrasena: pass });
         }
-        
+
         function eliminarAlumno() {
             const id = document.getElementById('alumnoId').value;
             apiCall(`/admin/alumnos/${id}`, 'DELETE');
         }
-        
+        // ==========================
+        // 🔹 API Cursos
+        // ==========================
+
+        // Crear curso
+        function crearCurso() {
+            const nombre = document.getElementById('cursoNombre').value;
+            const descripcion = document.getElementById('cursoDescripcion').value;
+            const idDocente = document.getElementById('cursoDocenteId').value;
+            apiCall('/cursos', 'POST', {
+                nombreCurso: nombre,
+                descripcion: descripcion,
+                idDocente: idDocente
+            });
+        }
+
+        // Listar todos los cursos
+        function listarCursos() {
+            apiCall('/cursos', 'GET');
+        }
+
+        // Actualizar curso
+        function actualizarCurso() {
+            const id = document.getElementById('cursoId').value;
+            const nombre = document.getElementById('cursoNombre').value;
+            const descripcion = document.getElementById('cursoDescripcion').value;
+            const idDocente = document.getElementById('cursoDocenteId').value;
+            apiCall(`/cursos/${id}`, 'PUT', {
+                nombreCurso: nombre,
+                descripcion: descripcion,
+                idDocente: idDocente
+            });
+        }
+
+        // Eliminar curso
+        function eliminarCurso() {
+            const id = document.getElementById('cursoId').value;
+            apiCall(`/cursos/${id}`, 'DELETE');
+        }
+
+        // Listar cursos de un docente
+        function listarCursosDocente() {
+            const idDocente = document.getElementById('docenteCursoId').value;
+            apiCall(`/cursos/docente/${idDocente}`, 'GET');
+        }
+
+        // Matricular alumno en un curso
+        function matricularAlumno() {
+            const idAlumno = document.getElementById('matriculaAlumnoId').value;
+            const idCurso = document.getElementById('matriculaCursoId').value;
+            apiCall('/cursos/matricular', 'POST', {
+                idAlumno: idAlumno,
+                idCurso: idCurso
+            });
+        }
+
+        // Listar alumnos de un curso
+        function listarAlumnosCurso() {
+            const idCurso = document.getElementById('cursoAlumnosId').value;
+            apiCall(`/cursos/${idCurso}/alumnos`, 'GET');
+        }
+
         // Test
         function obtenerPreguntas() {
             apiCall('/test/preguntas');
         }
-        
+
         function completarTest() {
             const alumnoId = document.getElementById('testAlumnoId').value;
             const respuestas = JSON.parse(document.getElementById('testRespuestas').value);
             apiCall('/test/completar', 'POST', { idAlumno: parseInt(alumnoId), respuestas });
         }
-        
+
         // Resultados
         function obtenerUltimoResultado() {
             const alumnoId = document.getElementById('resultadoAlumnoId').value;
             apiCall(`/alumno/${alumnoId}/resultados/ultimo`);
         }
-        
+
         function obtenerHistorialResultados() {
             const alumnoId = document.getElementById('resultadoAlumnoId').value;
             apiCall(`/alumno/${alumnoId}/resultados/historial`);
         }
-        
+
         function listarLogs() {
             apiCall('/admin/logs');
         }
-        
+
         // Chat
         function crearSesionChat() {
             const docenteId = document.getElementById('chatDocenteId').value;
             const alumnoId = document.getElementById('chatAlumnoId').value;
             const titulo = document.getElementById('chatTitulo').value;
-            apiCall('/chat/sesiones', 'POST', { 
-                idDocente: parseInt(docenteId), 
-                idAlumno: alumnoId ? parseInt(alumnoId) : null, 
-                tituloSesion: titulo 
+            apiCall('/chat/sesiones', 'POST', {
+                idDocente: parseInt(docenteId),
+                idAlumno: alumnoId ? parseInt(alumnoId) : null,
+                tituloSesion: titulo
             });
         }
-        
+
         function obtenerSesion() {
             const sesionId = document.getElementById('sesionId').value;
             apiCall(`/chat/sesiones/${sesionId}`);
         }
-        
+
         function obtenerMensajes() {
             const sesionId = document.getElementById('sesionId').value;
             apiCall(`/chat/sesiones/${sesionId}/mensajes`).then(data => {
@@ -449,7 +595,7 @@
                 }
             });
         }
-        
+
         function enviarMensaje() {
             const sesionId = document.getElementById('sesionId').value;
             const contenido = document.getElementById('mensajeContenido').value;
@@ -458,7 +604,7 @@
                 obtenerMensajes();
             });
         }
-        
+
         function displayMessages(messages) {
             const chatArea = document.getElementById('chatMessages');
             chatArea.innerHTML = '';

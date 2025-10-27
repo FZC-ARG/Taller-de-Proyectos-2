@@ -75,7 +75,7 @@ public class AuthService {
             log.setTipoUsuario(LogAcceso.TipoUsuario.alumno);
             logAccesoRepository.save(log);
             
-            return new AlumnoDTO(alumno.getIdAlumno(), alumno.getNombreCompleto(), alumno.getNombreUsuario());
+            return new AlumnoDTO(alumno.getIdAlumno(), alumno.getNombreUsuario());
         }
         
         return null;

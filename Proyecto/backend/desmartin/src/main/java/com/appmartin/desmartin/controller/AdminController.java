@@ -1,6 +1,7 @@
 package com.appmartin.desmartin.controller;
 
 import com.appmartin.desmartin.dto.*;
+import com.appmartin.desmartin.model.Administrador;
 import com.appmartin.desmartin.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,28 @@ public class AdminController {
     
     @Autowired
     private AdminService adminService;
-    
+
+    // ==================== ADMINISTRADORES ====================
+    @PostMapping("/administradores")
+    public ResponseEntity<AdministradorDTO> crearAdministrador(@RequestBody CrearAdministradorRequest request) {
+        return ResponseEntity.ok(adminService.crearAdministrador(request));
+    }
+
+    @PutMapping("/administradores/{id}")
+    public ResponseEntity<AdministradorDTO> actualizarAdministrador(@PathVariable Integer id, @RequestBody CrearAdministradorRequest request) {
+        return ResponseEntity.ok(adminService.actualizarAdministrador(id, request));
+    }
+
+    @DeleteMapping("/administradores/{id}")
+    public ResponseEntity<Void> eliminarAdministrador(@PathVariable Integer id) {
+        adminService.eliminarAdministrador(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/administradores")
+    public ResponseEntity<List<AdministradorDTO>> listarAdministradores() {
+        return ResponseEntity.ok(adminService.listarAdministradores());
+    }
     // Docentes
     @PostMapping("/docentes")
     public ResponseEntity<DocenteDTO> crearDocente(@RequestBody CrearDocenteRequest request) {

@@ -11,16 +11,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Docente {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_docente")
     private Integer idDocente;
-    
-    @Column(name = "nombre_usuario", nullable = false, unique = true, length = 100)
+
+    @Column(name = "nombre_usuario", nullable = false, unique = true)
     private String nombreUsuario;
-    
+
     @Column(name = "contrasena", nullable = false)
     private String contrasena;
 }
-

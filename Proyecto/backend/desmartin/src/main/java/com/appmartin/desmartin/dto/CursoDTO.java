@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CrearAlumnoRequest {
-    private String nombreUsuario;
-    private String contrasena;
+public class CursoDTO {
+    private Integer idCurso;
+    private String nombreCurso;
+    private String descripcion;
+    private String nombreDocente;
 }
-
