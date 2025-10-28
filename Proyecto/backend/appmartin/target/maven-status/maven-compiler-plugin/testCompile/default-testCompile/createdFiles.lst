@@ -1,0 +1,6 @@
+com\prsanmartin\appmartin\controller\AuthControllerTest.class
+com\prsanmartin\appmartin\integration\TestGardnerIntegrationTest.class
+com\prsanmartin\appmartin\AppmartinApplicationTests.class
+com\prsanmartin\appmartin\service\TestGardnerServiceTest.class
+com\prsanmartin\appmartin\config\TestSecurityConfig.class
+com\prsanmartin\appmartin\service\ScoringServiceTest.class
