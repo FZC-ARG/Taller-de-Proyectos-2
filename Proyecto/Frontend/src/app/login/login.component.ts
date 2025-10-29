@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { DocentesService } from '../services/docentes.service';
+import { LoginService } from '../services/login.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
   standalone: true,
   imports: [CommonModule, HttpClientModule, FormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
   usuario: string = '';
@@ -19,61 +19,88 @@ export class LoginComponent {
   tipoLogin: string = 'docente'; // por defecto
   animar: boolean = false;
   exito: boolean = false;
-
-  constructor(private router: Router, private docentesService: DocentesService) {}
+  
+  constructor(private router: Router, private loginService: LoginService) { }
 
   setLogin(tipo: string) {
-    this.animar = true; // activa animación
+    this.animar = true;
     setTimeout(() => {
       this.tipoLogin = tipo;
-      this.animar = false; // termina animación
+      this.animar = false;
     }, 300);
   }
 
   login() {
-    if (this.tipoLogin === 'docente') {
-      // lógica para docentes
-      if (this.usuario =='docente1' && this.contrasena == '1234') {
-        this.exito = true;
-        this.router.navigate(['inicio-docentes']);
-      }
-    } else if (this.tipoLogin === 'alumno') {
-      // lógica para alumnos
-      if (this.usuario =='alumno1' && this.contrasena == '1234') {
-        this.exito = true;
-        this.router.navigate(['inicio-alumnos']);
-      }
-    } else if (this.tipoLogin === 'admin') {
-      // lógica para administrador
-      if (this.usuario =='admin1' && this.contrasena == '1234') {
-        this.exito = true;
-        this.router.navigate(['inicio']);
-      }
-    }
+    this.exito = false; // reinicia estado
 
-    if(this.exito==true)
-    {
-      Swal.fire({
-        title: 'Ingreso exitoso',
-        text: `Ingreso como ${this.tipoLogin}`,
-        icon: 'success',
-        confirmButtonText: 'Aceptar',
+    if (this.tipoLogin === 'docente') {
+      this.loginService.loginDocente(this.usuario, this.contrasena).subscribe({
+        next: (response) => {
+          this.exito = true;
+          Swal.fire({
+            title: 'Ingreso exitoso',
+            text: 'Ingreso como docente',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+          }).then(() => {
+            this.router.navigate(['inicio-docentes']);
+          });
+        },
+        error: () => {
+          this.mostrarError();
+        }
       });
-    }
-    else
-    {
-      Swal.fire({
-        title: 'Error',
-        html: 'Usuario o contraseña incorrectos.<br>Estas intentando ingresar como <b>' + this.tipoLogin + '</b>' +  '<br>Si no es correcto cambie de modo de ingreso.',
-        icon: 'error',
-        confirmButtonText: 'Aceptar',
+
+    } else if (this.tipoLogin === 'alumno') {
+      this.loginService.loginAlumno(this.usuario, this.contrasena).subscribe({
+        next: (response) => {
+          this.exito = true;
+          Swal.fire({
+            title: 'Ingreso exitoso',
+            text: 'Ingreso como alumno',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+          }).then(() => {
+            this.router.navigate(['inicio-alumnos']);
+          });
+        },
+        error: () => {
+          this.mostrarError();
+        }
+      });
+
+    } else if (this.tipoLogin === 'admin') {
+      this.loginService.loginAdmin(this.usuario, this.contrasena).subscribe({
+        next: (response) => {
+          this.exito = true;
+          Swal.fire({
+            title: 'Ingreso exitoso',
+            text: 'Ingreso como administrador',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+          }).then(() => {
+            this.router.navigate(['inicio']);
+          });
+        },
+        error: () => {
+          this.mostrarError();
+        }
       });
     }
   }
 
-  recuperar() 
-  {
+  mostrarError() {
+    Swal.fire({
+      title: 'Error',
+      html: `Usuario o contraseña incorrectos.<br>
+            Estás intentando ingresar como <b>${this.tipoLogin}</b>.<br>
+            Si no es correcto, cambia el modo de ingreso.`,
+      icon: 'error',
+      confirmButtonText: 'Aceptar',
+    });
+  }
+
+  recuperar() {
     this.router.navigate(['/recuperar-contrasena'], { queryParams: { rol: this.tipoLogin } });
   }
-
 }
