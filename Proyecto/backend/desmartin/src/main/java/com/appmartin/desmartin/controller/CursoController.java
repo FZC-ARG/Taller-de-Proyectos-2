@@ -42,20 +42,30 @@ public class CursoController {
 
     // Listar cursos por docente
     @GetMapping("/docente/{idDocente}")
-    public ResponseEntity<List<CursoDTO>> listarPorDocente(@PathVariable Integer idDocente) {
+    public ResponseEntity<List<CursoDTO>> listarCursosPorDocente(@PathVariable Integer idDocente) {
         return ResponseEntity.ok(cursoService.listarCursosPorDocente(idDocente));
     }
 
     // Matricular alumno en curso
     @PostMapping("/matricular")
-    public ResponseEntity<Void> matricularAlumno(@RequestBody MatricularAlumnoRequest request) {
-        cursoService.matricularAlumno(request);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> matricularAlumno(@RequestBody MatricularAlumnoRequest request) {
+        try {
+            cursoService.matricularAlumno(request);
+            return ResponseEntity.ok().body(
+                    new ResponseMessage("Alumno matriculado correctamente")
+            );
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    new ResponseMessage("Error: " + e.getMessage())
+            );
+        }
     }
+
 
     // Listar alumnos de un curso
     @GetMapping("/{idCurso}/alumnos")
     public ResponseEntity<List<String>> listarAlumnosPorCurso(@PathVariable Integer idCurso) {
         return ResponseEntity.ok(cursoService.listarAlumnosPorCurso(idCurso));
     }
+
 }

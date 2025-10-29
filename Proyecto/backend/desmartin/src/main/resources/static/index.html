@@ -524,25 +524,43 @@
 
         // Listar cursos de un docente
         function listarCursosDocente() {
-            const idDocente = document.getElementById('docenteCursoId').value;
-            apiCall(`/cursos/docente/${idDocente}`, 'GET');
+            const idDocente = document.getElementById('docenteCursoId').value.trim();
+
+            if (!idDocente) {
+                alert("Por favor, ingresa un ID de docente válido.");
+                return;
+            }
+
+            apiCall(`/cursos/docente/${idDocente}`, 'GET')
+                .then(data => console.log("Cursos del docente:", data))
+                .catch(err => console.error("Error al listar cursos:", err));
         }
 
         // Matricular alumno en un curso
         function matricularAlumno() {
             const idAlumno = document.getElementById('matriculaAlumnoId').value;
             const idCurso = document.getElementById('matriculaCursoId').value;
+
             apiCall('/cursos/matricular', 'POST', {
-                idAlumno: idAlumno,
-                idCurso: idCurso
+                idAlumnoFk: parseInt(idAlumno),
+                idCursoFk: parseInt(idCurso)
             });
         }
 
         // Listar alumnos de un curso
         function listarAlumnosCurso() {
-            const idCurso = document.getElementById('cursoAlumnosId').value;
-            apiCall(`/cursos/${idCurso}/alumnos`, 'GET');
+            const idCurso = document.getElementById('cursoAlumnosId').value.trim();
+
+            if (!idCurso) {
+                alert("Por favor, ingresa un ID de curso válido.");
+                return;
+            }
+
+            apiCall(`/cursos/${idCurso}/alumnos`, 'GET')
+                .then(data => console.log("Alumnos del curso:", data))
+                .catch(err => console.error("Error al listar alumnos:", err));
         }
+
 
         // Test
         function obtenerPreguntas() {

@@ -25,6 +25,7 @@ src/main/java/com/appmartin/desmartin/
 │   ├── AlumnoController.java
 │   ├── AuthController.java
 │   ├── ChatController.java
+│   ├── CursoController.java
 │   ├── DocenteController.java
 │   └── TestController.java
 ├── dto/
@@ -37,16 +38,19 @@ src/main/java/com/appmartin/desmartin/
 │   ├── CrearChatSesionRequest.java
 │   ├── CrearDocenteRequest.java
 │   ├── CrearMensajeRequest.java
+│   ├── CursoDTO.java
 │   ├── DocenteDTO.java
 │   ├── LoginRequest.java
 │   ├── LogAccesoDTO.java
 │   ├── PreguntaDTO.java
+│   ├── ResponseMessage.java
 │   └── ResultadoDTO.java
 ├── model/
 │   ├── Administrador.java
 │   ├── Alumno.java
 │   ├── ChatMensaje.java
 │   ├── ChatSesion.java
+│   ├── Curso.java
 │   ├── IntentoTest.java
 │   ├── LogAcceso.java
 │   ├── PreguntaTest.java
@@ -59,6 +63,7 @@ src/main/java/com/appmartin/desmartin/
 │   ├── AlumnoRepository.java
 │   ├── ChatMensajeRepository.java
 │   ├── ChatSesionRepository.java
+│   ├── CursoRepository.java
 │   ├── DocenteRepository.java
 │   ├── IntentoTestRepository.java
 │   ├── LogAccesoRepository.java
@@ -70,6 +75,7 @@ src/main/java/com/appmartin/desmartin/
     ├── AdminService.java
     ├── AuthService.java
     ├── ChatService.java
+    ├── CursoService.java
     └── TestService.java
 ```
 

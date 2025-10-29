@@ -83,14 +83,20 @@ public class CursoService {
 
     // Matricular alumno
     public void matricularAlumno(MatricularAlumnoRequest request) {
+        if (request.getIdAlumnoFk() == null || request.getIdCursoFk() == null) {
+            throw new IllegalArgumentException("El idAlumnoFk y el idCursoFk no pueden ser nulos");
+        }
+
         Alumno alumno = alumnoRepository.findById(request.getIdAlumnoFk())
-                .orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Alumno no encontrado con ID: " + request.getIdAlumnoFk()));
+
         Curso curso = cursoRepository.findById(request.getIdCursoFk())
-                .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Curso no encontrado con ID: " + request.getIdCursoFk()));
 
         AlumnoCurso matricula = new AlumnoCurso(alumno, curso, null);
         alumnoCursoRepository.save(matricula);
     }
+
 
     // Listar alumnos por curso
     public List<String> listarAlumnosPorCurso(Integer idCurso) {
