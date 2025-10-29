@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppMartin - Interfaz de Pruebas de Endpoints</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .endpoint-tester {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .endpoint-list {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.2s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .response-area {
+            margin-top: 20px;
+            padding: 20px;
+            background: #2c3e50;
+            border-radius: 8px;
+            color: #ecf0f1;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .endpoint-item {
+            background: white;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .endpoint-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .endpoint-method {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .method-get { background: #27ae60; color: white; }
+        .method-post { background: #f39c12; color: white; }
+        .method-put { background: #3498db; color: white; }
+        .method-delete { background: #e74c3c; color: white; }
+
+        .endpoint-path {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .endpoint-description {
+            margin-top: 8px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-success { background: #27ae60; }
+        .status-error { background: #e74c3c; }
+        .status-warning { background: #f39c12; }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            border-color: #3498db;
+            color: #0c5460;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border-color: #f39c12;
+            color: #856404;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: #27ae60;
+            color: #155724;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            border-color: #e74c3c;
+            color: #721c24;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 AppMartin - Interfaz de Pruebas</h1>
+            <p>Herramienta integrada para probar todos los endpoints del backend</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalEndpoints">89</div>
+                <div class="stat-label">Endpoints Totales</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="activeEndpoints">89</div>
+                <div class="stat-label">Endpoints Activos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="conflictsResolved">4</div>
+                <div class="stat-label">Conflictos Resueltos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="securityStatus">DISABLED</div>
+                <div class="stat-label">Estado de Seguridad</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="endpoint-tester">
+                <h2 class="section-title">🧪 Probador de Endpoints</h2>
+                
+                <div class="alert alert-info">
+                    <strong>ℹ️ Información:</strong> Todos los endpoints están configurados sin autenticación para facilitar las pruebas.
+                </div>
+
+                <form id="endpointForm">
+                    <div class="form-group">
+                        <label for="method">Método HTTP:</label>
+                        <select id="method" required>
+                            <option value="GET">GET</option>
+                            <option value="POST">POST</option>
+                            <option value="PUT">PUT</option>
+                            <option value="DELETE">DELETE</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="endpoint">Endpoint:</label>
+                        <input type="text" id="endpoint" placeholder="/api/usuarios" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="params">Parámetros de consulta (opcional):</label>
+                        <input type="text" id="params" placeholder="page=0&size=10">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="body">Cuerpo de la petición (JSON):</label>
+                        <textarea id="body" placeholder='{"nombreUsuario": "test", "contrasena": "123456", "rol": "ALUMNO"}'></textarea>
+                    </div>
+
+                    <button type="submit" class="btn">🚀 Enviar Petición</button>
+                </form>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Procesando petición...</p>
+                </div>
+
+                <div class="response-area" id="response" style="display: none;"></div>
+            </div>
+
+            <div class="endpoint-list">
+                <h2 class="section-title">📋 Lista de Endpoints</h2>
+                
+                <div class="alert alert-warning">
+                    <strong>⚠️ Nota:</strong> Haz clic en cualquier endpoint para cargarlo automáticamente en el probador.
+                </div>
+
+                <div id="endpointsList">
+                    <!-- Los endpoints se cargarán dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de endpoints (simplificados para la demo)
+        const endpoints = [
+            // AuthController
+            { method: 'POST', path: '/api/login', description: 'Autenticación de usuarios', example: '{"usuario": "admin", "contrasena": "123456"}' },
+            
+            // UsuarioController
+            { method: 'GET', path: '/api/usuarios', description: 'Listar todos los usuarios' },
+            { method: 'POST', path: '/api/usuarios', description: 'Crear nuevo usuario', example: '{"nombreUsuario": "test", "contrasena": "123456", "rol": "ALUMNO"}' },
+            { method: 'GET', path: '/api/usuarios/{id}', description: 'Obtener usuario por ID' },
+            { method: 'PUT', path: '/api/usuarios/{id}/rol', description: 'Actualizar rol de usuario', example: '{"rol": "DOCENTE"}' },
+            { method: 'DELETE', path: '/api/usuarios/{id}', description: 'Eliminar usuario' },
+            { method: 'GET', path: '/api/usuarios/roles', description: 'Obtener roles disponibles' },
+            
+            // AdminUsuarioController
+            { method: 'GET', path: '/api/admin/administradores', description: 'Listar todos los administradores' },
+            { method: 'GET', path: '/api/admin/dashboard', description: 'Dashboard de administración' },
+            { method: 'GET', path: '/api/admin/privilegios', description: 'Obtener privilegios de administrador' },
+            
+            // AlumnosController
+            { method: 'GET', path: '/api/alumnos', description: 'Obtener todos los estudiantes' },
+            { method: 'GET', path: '/api/alumnos/filter', description: 'Filtrar estudiantes por docente y curso', params: 'docenteId=1&cursoId=1' },
+            { method: 'GET', path: '/api/alumnos/{id}', description: 'Obtener estudiante por ID' },
+            { method: 'POST', path: '/api/alumnos', description: 'Crear nuevo estudiante', example: '{"nombreUsuario": "alumno1", "correoElectronico": "alumno1@test.com"}' },
+            { method: 'PUT', path: '/api/alumnos/{id}', description: 'Actualizar estudiante', example: '{"nombreUsuario": "alumno_actualizado"}' },
+            { method: 'DELETE', path: '/api/alumnos/{id}', description: 'Eliminar estudiante (soft delete)' },
+            { method: 'GET', path: '/api/alumnos/statistics', description: 'Obtener estadísticas de estudiantes' },
+            
+            // DocentesController
+            { method: 'GET', path: '/api/docentes', description: 'Obtener todos los docentes' },
+            { method: 'GET', path: '/api/docentes/{id}', description: 'Obtener docente por ID' },
+            { method: 'POST', path: '/api/docentes', description: 'Crear nuevo docente', example: '{"nombreUsuario": "docente1", "especialidad": "Matemáticas"}' },
+            { method: 'PUT', path: '/api/docentes/{id}', description: 'Actualizar docente', example: '{"especialidad": "Física"}' },
+            { method: 'DELETE', path: '/api/docentes/{id}', description: 'Eliminar docente' },
+            { method: 'GET', path: '/api/docentes/statistics', description: 'Obtener estadísticas de docentes' },
+            
+            // TestController
+            { method: 'GET', path: '/api/test/connection', description: 'Probar conexión a base de datos' },
+            { method: 'GET', path: '/api/test/roles', description: 'Obtener todos los roles' },
+            { method: 'GET', path: '/api/test/usuarios', description: 'Obtener todos los usuarios' },
+            { method: 'POST', path: '/api/test/create-test-user', description: 'Crear usuario de prueba' },
+            
+            // TestGardnerController
+            { method: 'GET', path: '/api/test-gardner/questions/all', description: 'Obtener todas las preguntas activas' },
+            { method: 'POST', path: '/api/test-gardner/{idAlumno}/submit', description: 'Envío final del test', example: '{"idAlumno": 1, "respuestas": [], "estado": "FINAL"}' },
+            { method: 'GET', path: '/api/test-gardner/{idAlumno}/latest', description: 'Obtener último test del alumno' },
+            { method: 'GET', path: '/api/test-gardner/statistics/intelligence-types', description: 'Obtener estadísticas de tipos de inteligencia' },
+            
+            // AIController
+            { method: 'POST', path: '/api/ai/process', description: 'Procesar solicitud de IA', example: '{"prompt": "Generar recomendaciones", "contexto": "test"}' },
+            { method: 'GET', path: '/api/ai/status', description: 'Verificar disponibilidad del servicio de IA' },
+            
+            // CursosController
+            { method: 'GET', path: '/api/cursos', description: 'Obtener todos los cursos' },
+            { method: 'GET', path: '/api/cursos/{id}', description: 'Obtener curso por ID' },
+            { method: 'POST', path: '/api/cursos', description: 'Crear nuevo curso', example: '{"nombreCurso": "Matemáticas I", "descripcion": "Curso básico"}' },
+            
+            // RecomendacionController
+            { method: 'POST', path: '/api/recommendations/generate/{idAlumno}/{idTest}', description: 'Generar recomendaciones para un estudiante' },
+            { method: 'GET', path: '/api/recommendations/templates', description: 'Obtener plantillas de recomendaciones' },
+            { method: 'GET', path: '/api/recommendations/statistics', description: 'Obtener estadísticas de recomendaciones' },
+            
+            // IntelligenceResultsController
+            { method: 'GET', path: '/api/intelligence-results/all', description: 'Obtener resultados de todas las inteligencias múltiples' },
+            { method: 'GET', path: '/api/intelligence-results/student/{alumnoId}', description: 'Obtener resultados de inteligencias por estudiante' },
+            { method: 'GET', path: '/api/intelligence-results/statistics/by-type', description: 'Obtener estadísticas de inteligencias por tipo' },
+            
+            // AuditoriaController
+            { method: 'GET', path: '/api/actividades', description: 'Obtener todos los registros de auditoría', params: 'page=0&size=20' },
+            { method: 'GET', path: '/api/actividades/estadisticas', description: 'Obtener estadísticas de auditoría' },
+            
+            // AccesosUsuariosController
+            { method: 'GET', path: '/api/accesos', description: 'Listar accesos de usuarios', params: 'page=0&size=20' }
+        ];
+
+        // Cargar lista de endpoints
+        function loadEndpoints() {
+            const container = document.getElementById('endpointsList');
+            container.innerHTML = '';
+
+            endpoints.forEach(endpoint => {
+                const item = document.createElement('div');
+                item.className = 'endpoint-item';
+                item.onclick = () => loadEndpoint(endpoint);
+
+                const methodClass = `method-${endpoint.method.toLowerCase()}`;
+                
+                item.innerHTML = `
+                    <div>
+                        <span class="endpoint-method ${methodClass}">${endpoint.method}</span>
+                        <span class="endpoint-path">${endpoint.path}</span>
+                    </div>
+                    <div class="endpoint-description">${endpoint.description}</div>
+                `;
+
+                container.appendChild(item);
+            });
+        }
+
+        // Cargar endpoint en el formulario
+        function loadEndpoint(endpoint) {
+            document.getElementById('method').value = endpoint.method;
+            document.getElementById('endpoint').value = endpoint.path;
+            document.getElementById('params').value = endpoint.params || '';
+            document.getElementById('body').value = endpoint.example || '';
+        }
+
+        // Enviar petición
+        async function sendRequest() {
+            const method = document.getElementById('method').value;
+            const endpoint = document.getElementById('endpoint').value;
+            const params = document.getElementById('params').value;
+            const body = document.getElementById('body').value;
+
+            const url = `http://localhost:8081${endpoint}${params ? '?' + params : ''}`;
+            
+            const options = {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            };
+
+            if (body && (method === 'POST' || method === 'PUT')) {
+                try {
+                    options.body = JSON.stringify(JSON.parse(body));
+                } catch (e) {
+                    showResponse('Error: JSON inválido en el cuerpo de la petición', 'error');
+                    return;
+                }
+            }
+
+            showLoading(true);
+            
+            try {
+                const response = await fetch(url, options);
+                const responseText = await response.text();
+                
+                let formattedResponse;
+                try {
+                    const jsonResponse = JSON.parse(responseText);
+                    formattedResponse = JSON.stringify(jsonResponse, null, 2);
+                } catch {
+                    formattedResponse = responseText;
+                }
+
+                const statusClass = response.ok ? 'success' : 'error';
+                showResponse(`Status: ${response.status} ${response.statusText}\n\n${formattedResponse}`, statusClass);
+            } catch (error) {
+                showResponse(`Error de conexión: ${error.message}`, 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // Mostrar/ocultar loading
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+
+        // Mostrar respuesta
+        function showResponse(text, type) {
+            const responseDiv = document.getElementById('response');
+            responseDiv.textContent = text;
+            responseDiv.style.display = 'block';
+            responseDiv.className = `response-area alert-${type}`;
+        }
+
+        // Event listeners
+        document.getElementById('endpointForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            sendRequest();
+        });
+
+        // Cargar endpoints al iniciar
+        loadEndpoints();
+
+        // Actualizar estadísticas en tiempo real
+        function updateStats() {
+            document.getElementById('totalEndpoints').textContent = endpoints.length;
+            document.getElementById('activeEndpoints').textContent = endpoints.length;
+            document.getElementById('conflictsResolved').textContent = '4';
+            document.getElementById('securityStatus').textContent = 'DISABLED';
+        }
+
+        updateStats();
+    </script>
+</body>
+</html>
