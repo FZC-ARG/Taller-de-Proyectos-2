@@ -8,7 +8,8 @@
 
   <div class="scroll-box">
     <h3>Registro de Actividad</h3>
-    <div class="tabla-actividades">
+
+    <div *ngIf="actividades.length > 0; else sinDatos" class="tabla-actividades">
       <table>
         <thead>
           <tr>
@@ -20,13 +21,17 @@
         </thead>
         <tbody>
           <tr *ngFor="let actividad of actividades">
-            <td>{{ actividad.id_actividad }}</td>
-            <td>{{ actividad.id_usuario }}</td>
-            <td>{{ actividad.rol_usuario }}</td>
-            <td>{{ actividad.fecha_acceso }}</td>
+            <td>{{ actividad.idLog }}</td>
+            <td>{{ actividad.idUsuario }}</td>
+            <td>{{ actividad.tipoUsuario }}</td>
+            <td>{{ actividad.fechaHoraAcceso | date:'dd-MM-yyyy HH:mm:ss' }}</td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <ng-template #sinDatos>
+      <p class="mensaje-vacio">No hay registros de actividad disponibles.</p>
+    </ng-template>
   </div>
 </div>

@@ -6,11 +6,11 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class LoginService {
+export class RegistroActividadService {
 
   constructor(private http: HttpClient) { }
 
   getRegistroActividad(): Observable<any> {
-    return this.http.get<any>(`${API_URL}api/registroActividad`);
+    return this.http.get<any>(`${API_URL}api/admin/logs`);
   }
 }

@@ -15,6 +15,12 @@ export class TestGardnerComponent {
   preguntasPorPagina = 5;
   paginaActual = 1;
 
+  tiempoInicio: number = 0;
+  tiempoTranscurrido: number = 0;
+  intervalo: any;
+  minutos: number = 0;
+  segundos: number = 0;
+
   preguntas = [
     { id: 1, texto: 'Me gusta resolver problemas matemáticos o lógicos.', respuesta: null },
     { id: 2, texto: 'Disfruto participar en actividades musicales.', respuesta: null },
@@ -41,6 +47,23 @@ export class TestGardnerComponent {
 
   constructor(private router: Router) {}
 
+  ngOnInit() {
+    this.iniciarTemporizador();
+  }
+  
+  iniciarTemporizador() {
+    this.tiempoInicio = Date.now();
+    this.intervalo = setInterval(() => {
+      const ahora = Date.now();
+      this.tiempoTranscurrido = Math.floor((ahora - this.tiempoInicio) / 1000);
+      this.minutos = Math.floor(this.tiempoTranscurrido / 60);
+      this.segundos = this.tiempoTranscurrido % 60;
+    }, 1000);
+  }
+  
+  detenerTemporizador() {
+    clearInterval(this.intervalo);
+  }
   get totalPaginas() {
     return Math.ceil(this.preguntas.length / this.preguntasPorPagina);
   }
@@ -76,17 +99,21 @@ export class TestGardnerComponent {
       });
       return;
     }
-
-    console.log('Respuestas del test:', this.preguntas);
+    this.detenerTemporizador();
+    const minutos = this.minutos;
+    const segundos = this.segundos;
 
     Swal.fire({
       icon: 'success',
-      title: 'Respuestas guardadas',
-      text: 'El resultado se está calculando...',
-      timer: 2500,
-      showConfirmButton: false
+      title: '¡Test completado!',
+      text: `Completaste el test en ${minutos} minuto(s) y ${segundos} segundo(s).`,
+      showConfirmButton: true
     }).then(() => {
       this.router.navigate(['/inicio-alumnos']);
     });
+
+    console.log('Respuestas del test:', this.preguntas);
+
+    
   }
 }

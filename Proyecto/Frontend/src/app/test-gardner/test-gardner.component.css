@@ -193,3 +193,10 @@
 .indice-item:hover {
   transform: scale(1.1);
 }
+.timer {
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #a218cc;
+  margin-bottom: 15px;
+}

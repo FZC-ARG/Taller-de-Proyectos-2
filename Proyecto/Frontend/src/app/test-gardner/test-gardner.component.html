@@ -2,6 +2,9 @@
   <div class="overlay"></div>
   <div class="panel-container">
     <h2>Test de Gardner</h2>
+    <div class="timer">
+      ⏱️ Tiempo transcurrido: {{ minutos }}:{{ segundos < 10 ? '0' + segundos : segundos }}
+    </div>
 
     <div class="test-layout">
       <!-- Panel izquierdo: preguntas -->
