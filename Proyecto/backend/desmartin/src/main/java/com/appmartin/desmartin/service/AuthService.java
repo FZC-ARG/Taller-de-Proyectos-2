@@ -39,7 +39,7 @@ public class AuthService {
             log.setTipoUsuario(LogAcceso.TipoUsuario.admin);
             logAccesoRepository.save(log);
             
-            return new AdministradorDTO(admin.getIdAdmin(), admin.getNombreUsuario());
+            return new AdministradorDTO(admin.getIdAdmin(), admin.getNombreUsuario(),admin.getNombre(),admin.getApellido());
         }
         
         return null;
@@ -57,7 +57,7 @@ public class AuthService {
             log.setTipoUsuario(LogAcceso.TipoUsuario.docente);
             logAccesoRepository.save(log);
             
-            return new DocenteDTO(docente.getIdDocente(), docente.getNombreUsuario());
+            return new DocenteDTO(docente.getIdDocente(), docente.getNombreUsuario(),docente.getNombre(),docente.getApellido());
         }
         
         return null;
@@ -74,8 +74,8 @@ public class AuthService {
             log.setIdUsuario(alumno.getIdAlumno());
             log.setTipoUsuario(LogAcceso.TipoUsuario.alumno);
             logAccesoRepository.save(log);
-            
-            return new AlumnoDTO(alumno.getIdAlumno(), alumno.getNombreUsuario());
+
+            return new AlumnoDTO(alumno.getIdAlumno(), alumno.getNombreUsuario(),alumno.getNombre(),alumno.getApellido(),alumno.getFechaNacimiento());
         }
         
         return null;

@@ -6,4 +6,7 @@ import lombok.Data;
 public class CrearAdministradorRequest {
     private String nombreUsuario;
     private String contrasena;
+    private String nombre;
+    private String apellido;
+
 }

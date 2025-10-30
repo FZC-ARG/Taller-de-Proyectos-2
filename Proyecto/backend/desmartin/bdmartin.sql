@@ -12,28 +12,34 @@ USE `prmartin`;
 CREATE TABLE administradores (
     id_admin INT AUTO_INCREMENT PRIMARY KEY,
     nombre_usuario VARCHAR(100) NOT NULL UNIQUE,
-    contrasena VARCHAR(255) NOT NULL
+    contrasena VARCHAR(255) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL
 );
 
 -- Tabla para Docentes
 CREATE TABLE docentes (
     id_docente INT AUTO_INCREMENT PRIMARY KEY,
     nombre_usuario VARCHAR(100) NOT NULL UNIQUE,
-    contrasena VARCHAR(255) NOT NULL
+    contrasena VARCHAR(255) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL
 );
 
 -- Tabla para Alumnos
 CREATE TABLE alumnos (
     id_alumno INT AUTO_INCREMENT PRIMARY KEY,
     nombre_usuario VARCHAR(100) NOT NULL UNIQUE,
-    contrasena VARCHAR(255) NOT NULL
+    contrasena VARCHAR(255) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    fecha_nacimiento DATE NOT NULL
 );
 
 -- -----------------------------------------------------
 -- 2. GESTIÓN DE CURSOS
 -- -----------------------------------------------------
 
--- Tabla de cursos dictados por docentes
 CREATE TABLE cursos (
     id_curso INT AUTO_INCREMENT PRIMARY KEY,
     nombre_curso VARCHAR(150) NOT NULL,
@@ -42,7 +48,6 @@ CREATE TABLE cursos (
     FOREIGN KEY (id_docente_fk) REFERENCES docentes(id_docente)
 );
 
--- Relación muchos a muchos entre alumnos y cursos
 CREATE TABLE alumnos_cursos (
     id_alumno_fk INT NOT NULL,
     id_curso_fk INT NOT NULL,

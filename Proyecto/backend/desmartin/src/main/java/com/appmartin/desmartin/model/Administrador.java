@@ -11,16 +11,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Administrador {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_admin")
     private Integer idAdmin;
-    
-    @Column(name = "nombre_usuario", nullable = false, unique = true, length = 100)
-    private String nombreUsuario;
-    
-    @Column(name = "contrasena", nullable = false)
-    private String contrasena;
-}
 
+    @Column(name = "nombre_usuario", nullable = false, unique = true)
+    private String nombreUsuario;
+
+    @Column(nullable = false)
+    private String contrasena;
+
+    @Column(nullable = false)
+    private String nombre;
+
+    @Column(nullable = false)
+    private String apellido;
+
+}

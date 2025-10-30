@@ -27,105 +27,175 @@ public class AdminService {
     @Autowired
     private AdministradorRepository administradorRepository;
 
-    // Crear
+    // ================= ADMINISTRADORES =================
     public AdministradorDTO crearAdministrador(CrearAdministradorRequest request) {
         Administrador admin = new Administrador();
         admin.setNombreUsuario(request.getNombreUsuario());
         admin.setContrasena(bCryptPasswordEncoder.encode(request.getContrasena()));
+        admin.setNombre(request.getNombre());
+        admin.setApellido(request.getApellido());
+
         Administrador saved = administradorRepository.save(admin);
-        return new AdministradorDTO(saved.getIdAdmin(), saved.getNombreUsuario());
+        return new AdministradorDTO(
+                saved.getIdAdmin(),
+                saved.getNombreUsuario(),
+                saved.getNombre(),
+                saved.getApellido()
+        );
     }
 
-    // Actualizar
     public AdministradorDTO actualizarAdministrador(Integer id, CrearAdministradorRequest request) {
         Administrador admin = administradorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Administrador no encontrado"));
+
         admin.setNombreUsuario(request.getNombreUsuario());
+        admin.setNombre(request.getNombre());
+        admin.setApellido(request.getApellido());
+        admin.setContrasena(bCryptPasswordEncoder.encode(request.getContrasena()));
+
         if (request.getContrasena() != null && !request.getContrasena().isEmpty()) {
             admin.setContrasena(bCryptPasswordEncoder.encode(request.getContrasena()));
         }
+
         Administrador saved = administradorRepository.save(admin);
-        return new AdministradorDTO(saved.getIdAdmin(), saved.getNombreUsuario());
+        return new AdministradorDTO(
+                saved.getIdAdmin(),
+                saved.getNombreUsuario(),
+                saved.getNombre(),
+                saved.getApellido()
+        );
     }
 
-    // Eliminar
     public void eliminarAdministrador(Integer id) {
         administradorRepository.deleteById(id);
     }
 
-    // Listar
     public List<AdministradorDTO> listarAdministradores() {
-        return administradorRepository.findAll()
-                .stream()
-                .map(a -> new AdministradorDTO(a.getIdAdmin(), a.getNombreUsuario()))
+        return administradorRepository.findAll().stream()
+                .map(a -> new AdministradorDTO(
+                        a.getIdAdmin(),
+                        a.getNombreUsuario(),
+                        a.getNombre(),
+                        a.getApellido()
+                ))
                 .collect(Collectors.toList());
     }
 
-    // Docentes
+
+    // ================= DOCENTES =================
     public DocenteDTO crearDocente(CrearDocenteRequest request) {
         Docente docente = new Docente();
         docente.setNombreUsuario(request.getNombreUsuario());
         docente.setContrasena(bCryptPasswordEncoder.encode(request.getContrasena()));
-        
+        docente.setNombre(request.getNombre());
+        docente.setApellido(request.getApellido());
+
         Docente saved = docenteRepository.save(docente);
-        return new DocenteDTO(saved.getIdDocente(), saved.getNombreUsuario());
+        return new DocenteDTO(
+                saved.getIdDocente(),
+                saved.getNombreUsuario(),
+                saved.getNombre(),
+                saved.getApellido()
+        );
     }
-    
+
     public DocenteDTO actualizarDocente(Integer id, CrearDocenteRequest request) {
         Docente docente = docenteRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Docente no encontrado"));
-        
+                .orElseThrow(() -> new RuntimeException("Docente no encontrado"));
+
         docente.setNombreUsuario(request.getNombreUsuario());
+        docente.setNombre(request.getNombre());
+        docente.setApellido(request.getApellido());
+        docente.setContrasena(bCryptPasswordEncoder.encode(request.getContrasena()));
+
         if (request.getContrasena() != null && !request.getContrasena().isEmpty()) {
             docente.setContrasena(bCryptPasswordEncoder.encode(request.getContrasena()));
         }
-        
+
         Docente saved = docenteRepository.save(docente);
-        return new DocenteDTO(saved.getIdDocente(), saved.getNombreUsuario());
+        return new DocenteDTO(
+                saved.getIdDocente(),
+                saved.getNombreUsuario(),
+                saved.getNombre(),
+                saved.getApellido()
+        );
     }
-    
+
     public void eliminarDocente(Integer id) {
         docenteRepository.deleteById(id);
     }
-    
+
     public List<DocenteDTO> listarDocentes() {
         return docenteRepository.findAll().stream()
-            .map(d -> new DocenteDTO(d.getIdDocente(), d.getNombreUsuario()))
-            .collect(Collectors.toList());
+                .map(d -> new DocenteDTO(
+                        d.getIdDocente(),
+                        d.getNombreUsuario(),
+                        d.getNombre(),
+                        d.getApellido()
+                ))
+                .collect(Collectors.toList());
     }
-    
-    // Alumnos
+
+
+    // ================= ALUMNOS =================
     public AlumnoDTO crearAlumno(CrearAlumnoRequest request) {
         Alumno alumno = new Alumno();
         alumno.setNombreUsuario(request.getNombreUsuario());
         alumno.setContrasena(bCryptPasswordEncoder.encode(request.getContrasena()));
-        
+        alumno.setNombre(request.getNombre());
+        alumno.setApellido(request.getApellido());
+        alumno.setFechaNacimiento(request.getFechaNacimiento());
+
         Alumno saved = alumnoRepository.save(alumno);
-        return new AlumnoDTO(saved.getIdAlumno(), saved.getNombreUsuario());
+        return new AlumnoDTO(
+                saved.getIdAlumno(),
+                saved.getNombreUsuario(),
+                saved.getNombre(),
+                saved.getApellido(),
+                saved.getFechaNacimiento()
+        );
     }
-    
+
     public AlumnoDTO actualizarAlumno(Integer id, CrearAlumnoRequest request) {
         Alumno alumno = alumnoRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
-        
+                .orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
+
         alumno.setNombreUsuario(request.getNombreUsuario());
+        alumno.setNombre(request.getNombre());
+        alumno.setApellido(request.getApellido());
+        alumno.setFechaNacimiento(request.getFechaNacimiento());
+        alumno.setContrasena(bCryptPasswordEncoder.encode(request.getContrasena()));
+
         if (request.getContrasena() != null && !request.getContrasena().isEmpty()) {
             alumno.setContrasena(bCryptPasswordEncoder.encode(request.getContrasena()));
         }
-        
+
         Alumno saved = alumnoRepository.save(alumno);
-        return new AlumnoDTO(saved.getIdAlumno(), saved.getNombreUsuario());
+        return new AlumnoDTO(
+                saved.getIdAlumno(),
+                saved.getNombreUsuario(),
+                saved.getNombre(),
+                saved.getApellido(),
+                saved.getFechaNacimiento()
+        );
     }
-    
+
     public void eliminarAlumno(Integer id) {
         alumnoRepository.deleteById(id);
     }
-    
+
     public List<AlumnoDTO> listarAlumnos() {
         return alumnoRepository.findAll().stream()
-            .map(a -> new AlumnoDTO(a.getIdAlumno(), a.getNombreUsuario()))
-            .collect(Collectors.toList());
+                .map(a -> new AlumnoDTO(
+                        a.getIdAlumno(),
+                        a.getNombreUsuario(),
+                        a.getNombre(),
+                        a.getApellido(),
+                        a.getFechaNacimiento()
+                ))
+                .collect(Collectors.toList());
     }
+
     
     // Logs
     public List<LogAccesoDTO> listarLogs() {

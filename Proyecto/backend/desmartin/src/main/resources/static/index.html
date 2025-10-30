@@ -203,14 +203,22 @@
         </div>
         <!-- Gestión de Admin -->
         <div class="section">
-            <h2>👨Gestión de Admin</h2>
+            <h2>👨‍💼 Gestión de Administradores</h2>
             <div class="form-group">
-                <label>Usuario:</label>
-                <input type="text" id="adminNombre">
+                <label>Nombre de usuario:</label>
+                <input type="text" id="adminNombreUsuario">
             </div>
             <div class="form-group">
                 <label>Contraseña:</label>
                 <input type="password" id="adminContrasena">
+            </div>
+            <div class="form-group">
+                <label>Nombre:</label>
+                <input type="text" id="adminNombre">
+            </div>
+            <div class="form-group">
+                <label>Apellido:</label>
+                <input type="text" id="adminApellido">
             </div>
             <button onclick="crearAdmin()">Crear Admin</button>
             <button onclick="listarAdmin()">Listar Admin</button>
@@ -225,12 +233,20 @@
         <div class="section">
             <h2>👨‍🏫 Gestión de Docentes</h2>
             <div class="form-group">
-                <label>Usuario:</label>
-                <input type="text" id="docenteNombre">
+                <label>Nombre de usuario:</label>
+                <input type="text" id="docenteNombreUsuario">
             </div>
             <div class="form-group">
                 <label>Contraseña:</label>
                 <input type="password" id="docenteContrasena">
+            </div>
+            <div class="form-group">
+                <label>Nombre:</label>
+                <input type="text" id="docenteNombre">
+            </div>
+            <div class="form-group">
+                <label>Apellido:</label>
+                <input type="text" id="docenteApellido">
             </div>
             <button onclick="crearDocente()">Crear Docente</button>
             <button onclick="listarDocentes()">Listar Docentes</button>
@@ -240,17 +256,28 @@
                 <button class="btn-danger" onclick="eliminarDocente()">Eliminar</button>
             </div>
         </div>
-
         <!-- Gestión de Alumnos -->
         <div class="section">
             <h2>👨‍🎓 Gestión de Alumnos</h2>
             <div class="form-group">
-                <label>Usuario:</label>
-                <input type="text" id="alumnoUsuario">
+                <label>Nombre de usuario:</label>
+                <input type="text" id="alumnoNombreUsuario">
             </div>
             <div class="form-group">
                 <label>Contraseña:</label>
                 <input type="password" id="alumnoContrasena">
+            </div>
+            <div class="form-group">
+                <label>Nombre:</label>
+                <input type="text" id="alumnoNombre">
+            </div>
+            <div class="form-group">
+                <label>Apellido:</label>
+                <input type="text" id="alumnoApellido">
+            </div>
+            <div class="form-group">
+                <label>Fecha de nacimiento:</label>
+                <input type="date" id="alumnoFechaNacimiento">
             </div>
             <button onclick="crearAlumno()">Crear Alumno</button>
             <button onclick="listarAlumnos()">Listar Alumnos</button>
@@ -414,11 +441,20 @@
             const pass = document.getElementById('alumnoPass').value;
             apiCall('/auth/login/alumno', 'POST', { nombreUsuario: user, contrasena: pass });
         }
-        // administrador
+
+        // ================= ADMINISTRADORES =================
         function crearAdmin() {
+            const usuario = document.getElementById('adminNombreUsuario').value;
             const nombre = document.getElementById('adminNombre').value;
+            const apellido = document.getElementById('adminApellido').value;
             const pass = document.getElementById('adminContrasena').value;
-            apiCall('/admin/administradores', 'POST', { nombreUsuario: nombre, contrasena: pass });
+
+            apiCall('/admin/administradores', 'POST', {
+                nombreUsuario: usuario,
+                contrasena: pass,
+                nombre: nombre,
+                apellido: apellido
+            });
         }
 
         function listarAdmin() {
@@ -427,9 +463,17 @@
 
         function actualizarAdmin() {
             const id = document.getElementById('adminId').value;
+            const usuario = document.getElementById('adminNombreUsuario').value;
             const nombre = document.getElementById('adminNombre').value;
+            const apellido = document.getElementById('adminApellido').value;
             const pass = document.getElementById('adminContrasena').value;
-            apiCall(`/admin/administradores/${id}`, 'PUT', { nombreUsuario: nombre, contrasena: pass });
+
+            apiCall(`/admin/administradores/${id}`, 'PUT', {
+                nombreUsuario: usuario,
+                contrasena: pass,
+                nombre: nombre,
+                apellido: apellido
+            });
         }
 
         function eliminarAdmin() {
@@ -437,11 +481,19 @@
             apiCall(`/admin/administradores/${id}`, 'DELETE');
         }
 
-        // Docentes
+        // ================= DOCENTES =================
         function crearDocente() {
-            const nombre = document.getElementById('docenteNombre').value;
-            const pass = document.getElementById('docenteContrasena').value;
-            apiCall('/admin/docentes', 'POST', { nombreUsuario: nombre, contrasena: pass });
+            const usuario = document.getElementById('docenteNombreUsuario').value.trim();
+            const nombre = document.getElementById('docenteNombre').value.trim();
+            const apellido = document.getElementById('docenteApellido').value.trim();
+            const pass = document.getElementById('docenteContrasena').value.trim();
+
+            apiCall('/admin/docentes', 'POST', {
+                nombreUsuario: usuario,
+                contrasena: pass,
+                nombre: nombre,
+                apellido: apellido
+            });
         }
 
         function listarDocentes() {
@@ -450,9 +502,17 @@
 
         function actualizarDocente() {
             const id = document.getElementById('docenteId').value;
+            const usuario = document.getElementById('docenteNombreUsuario').value;
             const nombre = document.getElementById('docenteNombre').value;
+            const apellido = document.getElementById('docenteApellido').value;
             const pass = document.getElementById('docenteContrasena').value;
-            apiCall(`/admin/docentes/${id}`, 'PUT', { nombreUsuario: nombre, contrasena: pass });
+
+            apiCall(`/admin/docentes/${id}`, 'PUT', {
+                nombreUsuario: usuario,
+                contrasena: pass,
+                nombre: nombre,
+                apellido: apellido
+            });
         }
 
         function eliminarDocente() {
@@ -460,11 +520,21 @@
             apiCall(`/admin/docentes/${id}`, 'DELETE');
         }
 
-        // Alumnos
+        // ================= ALUMNOS =================
         function crearAlumno() {
-            const usuario = document.getElementById('alumnoUsuario').value;
+            const usuario = document.getElementById('alumnoNombreUsuario').value;
+            const nombre = document.getElementById('alumnoNombre').value;
+            const apellido = document.getElementById('alumnoApellido').value;
+            const fechaNacimiento = document.getElementById('alumnoFechaNacimiento').value;
             const pass = document.getElementById('alumnoContrasena').value;
-            apiCall('/admin/alumnos', 'POST', { nombreUsuario: usuario, contrasena: pass });
+
+            apiCall('/admin/alumnos', 'POST', {
+                nombreUsuario: usuario,
+                contrasena: pass,
+                nombre: nombre,
+                apellido: apellido,
+                fechaNacimiento: fechaNacimiento
+            });
         }
 
         function listarAlumnos() {
@@ -473,16 +543,27 @@
 
         function actualizarAlumno() {
             const id = document.getElementById('alumnoId').value;
-            const usuario = document.getElementById('alumnoUsuario').value;
+            const usuario = document.getElementById('alumnoNombreUsuario').value;
+            const nombre = document.getElementById('alumnoNombre').value;
+            const apellido = document.getElementById('alumnoApellido').value;
+            const fechaNacimiento = document.getElementById('alumnoFechaNacimiento').value;
             const pass = document.getElementById('alumnoContrasena').value;
-            apiCall(`/admin/alumnos/${id}`, 'PUT', { nombreUsuario: usuario, contrasena: pass });
+
+            apiCall(`/admin/alumnos/${id}`, 'PUT', {
+                nombreUsuario: usuario,
+                contrasena: pass,
+                nombre: nombre,
+                apellido: apellido,
+                fechaNacimiento: fechaNacimiento
+            });
         }
 
         function eliminarAlumno() {
             const id = document.getElementById('alumnoId').value;
             apiCall(`/admin/alumnos/${id}`, 'DELETE');
         }
-        // ==========================
+
+    // ==========================
         // 🔹 API Cursos
         // ==========================
 

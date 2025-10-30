@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "alumnos")
@@ -11,14 +12,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Alumno {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_alumno")
     private Integer idAlumno;
 
-    @Column(name = "nombre_usuario", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String nombreUsuario;
 
-    @Column(name = "contrasena", nullable = false)
+    @Column(nullable = false)
     private String contrasena;
+
+    @Column(nullable = false)
+    private String nombre;
+
+    @Column(nullable = false)
+    private String apellido;
+
+    @Column(name = "fecha_nacimiento", nullable = false)
+    private LocalDate fechaNacimiento;
 }

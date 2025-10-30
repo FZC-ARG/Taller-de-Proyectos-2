@@ -10,5 +10,7 @@ import lombok.NoArgsConstructor;
 public class CrearDocenteRequest {
     private String nombreUsuario;
     private String contrasena;
+    private String nombre;
+    private String apellido;
 }
 

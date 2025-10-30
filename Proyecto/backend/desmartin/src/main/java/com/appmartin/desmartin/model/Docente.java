@@ -21,4 +21,11 @@ public class Docente {
 
     @Column(name = "contrasena", nullable = false)
     private String contrasena;
+
+    @Column(nullable = false)
+    private String nombre;
+
+    @Column(nullable = false)
+    private String apellido;
+
 }
