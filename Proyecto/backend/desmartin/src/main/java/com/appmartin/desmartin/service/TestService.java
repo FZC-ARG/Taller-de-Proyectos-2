@@ -145,5 +145,27 @@ public class TestService {
             ))
             .collect(Collectors.toList());
     }
+    
+    @Transactional
+    public void crearResultados(CrearResultadosRequest request) {
+        // Verificar que el intento existe
+        IntentoTest intento = intentoTestRepository.findById(request.getIdIntento())
+            .orElseThrow(() -> new RuntimeException("Intento no encontrado"));
+        
+        // Guardar cada resultado
+        for (CrearResultadosRequest.ResultadoRequest resultadoRequest : request.getResultados()) {
+            // Verificar que el tipo de inteligencia existe
+            TipoInteligencia tipoInteligencia = tipoInteligenciaRepository.findById(resultadoRequest.getIdInteligencia())
+                .orElseThrow(() -> new RuntimeException("Tipo de inteligencia no encontrado: " + resultadoRequest.getIdInteligencia()));
+            
+            // Crear y guardar el resultado
+            ResultadoTest resultado = new ResultadoTest();
+            resultado.setIntentoTest(intento);
+            resultado.setTipoInteligencia(tipoInteligencia);
+            resultado.setPuntajeCalculado(resultadoRequest.getPuntajeCalculado());
+            
+            resultadoTestRepository.save(resultado);
+        }
+    }
 }
 

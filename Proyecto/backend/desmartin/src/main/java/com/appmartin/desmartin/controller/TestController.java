@@ -25,5 +25,11 @@ public class TestController {
         testService.completarTest(request);
         return ResponseEntity.ok("Test completado exitosamente");
     }
+    
+    @PostMapping("/resultados")
+    public ResponseEntity<String> crearResultados(@RequestBody CrearResultadosRequest request) {
+        testService.crearResultados(request);
+        return ResponseEntity.ok("Resultados guardados exitosamente");
+    }
 }
 
