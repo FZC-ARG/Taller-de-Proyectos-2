@@ -13,4 +13,10 @@ export class TestService {
   getPreguntas(): Observable<any> {
     return this.http.get<any>(`${API_URL}api/test/preguntas`);
   }
+
+  enviarResultados(data: any) {
+  return this.http.post(`${API_URL}api/test/resultados`, data, {
+        responseType: 'text'  // 👈 esto evita el error de parseo JSON
+  });
+}
 }

@@ -142,18 +142,75 @@ export class TestGardnerComponent {
 
     this.detenerTemporizador();
 
-    Swal.fire({
-      icon: 'success',
-      title: '¡Test completado!',
-      text: `Completaste el test en ${this.minutos} minuto(s) y ${this.segundos} segundo(s).`
-    }).then(() => {
-      localStorage.removeItem('tiempoTestGardner');
-      localStorage.removeItem('respuestasTestGardner');
-      this.router.navigate(['/inicio-alumnos']);
+    // 🔹 Obtener idAlumno desde localStorage
+    const datosAlumno = JSON.parse(localStorage.getItem('datosAlumno') || '{}');
+    const idAlumno = datosAlumno.idAlumno;
+
+    // 🔹 Agrupar por idInteligencia
+    const resultadosMap = new Map<number, number[]>();
+
+    this.preguntas.forEach(p => {
+      if (!resultadosMap.has(p.idInteligencia)) {
+        resultadosMap.set(p.idInteligencia, []);
+      }
+      resultadosMap.get(p.idInteligencia)!.push(Number(p.respuesta));
     });
 
-    console.log('Respuestas del test:', this.preguntas);
+    // 🔹 Calcular promedios
+    const resultados = Array.from(resultadosMap.entries()).map(([idInteligencia, respuestas]) => {
+      const suma = respuestas.reduce((acc, val) => acc + val, 0);
+      const promedio = suma / 10; // cada inteligencia tiene 10 preguntas
+      return {
+        idInteligencia,
+        puntajeCalculado: Number(promedio.toFixed(2))
+      };
+    });
+
+    // 🔹 Crear objeto final
+    const dataEnviar = { idAlumno, resultados };
+
+    console.log('📤 Datos a enviar:', dataEnviar);
+
+    this.testService.enviarResultados(dataEnviar).subscribe({
+      next: (resp) => {
+        console.log('✅ Respuesta del backend:', resp);
+
+        Swal.fire({
+          icon: 'success',
+          title: '¡Resultados guardados correctamente!',
+          html: `Completaste el test en <b>${this.minutos} minuto(s)</b> y <b>${this.segundos} segundo(s)</b>.`
+        }).then(() => {
+          localStorage.removeItem('tiempoTestGardner');
+          localStorage.removeItem('respuestasTestGardner');
+          this.router.navigate(['/inicio-alumnos']);
+        });
+      },
+      error: (err) => {
+        console.error('⚠️ Error al guardar:', err);
+
+        // Si el backend guardó pero devolvió error vacío o sin cuerpo
+        if (err.status === 200 || err.status === 201 || err.statusText === 'OK') {
+          Swal.fire({
+            icon: 'success',
+            title: '¡Test completado!',
+            text: `Los resultados se guardaron correctamente.`,
+          }).then(() => {
+            localStorage.removeItem('tiempoTestGardner');
+            localStorage.removeItem('respuestasTestGardner');
+            localStorage.removeItem('paginaActualTestGardner');
+            this.router.navigate(['/inicio-alumnos']);
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al guardar',
+            text: 'Los resultados se guardaron parcialmente o hubo un error en la respuesta del servidor.'
+          });
+        }
+      }
+    });
   }
+
 
   guardarRespuestas() {
     localStorage.setItem('respuestasTestGardner', JSON.stringify(this.preguntas));

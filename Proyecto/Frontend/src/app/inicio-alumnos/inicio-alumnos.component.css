@@ -155,3 +155,20 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   filter: brightness(1.1);
 }
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-emoji {
+  font-size: 28px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.user-emoji:hover {
+  transform: scale(1.2);
+}
+

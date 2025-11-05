@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router , ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
@@ -19,7 +19,7 @@ export class InicioAlumnosComponent {
 
   cursos : any[] = []; // <--- array vacío
 
-  constructor(private router: Router , private alumnosService: AlumnosService) {}
+  constructor(private router: Router , private alumnosService: AlumnosService , route: ActivatedRoute) {}
 
   ngOnInit() {
     this.datosAlumno = JSON.parse(localStorage.getItem('datosAlumno')!);
@@ -28,6 +28,9 @@ export class InicioAlumnosComponent {
     if (this.datosAlumno?.idAlumno) {
       this.cargarCursos(this.datosAlumno.idAlumno);
     }
+  }
+  irAPerfil() {
+    this.router.navigate(['/perfil-alumno']);
   }
 
   cargarCursos(idAlumno: string): void {
