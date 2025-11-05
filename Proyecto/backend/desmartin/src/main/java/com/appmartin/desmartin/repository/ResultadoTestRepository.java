@@ -18,7 +18,3 @@ public interface ResultadoTestRepository extends JpaRepository<ResultadoTest, In
     @Query("SELECT r FROM ResultadoTest r WHERE r.intentoTest.idIntento = :idIntento")
     List<ResultadoTest> findByIntentoId(@Param("idIntento") Integer idIntento);
 }
-
-@Repository
-public interface IntentoTestRepository extends JpaRepository<IntentoTest, Integer> {
-}
