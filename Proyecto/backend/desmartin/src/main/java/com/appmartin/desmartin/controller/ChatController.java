@@ -62,5 +62,22 @@ public class ChatController {
     public ResponseEntity<List<ChatSesionDTO>> obtenerSesionesPorAlumno(@PathVariable Integer idAlumno) {
         return ResponseEntity.ok(chatService.obtenerSesionesPorAlumno(idAlumno));
     }
+    
+    /**
+     * Obtiene la última sesión activa entre un docente y un alumno sin crearla
+     * 
+     * @param idDocente ID del docente
+     * @param idAlumno ID del alumno
+     * @return DTO de la sesión si existe, o null si no existe
+     */
+    @GetMapping("/sesiones/docente/{idDocente}/alumno/{idAlumno}/ultima")
+    public ResponseEntity<ChatSesionDTO> obtenerUltimaSesion(@PathVariable Integer idDocente, @PathVariable Integer idAlumno) {
+        ChatSesionDTO sesion = chatService.obtenerUltimaSesion(idDocente, idAlumno);
+        if (sesion != null) {
+            return ResponseEntity.ok(sesion);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
 

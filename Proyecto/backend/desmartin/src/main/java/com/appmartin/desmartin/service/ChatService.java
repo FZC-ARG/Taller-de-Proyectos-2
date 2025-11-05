@@ -39,6 +39,45 @@ public class ChatService {
     private ContextoIAService contextoIAService;
     
     /**
+     * Obtiene la última sesión activa entre un docente y un alumno sin crearla
+     * 
+     * @param idDocente ID del docente
+     * @param idAlumno ID del alumno
+     * @return DTO de la sesión si existe, null si no existe
+     */
+    public ChatSesionDTO obtenerUltimaSesion(Integer idDocente, Integer idAlumno) {
+        // Validar que el docente existe
+        docenteRepository.findById(idDocente)
+            .orElseThrow(() -> new RuntimeException("Docente no encontrado"));
+        
+        // Validar que el alumno existe
+        alumnoRepository.findById(idAlumno)
+            .orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
+        
+        // Buscar última sesión activa entre docente y alumno
+        List<ChatSesion> sesionesExistentes = chatSesionRepository
+            .findUltimaSesionActivaPorDocenteYAlumno(idDocente, idAlumno);
+        
+        if (!sesionesExistentes.isEmpty()) {
+            ChatSesion sesionExistente = sesionesExistentes.get(0);
+            logger.info("Obteniendo última sesión activa ID: {} entre docente {} y alumno {}", 
+                sesionExistente.getIdSesion(), idDocente, idAlumno);
+            
+            return new ChatSesionDTO(
+                sesionExistente.getIdSesion(),
+                sesionExistente.getDocente().getIdDocente(),
+                sesionExistente.getAlumno() != null ? sesionExistente.getAlumno().getIdAlumno() : null,
+                sesionExistente.getCurso() != null ? sesionExistente.getCurso().getIdCurso() : null,
+                sesionExistente.getTituloSesion(),
+                sesionExistente.getFechaCreacion()
+            );
+        }
+        
+        logger.info("No se encontró sesión previa entre docente {} y alumno {}", idDocente, idAlumno);
+        return null;
+    }
+    
+    /**
      * Crea una nueva sesión de chat o reutiliza una sesión existente activa
      * 
      * Para chats individuales (con idAlumno):
@@ -74,30 +113,36 @@ public class ChatService {
             Alumno alumno = alumnoRepository.findById(request.getIdAlumno())
                 .orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
             
-            // Buscar última sesión activa entre docente y alumno
-            List<ChatSesion> sesionesExistentes = chatSesionRepository
-                .findUltimaSesionActivaPorDocenteYAlumno(request.getIdDocente(), request.getIdAlumno());
-            
-            if (!sesionesExistentes.isEmpty()) {
-                // Reutilizar la última sesión activa
-                ChatSesion sesionExistente = sesionesExistentes.get(0);
-                logger.info("Reutilizando sesión existente ID: {} entre docente {} y alumno {}", 
-                    sesionExistente.getIdSesion(), request.getIdDocente(), request.getIdAlumno());
+            // Si forzarCreacion es true, saltar la búsqueda de sesión previa
+            if (request.getForzarCreacion() == null || !request.getForzarCreacion()) {
+                // Buscar última sesión activa entre docente y alumno
+                List<ChatSesion> sesionesExistentes = chatSesionRepository
+                    .findUltimaSesionActivaPorDocenteYAlumno(request.getIdDocente(), request.getIdAlumno());
                 
-                // Actualizar título si se proporciona uno nuevo
-                if (request.getTituloSesion() != null && !request.getTituloSesion().trim().isEmpty()) {
-                    sesionExistente.setTituloSesion(request.getTituloSesion());
-                    chatSesionRepository.save(sesionExistente);
+                if (!sesionesExistentes.isEmpty()) {
+                    // Reutilizar la última sesión activa
+                    ChatSesion sesionExistente = sesionesExistentes.get(0);
+                    logger.info("Reutilizando sesión existente ID: {} entre docente {} y alumno {}", 
+                        sesionExistente.getIdSesion(), request.getIdDocente(), request.getIdAlumno());
+                    
+                    // Actualizar título si se proporciona uno nuevo
+                    if (request.getTituloSesion() != null && !request.getTituloSesion().trim().isEmpty()) {
+                        sesionExistente.setTituloSesion(request.getTituloSesion());
+                        chatSesionRepository.save(sesionExistente);
+                    }
+                    
+                    return new ChatSesionDTO(
+                        sesionExistente.getIdSesion(),
+                        sesionExistente.getDocente().getIdDocente(),
+                        sesionExistente.getAlumno() != null ? sesionExistente.getAlumno().getIdAlumno() : null,
+                        sesionExistente.getCurso() != null ? sesionExistente.getCurso().getIdCurso() : null,
+                        sesionExistente.getTituloSesion(),
+                        sesionExistente.getFechaCreacion()
+                    );
                 }
-                
-                return new ChatSesionDTO(
-                    sesionExistente.getIdSesion(),
-                    sesionExistente.getDocente().getIdDocente(),
-                    sesionExistente.getAlumno() != null ? sesionExistente.getAlumno().getIdAlumno() : null,
-                    sesionExistente.getCurso() != null ? sesionExistente.getCurso().getIdCurso() : null,
-                    sesionExistente.getTituloSesion(),
-                    sesionExistente.getFechaCreacion()
-                );
+            } else {
+                logger.info("Forzando creación de nueva sesión (forzarCreacion=true) entre docente {} y alumno {}", 
+                    request.getIdDocente(), request.getIdAlumno());
             }
             
             // No existe sesión previa, crear nueva sesión individual
@@ -108,7 +153,9 @@ public class ChatService {
             sesion.setDocente(docente);
             sesion.setAlumno(alumno);
             sesion.setCurso(null);
-            sesion.setTituloSesion(request.getTituloSesion());
+            sesion.setTituloSesion(request.getTituloSesion() != null && !request.getTituloSesion().trim().isEmpty() 
+                ? request.getTituloSesion() 
+                : "Consulta Individual");
             
             ChatSesion saved = chatSesionRepository.save(sesion);
             return new ChatSesionDTO(
@@ -138,7 +185,9 @@ public class ChatService {
             sesion.setDocente(docente);
             sesion.setCurso(curso);
             sesion.setAlumno(null);
-            sesion.setTituloSesion(request.getTituloSesion());
+            sesion.setTituloSesion(request.getTituloSesion() != null && !request.getTituloSesion().trim().isEmpty() 
+                ? request.getTituloSesion() 
+                : "Consulta Grupal");
             
             ChatSesion saved = chatSesionRepository.save(sesion);
             return new ChatSesionDTO(

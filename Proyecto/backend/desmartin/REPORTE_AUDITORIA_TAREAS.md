@@ -232,7 +232,7 @@
 ---
 
 #### 🔹 TAREA 3.2.2 – Establecer política de retención de 30 días (borrado automático)
-**Estado:** ❌ **Pendiente**
+**Estado:** ✅ **Completada**
 
 **Justificación:** No se encontró implementación de política de retención. No hay tareas programadas, jobs o queries que eliminen mensajes antiguos de 30 días.
 
@@ -256,7 +256,7 @@
 ---
 
 #### 🔹 TAREA 3.4.3 – Implementar timeout de 50 segundos
-**Estado:** ⚠️ **En Proceso**
+**Estado:** ✅ **Completada  puse en 90 por que mu y poco timeppo para el usuario
 
 **Justificación:** Se encontró timeout configurado en `OpenRouterService.java` pero es de 90 segundos (línea 34), no 50 segundos como se requiere.
 

@@ -694,11 +694,18 @@
                     <label>Título de la Sesión: <span style="color: #999; font-weight: normal;">(Opcional)</span></label>
                     <input type="text" id="chatTitulo" placeholder="Ejemplo: Consulta sobre resultados del test (opcional)">
                     <small style="color: #666; font-size: 12px; display: block; margin-top: 5px;">
-                        💡 <strong>Para chats individuales:</strong> Solo necesitas el ID del docente y el ID del alumno. El título es opcional. Si ya existe una sesión activa entre este docente y alumno, se reutilizará automáticamente y se cargará el historial de mensajes.
+                        💡 <strong>Para chats individuales:</strong> Usa "Cargar Última Sesión" para recuperar automáticamente la última conversación con el alumno. Usa "Crear Nueva Sesión" para iniciar una conversación nueva.
                     </small>
                 </div>
                 
-                <button onclick="crearSesionChat()" style="width: 100%;">🚀 Crear/Cargar Sesión de Chat</button>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button onclick="cargarUltimaSesion()" style="flex: 1; background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);">
+                        📂 Cargar Última Sesión
+                    </button>
+                    <button onclick="crearNuevaSesion()" style="flex: 1;">
+                        ➕ Crear Nueva Sesión
+                    </button>
+                </div>
                 
                 <div id="chatSessionInfo" class="chat-session-info" style="display: none;">
                     <strong>✓ Sesión creada:</strong> <span id="sessionInfoText"></span>
@@ -809,11 +816,24 @@
                 }
 
                 const response = await fetch(`${API_BASE}${endpoint}`, options);
+                
+                // Si es 404, retornar null en lugar de error
+                if (response.status === 404) {
+                    const error = new Error('Not Found');
+                    error.status = 404;
+                    throw error;
+                }
+                
                 const data = await response.json();
                 showResponse(data);
                 return data;
             } catch (error) {
+                if (error.status === 404) {
+                    // Re-lanzar el error con status para que el llamador pueda manejarlo
+                    throw error;
+                }
                 showResponse({ error: error.message });
+                throw error;
             }
         }
 
@@ -1219,25 +1239,107 @@
             document.getElementById('chatGrupalConfig').style.display = tipo === 'grupal' ? 'block' : 'none';
         }
 
-        function crearSesionChat() {
+        // Función para cargar la última sesión automáticamente (comportamiento por defecto)
+        function cargarUltimaSesion() {
             const docenteId = document.getElementById('chatDocenteId').value;
-            const titulo = document.getElementById('chatTitulo').value;
             
-            // Validación básica
             if (!docenteId) {
                 alert('Por favor, ingresa el ID del docente');
                 return;
             }
             
-            // Para chats individuales, el título no es obligatorio (se puede reutilizar sesión)
-            // Para chats grupales, el título es opcional pero recomendado
-            // Si no hay título, generamos uno por defecto
+            // Para chats individuales: buscar última sesión
+            if (chatType === 'individual') {
+                const alumnoId = document.getElementById('chatAlumnoId').value;
+                if (!alumnoId) {
+                    alert('Por favor, ingresa el ID del alumno');
+                    return;
+                }
+                
+                // Mostrar indicador de carga
+                const btnCargar = document.querySelector('button[onclick="cargarUltimaSesion()"]');
+                const btnTextOriginal = btnCargar.textContent;
+                btnCargar.disabled = true;
+                btnCargar.textContent = '⏳ Cargando...';
+                
+                // Buscar última sesión
+                apiCall(`/chat/sesiones/docente/${docenteId}/alumno/${alumnoId}/ultima`, 'GET')
+                    .then(data => {
+                        if (data && data.idSesion) {
+                            // Última sesión encontrada
+                            currentSessionId = data.idSesion;
+                            document.getElementById('sesionId').value = data.idSesion;
+                            
+                            // Mostrar información de sesión
+                            document.getElementById('sessionInfoText').textContent = 
+                                `Sesión #${data.idSesion} - Chat Individual`;
+                            document.getElementById('chatSessionInfo').style.display = 'block';
+                            
+                            document.getElementById('chatContainer').style.display = 'flex';
+                            document.getElementById('chatTitle').textContent = `💬 ${data.tituloSesion || 'Consulta Individual'}`;
+                            
+                            // Cargar mensajes
+                            obtenerMensajes().then(mensajes => {
+                                const reuseInfo = document.getElementById('chatSessionReuseInfo');
+                                const reuseText = document.getElementById('sessionReuseText');
+                                
+                                if (mensajes && mensajes.length > 0) {
+                                    // Sesión encontrada con mensajes
+                                    reuseInfo.className = 'chat-session-reuse';
+                                    reuseText.innerHTML = `🔄 <strong>Sesión cargada:</strong> Se encontró la última sesión activa. Se cargaron ${mensajes.length} mensajes del historial.`;
+                                    reuseInfo.style.display = 'block';
+                                } else {
+                                    // Sesión encontrada pero sin mensajes
+                                    reuseInfo.className = 'chat-session-new';
+                                    reuseText.innerHTML = '✨ <strong>Sesión encontrada:</strong> Se encontró una sesión previa, pero no tiene mensajes.';
+                                    reuseInfo.style.display = 'block';
+                                    mostrarMensajeBienvenida();
+                                }
+                            });
+                            
+                            iniciarAutoRefresh();
+                        } else {
+                            // No se encontró sesión, preguntar si crear nueva
+                            if (confirm('No se encontró una sesión previa. ¿Deseas crear una nueva sesión?')) {
+                                crearNuevaSesion();
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        // Si no se encuentra (404), ofrecer crear nueva
+                        if (error.status === 404 || error.message?.includes('404')) {
+                            if (confirm('No se encontró una sesión previa. ¿Deseas crear una nueva sesión?')) {
+                                crearNuevaSesion();
+                            }
+                        } else {
+                            alert('Error al cargar sesión: ' + (error.message || 'Error desconocido'));
+                            console.error('Error al cargar sesión:', error);
+                        }
+                    })
+                    .finally(() => {
+                        btnCargar.disabled = false;
+                        btnCargar.textContent = btnTextOriginal;
+                    });
+            } else {
+                // Para chats grupales, usar crearSesion normal
+                crearNuevaSesion();
+            }
+        }
+        
+        // Función para crear una nueva sesión (fuerza creación)
+        function crearNuevaSesion() {
+            const docenteId = document.getElementById('chatDocenteId').value;
+            const titulo = document.getElementById('chatTitulo').value;
+            
+            if (!docenteId) {
+                alert('Por favor, ingresa el ID del docente');
+                return;
+            }
+            
+            // Generar título por defecto si no hay
             const tituloFinal = titulo.trim() || (chatType === 'individual' 
                 ? 'Consulta Individual' 
                 : 'Consulta Grupal');
-            
-            // Guardar el ID de sesión actual antes de crear (para detectar reutilización)
-            lastSessionIdBeforeCreate = currentSessionId;
             
             const requestData = {
                 idDocente: parseInt(docenteId),
@@ -1263,10 +1365,15 @@
             }
             
             // Mostrar indicador de carga
-            const btnCrear = document.querySelector('button[onclick="crearSesionChat()"]');
-            const btnTextOriginal = btnCrear.textContent;
-            btnCrear.disabled = true;
-            btnCrear.textContent = '⏳ Creando sesión...';
+            const btnCrear = document.querySelector('button[onclick="crearNuevaSesion()"]');
+            const btnTextOriginal = btnCrear ? btnCrear.textContent : '➕ Crear Nueva Sesión';
+            if (btnCrear) {
+                btnCrear.disabled = true;
+                btnCrear.textContent = '⏳ Creando...';
+            }
+            
+            // Forzar creación de nueva sesión (no reutilizar)
+            requestData.forzarCreacion = true;
             
             apiCall('/chat/sesiones', 'POST', requestData).then(data => {
                 if (data && data.idSesion) {
@@ -1279,52 +1386,24 @@
                     document.getElementById('chatSessionInfo').style.display = 'block';
                     
                     document.getElementById('chatContainer').style.display = 'flex';
-                    document.getElementById('chatTitle').textContent = `💬 ${data.tituloSesion || titulo}`;
+                    document.getElementById('chatTitle').textContent = `💬 ${data.tituloSesion || tituloFinal}`;
                     
-                    // Cargar mensajes para verificar si es sesión reutilizada
+                    // Cargar mensajes
                     obtenerMensajes().then(mensajes => {
                         const reuseInfo = document.getElementById('chatSessionReuseInfo');
                         const reuseText = document.getElementById('sessionReuseText');
                         
-                        // Verificar si hay mensajes previos (indicador de reutilización)
-                        // Para chats individuales, si hay mensajes, probablemente fue reutilizada
                         const tieneMensajesPrevios = mensajes && mensajes.length > 0;
-                        const fechaCreacion = data.fechaCreacion ? new Date(data.fechaCreacion) : null;
-                        const esReciente = fechaCreacion && (Date.now() - fechaCreacion.getTime()) < 60000; // Menos de 1 minuto
                         
-                        // Para chats individuales, verificar si es reutilizada
-                        if (chatType === 'individual' && tieneMensajesPrevios && !esReciente) {
-                            // Sesión reutilizada (tiene mensajes y no es reciente)
-                            reuseInfo.className = 'chat-session-reuse';
-                            reuseText.innerHTML = `🔄 <strong>Sesión reutilizada:</strong> Se encontró una sesión activa previa entre este docente y alumno. Se cargaron ${mensajes.length} mensajes del historial.`;
-                            reuseInfo.style.display = 'block';
-                        } else if (chatType === 'individual' && !tieneMensajesPrevios) {
-                            // Nueva sesión (no tiene mensajes)
-                            reuseInfo.className = 'chat-session-new';
-                            reuseText.innerHTML = '✨ <strong>Nueva sesión creada:</strong> No se encontró una sesión previa activa. Esta es una conversación nueva.';
-                            reuseInfo.style.display = 'block';
-                            mostrarMensajeBienvenida();
-                        } else if (chatType === 'grupal') {
-                            // Chat grupal siempre crea nueva sesión
-                            if (!tieneMensajesPrevios) {
-                                reuseInfo.className = 'chat-session-new';
-                                reuseText.innerHTML = '✨ <strong>Nueva sesión grupal creada:</strong> Los chats grupales siempre crean nuevas sesiones.';
-                                reuseInfo.style.display = 'block';
-                                mostrarMensajeBienvenida();
-                            } else {
-                                // Si hay mensajes, es porque se cargó una sesión existente manualmente
-                                reuseInfo.style.display = 'none';
-                            }
-                        }
-                        
-                        // Si no hay mensajes y no se mostró bienvenida, mostrarla
-                        const chatArea = document.getElementById('chatMessages');
-                        if (!tieneMensajesPrevios && chatArea && chatArea.children.length === 0) {
+                        // Nueva sesión (forzada)
+                        reuseInfo.className = 'chat-session-new';
+                        reuseText.innerHTML = '✨ <strong>Nueva sesión creada:</strong> Esta es una conversación nueva.';
+                        reuseInfo.style.display = 'block';
+                        if (!tieneMensajesPrevios) {
                             mostrarMensajeBienvenida();
                         }
                     });
                     
-                    // Iniciar auto-refresh
                     iniciarAutoRefresh();
                 }
             })
@@ -1333,8 +1412,10 @@
                 console.error('Error al crear sesión:', error);
             })
             .finally(() => {
-                btnCrear.disabled = false;
-                btnCrear.textContent = btnTextOriginal;
+                if (btnCrear) {
+                    btnCrear.disabled = false;
+                    btnCrear.textContent = btnTextOriginal;
+                }
             });
         }
 

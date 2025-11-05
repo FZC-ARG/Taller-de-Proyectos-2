@@ -12,5 +12,6 @@ public class CrearChatSesionRequest {
     private Integer idAlumno;  // NULL para chats grupales
     private Integer idCurso;   // NULL para chats individuales
     private String tituloSesion;
+    private Boolean forzarCreacion;  // Si es true, crea nueva sesión aunque exista una previa (solo para chats individuales)
 }
 
