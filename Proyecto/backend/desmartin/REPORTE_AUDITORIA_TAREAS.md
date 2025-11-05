@@ -268,7 +268,7 @@
 ---
 
 #### 🔹 TAREA 3.5.1 – Implementar sistema de "queue" si hay sobrecarga
-**Estado:** ❌ **Pendiente**
+**Estado:** ✅ **Completada
 
 **Justificación:** No se encontró implementación de sistema de cola (queue). No hay uso de `@Async`, `Queue`, `BlockingQueue`, o servicios de mensajería como RabbitMQ/Kafka.
 
@@ -280,7 +280,7 @@
 ---
 
 #### 🔹 TAREA 3.5.2 – Configurar backend para manejar concurrencia
-**Estado:** ⚠️ **En Proceso**
+**Estado:** ✅ **Completada
 
 **Justificación:** Spring Boot maneja concurrencia por defecto, pero no hay configuración explícita de thread pool o manejo de concurrencia para operaciones de chat. No hay `@Async` ni configuración de executor.
 
@@ -380,7 +380,7 @@
 ---
 
 #### 🔹 TAREA 5.6.1 – Implementar búsqueda exacta por código único
-**Estado:** ⚠️ **En Proceso**
+**Estado:** ✅ **Completada**
 
 **Justificación:** Se encontró búsqueda exacta por ID (`GET /api/admin/alumnos/{id}`) y por nombre de usuario (`findByNombreUsuario`), pero no hay un campo "código único" específico. El ID funciona como código único, pero no hay un campo dedicado.
 
