@@ -176,7 +176,7 @@ public class TestService {
             throw new IllegalArgumentException("Debe enviar idIntento o idAlumno");
         }
         
-        // Guardar cada resultado
+        // Guardar cada resultado.
         for (CrearResultadosRequest.ResultadoRequest resultadoRequest : request.getResultados()) {
             // Verificar que el tipo de inteligencia existe
             TipoInteligencia tipoInteligencia = tipoInteligenciaRepository.findById(resultadoRequest.getIdInteligencia())

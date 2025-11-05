@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// controlador de los resultados del test
 @RestController
 @RequestMapping("/api/test")
 public class TestController {
