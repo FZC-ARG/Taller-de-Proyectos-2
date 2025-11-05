@@ -167,5 +167,38 @@ public class TestService {
             resultadoTestRepository.save(resultado);
         }
     }
+    
+    public CrearResultadosRequest obtenerResultadosPorAlumno(Integer idAlumno) {
+        // Obtener el último intento del alumno
+        List<IntentoTest> intentos = intentoTestRepository.findByAlumno_IdAlumnoOrderByFechaRealizacionDesc(idAlumno);
+        
+        if (intentos.isEmpty()) {
+            throw new RuntimeException("No se encontraron intentos para el alumno con ID: " + idAlumno);
+        }
+        
+        IntentoTest ultimoIntento = intentos.get(0);
+        
+        // Obtener los resultados del último intento
+        List<ResultadoTest> resultados = resultadoTestRepository.findByIntentoId(ultimoIntento.getIdIntento());
+        
+        if (resultados.isEmpty()) {
+            throw new RuntimeException("No se encontraron resultados para el intento con ID: " + ultimoIntento.getIdIntento());
+        }
+        
+        // Formatear los resultados en el formato solicitado
+        List<CrearResultadosRequest.ResultadoRequest> resultadosRequest = resultados.stream()
+            .map(r -> new CrearResultadosRequest.ResultadoRequest(
+                r.getTipoInteligencia().getIdInteligencia(),
+                r.getPuntajeCalculado()
+            ))
+            .collect(Collectors.toList());
+        
+        // Crear y retornar el objeto de respuesta
+        CrearResultadosRequest response = new CrearResultadosRequest();
+        response.setIdIntento(ultimoIntento.getIdIntento());
+        response.setResultados(resultadosRequest);
+        
+        return response;
+    }
 }
 

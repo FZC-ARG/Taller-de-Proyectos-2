@@ -31,5 +31,10 @@ public class TestController {
         testService.crearResultados(request);
         return ResponseEntity.ok("Resultados guardados exitosamente");
     }
+    
+    @GetMapping("/resultados/alumno/{idAlumno}")
+    public ResponseEntity<CrearResultadosRequest> obtenerResultadosPorAlumno(@PathVariable Integer idAlumno) {
+        return ResponseEntity.ok(testService.obtenerResultadosPorAlumno(idAlumno));
+    }
 }
 
