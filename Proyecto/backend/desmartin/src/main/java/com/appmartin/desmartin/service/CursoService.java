@@ -107,4 +107,31 @@ public class CursoService {
                 .map(ac -> ac.getAlumno().getNombreUsuario())
                 .collect(Collectors.toList());
     }
+
+    // Listar cursos por alumno (cursos en los que está matriculado)
+    public List<CursoDTO> listarCursosPorAlumno(Integer idAlumno) {
+        Alumno alumno = alumnoRepository.findById(idAlumno)
+                .orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
+
+        return alumnoCursoRepository.findByAlumno(alumno).stream()
+                .map(ac -> {
+                    Curso curso = ac.getCurso();
+                    return new CursoDTO(curso.getIdCurso(), curso.getNombreCurso(), curso.getDescripcion(), curso.getDocente().getNombreUsuario());
+                })
+                .collect(Collectors.toList());
+    }
+
+    // Listar alumnos por docente (alumnos inscritos en cursos que dicta el docente)
+    public List<String> listarAlumnosPorDocente(Integer idDocente) {
+        Docente docente = docenteRepository.findById(idDocente)
+                .orElseThrow(() -> new RuntimeException("Docente no encontrado"));
+
+        List<Curso> cursos = cursoRepository.findByDocente(docente);
+        
+        return cursos.stream()
+                .flatMap(curso -> alumnoCursoRepository.findByCurso(curso).stream())
+                .map(ac -> ac.getAlumno().getNombreUsuario())
+                .distinct()
+                .collect(Collectors.toList());
+    }
 }

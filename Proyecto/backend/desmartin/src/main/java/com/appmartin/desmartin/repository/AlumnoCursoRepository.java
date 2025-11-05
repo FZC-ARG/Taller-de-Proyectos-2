@@ -1,5 +1,6 @@
 package com.appmartin.desmartin.repository;
 
+import com.appmartin.desmartin.model.Alumno;
 import com.appmartin.desmartin.model.AlumnoCurso;
 import com.appmartin.desmartin.model.AlumnoCursoId;
 import com.appmartin.desmartin.model.Curso;
@@ -10,4 +11,5 @@ import java.util.List;
 @Repository
 public interface AlumnoCursoRepository extends JpaRepository<AlumnoCurso, AlumnoCursoId> {
     List<AlumnoCurso> findByCurso(Curso curso);
+    List<AlumnoCurso> findByAlumno(Alumno alumno);
 }

@@ -335,6 +335,16 @@
                 <input type="number" id="cursoAlumnosId" placeholder="ID Curso">
                 <button onclick="listarAlumnosCurso()">Listar Alumnos del Curso</button>
             </div>
+
+            <div class="form-group inline-inputs">
+                <input type="number" id="alumnoCursosId" placeholder="ID Alumno">
+                <button onclick="listarCursosAlumno()">Listar Cursos del Alumno</button>
+            </div>
+
+            <div class="form-group inline-inputs">
+                <input type="number" id="docenteAlumnosId" placeholder="ID Docente">
+                <button onclick="listarAlumnosDocente()">Listar Alumnos del Docente</button>
+            </div>
         </div>
 
 
@@ -639,6 +649,34 @@
 
             apiCall(`/cursos/${idCurso}/alumnos`, 'GET')
                 .then(data => console.log("Alumnos del curso:", data))
+                .catch(err => console.error("Error al listar alumnos:", err));
+        }
+
+        // Listar cursos de un alumno (cursos en los que está matriculado)
+        function listarCursosAlumno() {
+            const idAlumno = document.getElementById('alumnoCursosId').value.trim();
+
+            if (!idAlumno) {
+                alert("Por favor, ingresa un ID de alumno válido.");
+                return;
+            }
+
+            apiCall(`/cursos/alumno/${idAlumno}/cursos`, 'GET')
+                .then(data => console.log("Cursos del alumno:", data))
+                .catch(err => console.error("Error al listar cursos:", err));
+        }
+
+        // Listar alumnos de un docente (alumnos inscritos en cursos que dicta el docente)
+        function listarAlumnosDocente() {
+            const idDocente = document.getElementById('docenteAlumnosId').value.trim();
+
+            if (!idDocente) {
+                alert("Por favor, ingresa un ID de docente válido.");
+                return;
+            }
+
+            apiCall(`/cursos/docente/${idDocente}/alumnos`, 'GET')
+                .then(data => console.log("Alumnos del docente:", data))
                 .catch(err => console.error("Error al listar alumnos:", err));
         }
 
