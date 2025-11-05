@@ -28,13 +28,13 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `administradores` (
-  `id_admin` int(11) NOT NULL,
-  `nombre_usuario` varchar(255) NOT NULL,
-  `contrasena` varchar(255) NOT NULL,
-  `nombre` varchar(255) NOT NULL,
-  `apellido` varchar(255) NOT NULL
+  `id_admin` INT(11) NOT NULL AUTO_INCREMENT,
+  `nombre_usuario` VARCHAR(255) NOT NULL,
+  `contrasena` VARCHAR(255) NOT NULL,
+  `nombre` VARCHAR(255) NOT NULL,
+  `apellido` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id_admin`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 --
 -- Volcado de datos para la tabla `administradores`
 --
