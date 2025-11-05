@@ -27,6 +27,10 @@ public class ChatSesion {
     @JoinColumn(name = "id_alumno_fk")
     private Alumno alumno;
     
+    @ManyToOne
+    @JoinColumn(name = "id_curso_fk")
+    private Curso curso;
+    
     @Column(name = "titulo_sesion", nullable = false, length = 255)
     private String tituloSesion;
     

@@ -13,6 +13,7 @@ public class ChatSesionDTO {
     private Integer idSesion;
     private Integer idDocente;
     private Integer idAlumno;
+    private Integer idCurso;
     private String tituloSesion;
     private LocalDateTime fechaCreacion;
 }

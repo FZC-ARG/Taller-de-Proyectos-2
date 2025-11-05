@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.appmartin.desmartin.model.IntentoTest;
-
 import java.util.List;
 
 @Repository
@@ -17,4 +15,9 @@ public interface ResultadoTestRepository extends JpaRepository<ResultadoTest, In
     
     @Query("SELECT r FROM ResultadoTest r WHERE r.intentoTest.idIntento = :idIntento")
     List<ResultadoTest> findByIntentoId(@Param("idIntento") Integer idIntento);
+<<<<<<< Updated upstream
 }
+=======
+}
+
+>>>>>>> Stashed changes

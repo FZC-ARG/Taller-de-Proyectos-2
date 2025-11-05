@@ -148,32 +148,16 @@ public class TestService {
     
     @Transactional
     public void crearResultados(CrearResultadosRequest request) {
-        IntentoTest intento;
+        // Verificar que el intento existe
+        IntentoTest intento = intentoTestRepository.findById(request.getIdIntento())
+            .orElseThrow(() -> new RuntimeException("Intento no encontrado"));
 
-        // Caso A: Envían idIntento (opcionalmente idAlumno para validar)
-        if (request.getIdIntento() != null) {
-            intento = intentoTestRepository.findById(request.getIdIntento())
-                .orElseThrow(() -> new RuntimeException("Intento no encontrado"));
-
-            if (request.getIdAlumno() != null) {
-                Integer alumnoIdDeIntento = intento.getAlumno().getIdAlumno();
-                if (!alumnoIdDeIntento.equals(request.getIdAlumno())) {
-                    throw new IllegalArgumentException("El intento " + request.getIdIntento() + " no pertenece al alumno " + request.getIdAlumno());
-                }
+        // Si viene idAlumno en la solicitud, validar que el intento pertenezca a ese alumno
+        if (request.getIdAlumno() != null) {
+            Integer alumnoIdDeIntento = intento.getAlumno().getIdAlumno();
+            if (!alumnoIdDeIntento.equals(request.getIdAlumno())) {
+                throw new IllegalArgumentException("El intento " + request.getIdIntento() + " no pertenece al alumno " + request.getIdAlumno());
             }
-
-        // Caso B: No envían idIntento, pero sí idAlumno → crear intento automáticamente
-        } else if (request.getIdAlumno() != null) {
-            Alumno alumno = alumnoRepository.findById(request.getIdAlumno())
-                .orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
-
-            intento = new IntentoTest();
-            intento.setAlumno(alumno);
-            intento = intentoTestRepository.save(intento);
-
-        } else {
-            // No se envió ni idIntento ni idAlumno
-            throw new IllegalArgumentException("Debe enviar idIntento o idAlumno");
         }
         
         // Guardar cada resultado.

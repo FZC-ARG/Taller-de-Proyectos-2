@@ -114,25 +114,254 @@
             word-wrap: break-word;
         }
 
+        /* Estilos mejorados para Chat */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         .chat-area {
-            background: #f0f0f0;
-            padding: 15px;
-            border-radius: 5px;
-            max-height: 300px;
+            flex: 1;
             overflow-y: auto;
-            margin-bottom: 15px;
+            padding: 20px;
+            background: #f7f7f8;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .chat-area::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-area::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .chat-area::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        .chat-area::-webkit-scrollbar-thumb:hover {
+            background: #555;
         }
 
         .chat-message {
-            background: white;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border-left: 4px solid #667eea;
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            border-radius: 12px;
+            animation: fadeIn 0.3s ease-in;
+            max-width: 85%;
+            word-wrap: break-word;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-message.docente {
+            background: #ffffff;
+            align-self: flex-end;
+            margin-left: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
         }
 
         .chat-message.ia {
-            border-left-color: #f5576c;
+            background: #f0f0f0;
+            align-self: flex-start;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #d0d0d0;
+        }
+
+        .chat-message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .chat-message.docente .chat-message-avatar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .chat-message.ia .chat-message-avatar {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .chat-message-content {
+            flex: 1;
+        }
+
+        .chat-message-text {
+            line-height: 1.6;
+            color: #333;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .chat-message-time {
+            font-size: 11px;
+            color: #999;
+            margin-top: 8px;
+        }
+
+        .chat-input-container {
+            padding: 16px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .chat-input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .chat-input {
+            width: 100%;
+            min-height: 50px;
+            max-height: 150px;
+            padding: 12px 50px 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 24px;
+            font-size: 14px;
+            resize: none;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .chat-send-btn {
+            position: absolute;
+            right: 8px;
+            bottom: 8px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 18px;
+        }
+
+        .chat-send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .chat-send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .chat-session-setup {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .chat-session-type {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .chat-type-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .chat-type-btn.active {
+            border-color: #667eea;
+            background: #f0f4ff;
+            color: #667eea;
+        }
+
+        .chat-session-info {
+            background: #f0f4ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #667eea;
+        }
+
+        .chat-loading {
+            display: flex;
+            gap: 4px;
+            padding: 12px;
+            align-items: center;
+            color: #999;
+        }
+
+        .chat-loading-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #999;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .chat-loading-dot:nth-child(1) { animation-delay: -0.32s; }
+        .chat-loading-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
         }
 
         .inline-inputs {
@@ -358,7 +587,7 @@
             </div>
             <div class="form-group">
                 <label>Respuestas (JSON):</label>
-                <textarea id="testRespuestas" rows="5" placeholder='[{"idPregunta": 1, "puntaje": 5}, {"idPregunta": 2, "puntaje": 3}]'></textarea>
+                <textarea id="testRespuestas" rows="5" placeholder="[{&quot;idPregunta&quot;: 1, &quot;puntaje&quot;: 5}, {&quot;idPregunta&quot;: 2, &quot;puntaje&quot;: 3}]"></textarea>
             </div>
             <button onclick="completarTest()">Completar Test</button>
         </div>
@@ -372,35 +601,155 @@
                 <button onclick="obtenerHistorialResultados()">Historial</button>
             </div>
             <button onclick="listarLogs()">Ver Logs de Acceso</button>
+            
+            <hr style="margin: 20px 0;">
+            <h3>📥 Obtener Resultados del Test (Formato para IA)</h3>
+            <div class="form-group inline-inputs">
+                <input type="number" id="resultadosTestAlumnoId" placeholder="ID Alumno">
+                <button onclick="obtenerResultadosTest()">Obtener Resultados</button>
+            </div>
+            <div id="resultadosTestContainer" style="display: none; margin-top: 15px; padding: 15px; background: #f0f4ff; border-radius: 8px; border: 2px solid #667eea;">
+                <h4 style="color: #667eea; margin-bottom: 10px;">📋 Resultados Obtenidos:</h4>
+                <pre id="resultadosTestDisplay" style="background: white; padding: 15px; border-radius: 5px; overflow-x: auto; max-height: 300px; overflow-y: auto; font-size: 12px; line-height: 1.5;"></pre>
+                <button onclick="copiarResultadosTest()" style="margin-top: 10px; background: #667eea; color: white; padding: 8px 20px; border: none; border-radius: 5px; cursor: pointer;">📋 Copiar JSON</button>
+            </div>
+            
+            <hr style="margin: 20px 0;">
+            <h3>📤 Crear/Guardar Resultados del Test</h3>
+            <div class="form-group">
+                <label>ID Intento:</label>
+                <input type="number" id="crearResultadoIdIntento" placeholder="Ejemplo: 1">
+            </div>
+            <div class="form-group">
+                <label>Resultados (JSON):</label>
+                <textarea id="crearResultadoJson" rows="8" placeholder="[{&quot;idInteligencia&quot;: 1, &quot;puntajeCalculado&quot;: 5}, {&quot;idInteligencia&quot;: 2, &quot;puntajeCalculado&quot;: 4.5}]"></textarea>
+                <small style="color: #666; font-size: 12px; display: block; margin-top: 5px;">
+                    Formato: Array de objetos con "idInteligencia" y "puntajeCalculado"
+                </small>
+            </div>
+            <button onclick="crearResultadosTest()">💾 Guardar Resultados</button>
         </div>
 
         <!-- Chat con IA -->
         <div class="section">
-            <h2>💬 Chat con IA</h2>
-            <div class="form-group">
-                <label>ID Docente:</label>
-                <input type="number" id="chatDocenteId" placeholder="1">
+            <h2>💬 Chat con IA - DeepSeek</h2>
+            
+            <!-- Configuración de Sesión -->
+            <div class="chat-session-setup">
+                <div class="form-group">
+                    <label>ID Docente:</label>
+                    <input type="number" id="chatDocenteId" placeholder="Ejemplo: 1">
+                </div>
+                
+                <div class="chat-session-type">
+                    <button class="chat-type-btn active" id="btnChatIndividual" onclick="seleccionarTipoChat('individual')">
+                        👤 Chat Individual (Alumno)
+                    </button>
+                    <button class="chat-type-btn" id="btnChatGrupal" onclick="seleccionarTipoChat('grupal')">
+                        👥 Chat Grupal (Curso)
+                    </button>
+                </div>
+                
+                <div id="chatIndividualConfig">
+                    <div class="form-group">
+                        <label>ID Alumno:</label>
+                        <input type="number" id="chatAlumnoId" placeholder="Ejemplo: 1">
+                    </div>
+                </div>
+                
+                <div id="chatGrupalConfig" style="display: none;">
+                    <div class="form-group">
+                        <label>ID Curso:</label>
+                        <input type="number" id="chatCursoId" placeholder="Ejemplo: 1">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Título de la Sesión:</label>
+                    <input type="text" id="chatTitulo" placeholder="Ejemplo: Consulta sobre resultados del test">
+                </div>
+                
+                <button onclick="crearSesionChat()" style="width: 100%;">🚀 Crear Sesión de Chat</button>
+                
+                <div id="chatSessionInfo" class="chat-session-info" style="display: none;">
+                    <strong>✓ Sesión creada:</strong> <span id="sessionInfoText"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label>ID Alumno (opcional):</label>
-                <input type="number" id="chatAlumnoId" placeholder="1">
+            
+            <!-- Chat Container -->
+            <div class="chat-container" id="chatContainer" style="display: none;">
+                <div class="chat-header">
+                    <span id="chatTitle">💬 Chat con IA</span>
+                    <button onclick="cerrarChat()" style="background: rgba(255,255,255,0.2); padding: 5px 15px; border: none; border-radius: 5px; color: white; cursor: pointer;">Cerrar</button>
+                </div>
+                
+                <div id="chatMessages" class="chat-area">
+                    <div style="text-align: center; color: #999; padding: 40px;">
+                        <p>💡 Escribe un mensaje para comenzar la conversación</p>
+                        <p style="font-size: 12px; margin-top: 10px;">La IA responderá con contexto personalizado del alumno o curso</p>
+                    </div>
+                </div>
+                
+                <div class="chat-input-container">
+                    <div class="chat-input-wrapper">
+                        <textarea 
+                            id="mensajeContenido" 
+                            class="chat-input" 
+                            placeholder="Escribe tu mensaje aquí... (Presiona Enter para enviar, Shift+Enter para nueva línea)"
+                            rows="1"
+                            onkeydown="handleChatKeyDown(event)"></textarea>
+                        <button class="chat-send-btn" onclick="enviarMensaje()" id="btnEnviarChat" title="Enviar mensaje">
+                            ➤
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Título Sesión:</label>
-                <input type="text" id="chatTitulo" placeholder="Consulta sobre resultados">
+            
+            <!-- Opciones adicionales -->
+            <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                <h3 style="font-size: 14px; margin-bottom: 12px; color: #666;">🔧 Opciones Adicionales</h3>
+                <div class="form-group inline-inputs" style="margin-bottom: 10px;">
+                    <input type="number" id="sesionId" placeholder="ID Sesión existente">
+                    <button onclick="cargarSesionExistente()">📂 Cargar Sesión</button>
+                    <button onclick="limpiarChat()">🗑️ Limpiar</button>
+                </div>
+                
+                <hr style="margin: 15px 0;">
+                <h4 style="font-size: 13px; margin-bottom: 10px; color: #666;">📋 Consultas de Chat</h4>
+                <div class="form-group inline-inputs" style="margin-bottom: 10px;">
+                    <input type="number" id="chatDocenteIdConsulta" placeholder="ID Docente">
+                    <button onclick="listarSesionesPorDocente()">📋 Listar Sesiones por Docente</button>
+                </div>
+                <div class="form-group inline-inputs" style="margin-bottom: 10px;">
+                    <input type="number" id="chatCursoIdConsulta" placeholder="ID Curso">
+                    <button onclick="listarSesionesPorCurso()">📋 Listar Sesiones por Curso</button>
+                </div>
+                <div class="form-group inline-inputs" style="margin-bottom: 10px;">
+                    <input type="number" id="chatAlumnoIdConsulta" placeholder="ID Alumno">
+                    <button onclick="listarSesionesPorAlumno()">📋 Listar Sesiones por Alumno</button>
+                </div>
+                
+                <hr style="margin: 15px 0;">
+                <h4 style="font-size: 13px; margin-bottom: 10px; color: #666;">✏️ Gestión de Mensajes</h4>
+                <div class="form-group inline-inputs" style="margin-bottom: 10px;">
+                    <input type="number" id="mensajeIdEditar" placeholder="ID Mensaje">
+                    <input type="text" id="mensajeContenidoEditar" placeholder="Nuevo contenido" style="flex: 2;">
+                    <button onclick="actualizarMensajeChat()">✏️ Actualizar Mensaje</button>
+                </div>
+                <div class="form-group inline-inputs">
+                    <input type="number" id="mensajeIdEliminar" placeholder="ID Mensaje">
+                    <button class="btn-danger" onclick="eliminarMensajeChat()">🗑️ Eliminar Mensaje</button>
+                </div>
             </div>
-            <button onclick="crearSesionChat()">Crear Sesión</button>
+        </div>
+
+        <!-- Docente - Resultados de Alumnos -->
+        <div class="section">
+            <h2>👨‍🏫 Docente - Resultados de Alumnos</h2>
             <div class="form-group inline-inputs">
-                <input type="number" id="sesionId" placeholder="ID Sesión">
-                <button onclick="obtenerSesion()">Ver Sesión</button>
-                <button onclick="obtenerMensajes()">Ver Mensajes</button>
+                <input type="number" id="docenteResultadoAlumnoId" placeholder="ID Alumno">
+                <button onclick="obtenerResultadosAlumnoDocente()">Ver Resultados del Alumno</button>
             </div>
-            <div class="form-group">
-                <label>Mensaje:</label>
-                <textarea id="mensajeContenido" rows="3" placeholder="Escribe tu mensaje aquí..."></textarea>
-            </div>
-            <button onclick="enviarMensaje()">Enviar Mensaje</button>
-            <div id="chatMessages" class="chat-area" style="margin-top: 20px;"></div>
         </div>
     </div>
 
@@ -412,9 +761,10 @@
         }
 
         async function apiCall(endpoint, method = 'GET', body = null) {
+            
             try {
                 const options = {
-                    method,
+                    method: method,
                     headers: {
                         'Content-Type': 'application/json'
                     }
@@ -707,26 +1057,222 @@
             apiCall('/admin/logs');
         }
 
-        // Chat
+        // ================= RESULTADOS DEL TEST =================
+        
+        function obtenerResultadosTest() {
+            const alumnoId = document.getElementById('resultadosTestAlumnoId').value.trim();
+            
+            if (!alumnoId) {
+                alert("Por favor, ingresa un ID de alumno válido.");
+                return;
+            }
+            
+            apiCall(`/test/resultados/alumno/${alumnoId}`, 'GET')
+                .then(data => {
+                    if (data) {
+                        // Mostrar el contenedor
+                        document.getElementById('resultadosTestContainer').style.display = 'block';
+                        
+                        // Formatear y mostrar el JSON
+                        const jsonFormateado = JSON.stringify(data, null, 2);
+                        document.getElementById('resultadosTestDisplay').textContent = jsonFormateado;
+                        
+                        // Guardar los datos para poder copiarlos
+                        window.resultadosTestData = jsonFormateado;
+                        
+                        showResponse(data);
+                    }
+                })
+                .catch(err => {
+                    alert('Error al obtener resultados: ' + (err.message || 'Error desconocido'));
+                    console.error("Error al obtener resultados:", err);
+                });
+        }
+        
+        function copiarResultadosTest() {
+            if (window.resultadosTestData) {
+                navigator.clipboard.writeText(window.resultadosTestData).then(() => {
+                    alert('✅ Resultados copiados al portapapeles');
+                }).catch(err => {
+                    alert('Error al copiar: ' + err.message);
+                });
+            } else {
+                alert('No hay resultados para copiar. Primero obtén los resultados de un alumno.');
+            }
+        }
+        
+        function crearResultadosTest() {
+            const idIntento = document.getElementById('crearResultadoIdIntento').value.trim();
+            const resultadosJson = document.getElementById('crearResultadoJson').value.trim();
+            
+            if (!idIntento) {
+                alert('Por favor, ingresa el ID del intento');
+                return;
+            }
+            
+            if (!resultadosJson) {
+                alert('Por favor, ingresa los resultados en formato JSON');
+                return;
+            }
+            
+            try {
+                const resultados = JSON.parse(resultadosJson);
+                
+                // Validar estructura
+                if (!Array.isArray(resultados)) {
+                    throw new Error('Los resultados deben ser un array');
+                }
+                
+                resultados.forEach((r, index) => {
+                    if (!r.idInteligencia || r.puntajeCalculado === undefined) {
+                        throw new Error(`El resultado en el índice ${index} debe tener "idInteligencia" y "puntajeCalculado"`);
+                    }
+                });
+                
+                const requestData = {
+                    idIntento: parseInt(idIntento),
+                    resultados: resultados
+                };
+                
+                apiCall('/test/resultados', 'POST', requestData)
+                    .then(data => {
+                        alert('✅ Resultados guardados exitosamente');
+                        // Limpiar campos
+                        document.getElementById('crearResultadoIdIntento').value = '';
+                        document.getElementById('crearResultadoJson').value = '';
+                    })
+                    .catch(err => {
+                        alert('Error al guardar resultados: ' + (err.message || 'Error desconocido'));
+                        console.error("Error al guardar resultados:", err);
+                    });
+                    
+            } catch (error) {
+                alert('Error en el formato JSON: ' + error.message);
+                console.error("Error al parsear JSON:", error);
+            }
+        }
+
+        // ================= CHAT CON IA =================
+        let currentSessionId = null;
+        let chatType = 'individual'; // 'individual' o 'grupal'
+        let autoRefreshInterval = null;
+
+        function seleccionarTipoChat(tipo) {
+            chatType = tipo;
+            document.getElementById('btnChatIndividual').classList.toggle('active', tipo === 'individual');
+            document.getElementById('btnChatGrupal').classList.toggle('active', tipo === 'grupal');
+            document.getElementById('chatIndividualConfig').style.display = tipo === 'individual' ? 'block' : 'none';
+            document.getElementById('chatGrupalConfig').style.display = tipo === 'grupal' ? 'block' : 'none';
+        }
+
         function crearSesionChat() {
             const docenteId = document.getElementById('chatDocenteId').value;
-            const alumnoId = document.getElementById('chatAlumnoId').value;
             const titulo = document.getElementById('chatTitulo').value;
-            apiCall('/chat/sesiones', 'POST', {
+            
+            if (!docenteId || !titulo) {
+                alert('Por favor, completa todos los campos requeridos');
+                return;
+            }
+            
+            const requestData = {
                 idDocente: parseInt(docenteId),
-                idAlumno: alumnoId ? parseInt(alumnoId) : null,
                 tituloSesion: titulo
+            };
+            
+            if (chatType === 'individual') {
+                const alumnoId = document.getElementById('chatAlumnoId').value;
+                if (!alumnoId) {
+                    alert('Por favor, ingresa el ID del alumno');
+                    return;
+                }
+                requestData.idAlumno = parseInt(alumnoId);
+                requestData.idCurso = null;
+            } else {
+                const cursoId = document.getElementById('chatCursoId').value;
+                if (!cursoId) {
+                    alert('Por favor, ingresa el ID del curso');
+                    return;
+                }
+                requestData.idCurso = parseInt(cursoId);
+                requestData.idAlumno = null;
+            }
+            
+            apiCall('/chat/sesiones', 'POST', requestData).then(data => {
+                if (data && data.idSesion) {
+                    currentSessionId = data.idSesion;
+                    document.getElementById('sesionId').value = data.idSesion;
+                    document.getElementById('sessionInfoText').textContent = 
+                        `Sesión #${data.idSesion} - ${chatType === 'individual' ? 'Chat Individual' : 'Chat Grupal'}`;
+                    document.getElementById('chatSessionInfo').style.display = 'block';
+                    document.getElementById('chatContainer').style.display = 'flex';
+                    document.getElementById('chatTitle').textContent = `💬 ${titulo}`;
+                    
+                    // Limpiar mensajes previos
+                    document.getElementById('chatMessages').innerHTML = 
+                        '<div style="text-align: center; color: #999; padding: 40px;"><p>💡 Escribe un mensaje para comenzar la conversación</p></div>';
+                    
+                    // Iniciar auto-refresh
+                    iniciarAutoRefresh();
+                    
+                    // Mostrar mensaje de bienvenida
+                    mostrarMensajeBienvenida();
+                }
+            });
+        }
+
+        function mostrarMensajeBienvenida() {
+            const mensaje = {
+                emisor: 'ia',
+                contenido: chatType === 'individual' 
+                    ? '¡Hola! Soy tu asistente educativo. Estoy listo para ayudarte a interpretar y aplicar los resultados del test de inteligencias múltiples del estudiante. ¿En qué puedo ayudarte?'
+                    : '¡Hola! Soy tu asistente educativo. Estoy listo para ayudarte con estrategias pedagógicas grupales basadas en el perfil de inteligencias del curso. ¿En qué puedo ayudarte?',
+                fechaHoraEnvio: new Date().toISOString()
+            };
+            agregarMensajeAlChat(mensaje);
+        }
+
+        function cargarSesionExistente() {
+            const sesionId = document.getElementById('sesionId').value;
+            if (!sesionId) {
+                alert('Por favor, ingresa el ID de la sesión');
+                return;
+            }
+            
+            apiCall(`/chat/sesiones/${sesionId}`).then(data => {
+                if (data && data.idSesion) {
+                    currentSessionId = data.idSesion;
+                    document.getElementById('chatTitle').textContent = `💬 ${data.tituloSesion}`;
+                    document.getElementById('chatContainer').style.display = 'flex';
+                    document.getElementById('sessionInfoText').textContent = 
+                        `Sesión #${data.idSesion} - ${data.idAlumno ? 'Chat Individual' : 'Chat Grupal'}`;
+                    document.getElementById('chatSessionInfo').style.display = 'block';
+                    
+                    obtenerMensajes();
+                    iniciarAutoRefresh();
+                }
             });
         }
 
         function obtenerSesion() {
             const sesionId = document.getElementById('sesionId').value;
+            if (!sesionId) {
+                alert('Por favor, ingresa el ID de la sesión');
+                return;
+            }
             apiCall(`/chat/sesiones/${sesionId}`);
         }
 
         function obtenerMensajes() {
-            const sesionId = document.getElementById('sesionId').value;
-            apiCall(`/chat/sesiones/${sesionId}/mensajes`).then(data => {
+            if (!currentSessionId) {
+                const sesionId = document.getElementById('sesionId').value;
+                if (!sesionId) {
+                    alert('Por favor, crea o carga una sesión primero');
+                    return;
+                }
+                currentSessionId = sesionId;
+            }
+            
+            apiCall(`/chat/sesiones/${currentSessionId}/mensajes`).then(data => {
                 if (Array.isArray(data)) {
                     displayMessages(data);
                 }
@@ -734,24 +1280,335 @@
         }
 
         function enviarMensaje() {
-            const sesionId = document.getElementById('sesionId').value;
-            const contenido = document.getElementById('mensajeContenido').value;
-            apiCall(`/chat/sesiones/${sesionId}/mensajes`, 'POST', { contenido }).then(() => {
-                document.getElementById('mensajeContenido').value = '';
-                obtenerMensajes();
-            });
+            if (!currentSessionId) {
+                alert('Por favor, crea o carga una sesión primero');
+                return;
+            }
+            
+            const contenido = document.getElementById('mensajeContenido').value.trim();
+            if (!contenido) {
+                return;
+            }
+            
+            // Mostrar mensaje del usuario inmediatamente
+            const mensajeUsuario = {
+                emisor: 'docente',
+                contenido: contenido,
+                fechaHoraEnvio: new Date().toISOString()
+            };
+            agregarMensajeAlChat(mensajeUsuario);
+            
+            // Limpiar input
+            document.getElementById('mensajeContenido').value = '';
+            ajustarAlturaInput();
+            
+            // Deshabilitar botón mientras se procesa
+            const btnEnviar = document.getElementById('btnEnviarChat');
+            btnEnviar.disabled = true;
+            
+            // Mostrar indicador de carga
+            mostrarIndicadorCarga();
+            
+            // Enviar mensaje
+            apiCall(`/chat/sesiones/${currentSessionId}/mensajes`, 'POST', { contenido })
+                .then(data => {
+                    if (data && data.idMensaje) {
+                        obtenerMensajes(); 
+                    }
+                })
+                .catch(error => {
+                    ocultarIndicadorCarga();
+                    btnEnviar.disabled = false;
+                    alert('Error al enviar mensaje: ' + error.message);
+                })
+                .finally(() => {
+                    ocultarIndicadorCarga();
+                    btnEnviar.disabled = false;
+                });
         }
 
         function displayMessages(messages) {
             const chatArea = document.getElementById('chatMessages');
+            
+            if (!messages || messages.length === 0) {
+                chatArea.innerHTML = 
+                    '<div style="text-align: center; color: #999; padding: 40px;"><p>💡 Escribe un mensaje para comenzar la conversación</p></div>';
+                return;
+            }
+            
             chatArea.innerHTML = '';
             messages.forEach(msg => {
-                const div = document.createElement('div');
-                div.className = `chat-message ${msg.emisor}`;
-                div.innerHTML = `<strong>${msg.emisor.toUpperCase()}:</strong> ${msg.contenido}<br><small>${new Date(msg.fechaHoraEnvio).toLocaleString()}</small>`;
-                chatArea.appendChild(div);
+                agregarMensajeAlChat(msg);
             });
+            
+            // Scroll al final
+            chatArea.scrollTop = chatArea.scrollHeight;
         }
+
+        function agregarMensajeAlChat(msg) {
+            const chatArea = document.getElementById('chatMessages');
+            
+            // Remover mensaje de bienvenida si existe
+            const welcomeMsg = chatArea.querySelector('div[style*="text-align: center"]');
+            if (welcomeMsg) {
+                welcomeMsg.remove();
+            }
+            
+            const div = document.createElement('div');
+            div.className = `chat-message ${msg.emisor}`;
+            
+            const avatar = msg.emisor === 'docente' ? '👤' : '🤖';
+            const nombre = msg.emisor === 'docente' ? 'Docente' : 'IA';
+            const fecha = new Date(msg.fechaHoraEnvio).toLocaleString('es-ES', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            div.innerHTML = `
+                <div class="chat-message-avatar">${avatar}</div>
+                <div class="chat-message-content">
+                    <div class="chat-message-text">${escapeHtml(msg.contenido)}</div>
+                    <div class="chat-message-time">${fecha}</div>
+                </div>
+            `;
+            
+            chatArea.appendChild(div);
+            
+            // Scroll suave al final
+            setTimeout(() => {
+                chatArea.scrollTo({
+                    top: chatArea.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }, 100);
+        }
+
+        function mostrarIndicadorCarga() {
+            const chatArea = document.getElementById('chatMessages');
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'chatLoadingIndicator';
+            loadingDiv.className = 'chat-message ia';
+            loadingDiv.innerHTML = `
+                <div class="chat-message-avatar">🤖</div>
+                <div class="chat-message-content">
+                    <div class="chat-loading">
+                        <div class="chat-loading-dot"></div>
+                        <div class="chat-loading-dot"></div>
+                        <div class="chat-loading-dot"></div>
+                        <span style="margin-left: 8px;">La IA está pensando...</span>
+                    </div>
+                </div>
+            `;
+            chatArea.appendChild(loadingDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function ocultarIndicadorCarga() {
+            const loadingDiv = document.getElementById('chatLoadingIndicator');
+            if (loadingDiv) {
+                loadingDiv.remove();
+            }
+        }
+
+        function handleChatKeyDown(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                enviarMensaje();
+            }
+        }
+
+        function ajustarAlturaInput() {
+            const input = document.getElementById('mensajeContenido');
+            input.style.height = 'auto';
+            input.style.height = Math.min(input.scrollHeight, 150) + 'px';
+        }
+        function iniciarAutoRefresh() {
+            // Si ya hay un intervalo activo, detenerlo antes de iniciar otro
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                console.log('⏹ Intervalo anterior detenido');
+            }
+        
+            // Evitar iniciar si no hay sesión activa
+            if (!currentSessionId) {
+                console.warn('⚠️ No hay sesión activa para auto-refresh');
+                return;
+            }
+        
+            console.log('🔁 Auto-refresh iniciado para sesión', currentSessionId);
+        
+            // Crear un único intervalo
+            autoRefreshInterval = setInterval(() => {
+                obtenerMensajes();
+            }, 90000); // 90 segundos (ajústalo si quieres)
+        }
+        
+        function cerrarChat() {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+                console.log('🧹 Intervalo limpiado al cerrar chat');
+            }
+            document.getElementById('chatContainer').style.display = 'none';
+            currentSessionId = null;
+        }
+        
+        function limpiarChat() {
+            document.getElementById('chatMessages').innerHTML = 
+                '<div style="text-align: center; color: #999; padding: 40px;"><p>💡 Escribe un mensaje para comenzar la conversación</p></div>';
+            document.getElementById('mensajeContenido').value = '';
+            ajustarAlturaInput();
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ================= FUNCIONES ADICIONALES DE CHAT =================
+        
+        function listarSesionesPorDocente() {
+            const docenteId = document.getElementById('chatDocenteIdConsulta').value.trim();
+            if (!docenteId) {
+                alert('Por favor, ingresa el ID del docente');
+                return;
+            }
+            apiCall(`/chat/sesiones/docente/${docenteId}`, 'GET')
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        showResponse(data);
+                        alert(`Se encontraron ${data.length} sesiones`);
+                    }
+                })
+                .catch(err => {
+                    alert('Error al listar sesiones: ' + (err.message || 'Error desconocido'));
+                    console.error("Error al listar sesiones:", err);
+                });
+        }
+        
+        function listarSesionesPorCurso() {
+            const cursoId = document.getElementById('chatCursoIdConsulta').value.trim();
+            if (!cursoId) {
+                alert('Por favor, ingresa el ID del curso');
+                return;
+            }
+            apiCall(`/chat/sesiones/curso/${cursoId}`, 'GET')
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        showResponse(data);
+                        alert(`Se encontraron ${data.length} sesiones`);
+                    }
+                })
+                .catch(err => {
+                    alert('Error al listar sesiones: ' + (err.message || 'Error desconocido'));
+                    console.error("Error al listar sesiones:", err);
+                });
+        }
+        
+        function listarSesionesPorAlumno() {
+            const alumnoId = document.getElementById('chatAlumnoIdConsulta').value.trim();
+            if (!alumnoId) {
+                alert('Por favor, ingresa el ID del alumno');
+                return;
+            }
+            apiCall(`/chat/sesiones/alumno/${alumnoId}`, 'GET')
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        showResponse(data);
+                        alert(`Se encontraron ${data.length} sesiones`);
+                    }
+                })
+                .catch(err => {
+                    alert('Error al listar sesiones: ' + (err.message || 'Error desconocido'));
+                    console.error("Error al listar sesiones:", err);
+                });
+        }
+        
+        function actualizarMensajeChat() {
+            const mensajeId = document.getElementById('mensajeIdEditar').value.trim();
+            const contenido = document.getElementById('mensajeContenidoEditar').value.trim();
+            
+            if (!mensajeId) {
+                alert('Por favor, ingresa el ID del mensaje');
+                return;
+            }
+            
+            if (!contenido) {
+                alert('Por favor, ingresa el nuevo contenido del mensaje');
+                return;
+            }
+            
+            apiCall(`/chat/mensajes/${mensajeId}`, 'PUT', { contenido })
+                .then(data => {
+                    alert('✅ Mensaje actualizado exitosamente');
+                    document.getElementById('mensajeIdEditar').value = '';
+                    document.getElementById('mensajeContenidoEditar').value = '';
+                    showResponse(data);
+                })
+                .catch(err => {
+                    alert('Error al actualizar mensaje: ' + (err.message || 'Error desconocido'));
+                    console.error("Error al actualizar mensaje:", err);
+                });
+        }
+        
+        function eliminarMensajeChat() {
+            const mensajeId = document.getElementById('mensajeIdEliminar').value.trim();
+            
+            if (!mensajeId) {
+                alert('Por favor, ingresa el ID del mensaje');
+                return;
+            }
+            
+            if (!confirm('¿Estás seguro de que deseas eliminar este mensaje?')) {
+                return;
+            }
+            
+            apiCall(`/chat/mensajes/${mensajeId}`, 'DELETE')
+                .then(() => {
+                    alert('✅ Mensaje eliminado exitosamente');
+                    document.getElementById('mensajeIdEliminar').value = '';
+                    showResponse({ message: 'Mensaje eliminado' });
+                })
+                .catch(err => {
+                    alert('Error al eliminar mensaje: ' + (err.message || 'Error desconocido'));
+                    console.error("Error al eliminar mensaje:", err);
+                });
+        }
+
+        // ================= DOCENTE - RESULTADOS DE ALUMNOS =================
+        
+        function obtenerResultadosAlumnoDocente() {
+            const alumnoId = document.getElementById('docenteResultadoAlumnoId').value.trim();
+            
+            if (!alumnoId) {
+                alert('Por favor, ingresa el ID del alumno');
+                return;
+            }
+            
+            apiCall(`/docente/alumnos/${alumnoId}/resultados`, 'GET')
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        showResponse(data);
+                        alert(`Se encontraron ${data.length} resultados`);
+                    }
+                })
+                .catch(err => {
+                    alert('Error al obtener resultados: ' + (err.message || 'Error desconocido'));
+                    console.error("Error al obtener resultados:", err);
+                });
+        }
+
+        // Ajustar altura del textarea automáticamente
+        document.addEventListener('DOMContentLoaded', () => {
+            const input = document.getElementById('mensajeContenido');
+            if (input) {
+                input.addEventListener('input', ajustarAlturaInput);
+            }
+        });
     </script>
 </body>
 </html>

@@ -50,5 +50,17 @@ public class ChatController {
     public ResponseEntity<List<ChatMensajeDTO>> obtenerMensajesPorSesion(@PathVariable Integer idSesion) {
         return ResponseEntity.ok(chatService.obtenerMensajesPorSesion(idSesion));
     }
+    
+    // Nuevos endpoints para soporte de chats por curso
+    
+    @GetMapping("/sesiones/curso/{idCurso}")
+    public ResponseEntity<List<ChatSesionDTO>> obtenerSesionesPorCurso(@PathVariable Integer idCurso) {
+        return ResponseEntity.ok(chatService.obtenerSesionesPorCurso(idCurso));
+    }
+    
+    @GetMapping("/sesiones/alumno/{idAlumno}")
+    public ResponseEntity<List<ChatSesionDTO>> obtenerSesionesPorAlumno(@PathVariable Integer idAlumno) {
+        return ResponseEntity.ok(chatService.obtenerSesionesPorAlumno(idAlumno));
+    }
 }
 

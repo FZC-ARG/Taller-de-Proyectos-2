@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CrearChatSesionRequest {
     private Integer idDocente;
-    private Integer idAlumno;
+    private Integer idAlumno;  // NULL para chats grupales
+    private Integer idCurso;   // NULL para chats individuales
     private String tituloSesion;
 }
 
