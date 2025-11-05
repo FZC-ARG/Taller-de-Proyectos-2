@@ -1,7 +1,6 @@
 package com.appmartin.desmartin.controller;
 
 import com.appmartin.desmartin.dto.*;
-import com.appmartin.desmartin.model.Administrador;
 import com.appmartin.desmartin.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +36,11 @@ public class AdminController {
     public ResponseEntity<List<AdministradorDTO>> listarAdministradores() {
         return ResponseEntity.ok(adminService.listarAdministradores());
     }
+
+    @GetMapping("/administradores/{id}")
+    public ResponseEntity<AdministradorDTO> obtenerAdministrador(@PathVariable Integer id) {
+        return ResponseEntity.ok(adminService.obtenerAdministradorPorId(id));
+    }
     // Docentes
     @PostMapping("/docentes")
     public ResponseEntity<DocenteDTO> crearDocente(@RequestBody CrearDocenteRequest request) {
@@ -57,6 +61,11 @@ public class AdminController {
     @GetMapping("/docentes")
     public ResponseEntity<List<DocenteDTO>> listarDocentes() {
         return ResponseEntity.ok(adminService.listarDocentes());
+    }
+
+    @GetMapping("/docentes/{id}")
+    public ResponseEntity<DocenteDTO> obtenerDocente(@PathVariable Integer id) {
+        return ResponseEntity.ok(adminService.obtenerDocentePorId(id));
     }
     
     // Alumnos
@@ -79,6 +88,11 @@ public class AdminController {
     @GetMapping("/alumnos")
     public ResponseEntity<List<AlumnoDTO>> listarAlumnos() {
         return ResponseEntity.ok(adminService.listarAlumnos());
+    }
+
+    @GetMapping("/alumnos/{id}")
+    public ResponseEntity<AlumnoDTO> obtenerAlumno(@PathVariable Integer id) {
+        return ResponseEntity.ok(adminService.obtenerAlumnoPorId(id));
     }
     
     // Logs

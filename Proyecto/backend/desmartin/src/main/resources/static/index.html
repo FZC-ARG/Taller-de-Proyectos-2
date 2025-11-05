@@ -455,6 +455,7 @@
                 <input type="number" id="adminId" placeholder="ID para actualizar/eliminar">
                 <button onclick="actualizarAdmin()">Actualizar</button>
                 <button class="btn-danger" onclick="eliminarAdmin()">Eliminar</button>
+                <button onclick="verAdminPorId()">Ver por ID</button>
             </div>
         </div>
 
@@ -483,6 +484,7 @@
                 <input type="number" id="docenteId" placeholder="ID para actualizar/eliminar">
                 <button onclick="actualizarDocente()">Actualizar</button>
                 <button class="btn-danger" onclick="eliminarDocente()">Eliminar</button>
+                <button onclick="verDocentePorId()">Ver por ID</button>
             </div>
         </div>
         <!-- Gestión de Alumnos -->
@@ -514,6 +516,7 @@
                 <input type="number" id="alumnoId" placeholder="ID para actualizar/eliminar">
                 <button onclick="actualizarAlumno()">Actualizar</button>
                 <button class="btn-danger" onclick="eliminarAlumno()">Eliminar</button>
+                <button onclick="verAlumnoPorId()">Ver por ID</button>
             </div>
         </div>
         <!-- Gestión de Cursos -->
@@ -841,6 +844,12 @@
             apiCall(`/admin/administradores/${id}`, 'DELETE');
         }
 
+        function verAdminPorId() {
+            const id = document.getElementById('adminId').value;
+            if (!id) { alert('Ingresa el ID del admin'); return; }
+            apiCall(`/admin/administradores/${id}`, 'GET');
+        }
+
         // ================= DOCENTES =================
         function crearDocente() {
             const usuario = document.getElementById('docenteNombreUsuario').value.trim();
@@ -878,6 +887,13 @@
         function eliminarDocente() {
             const id = document.getElementById('docenteId').value;
             apiCall(`/admin/docentes/${id}`, 'DELETE');
+        }
+
+        function verDocentePorId() {
+            const id = document.getElementById('docenteId').value;
+            if (!id) { alert('Ingresa el ID del docente'); return; }
+            // Preferimos el endpoint específico del controlador de docente
+            apiCall(`/docente/${id}`, 'GET');
         }
 
         // ================= ALUMNOS =================
@@ -921,6 +937,12 @@
         function eliminarAlumno() {
             const id = document.getElementById('alumnoId').value;
             apiCall(`/admin/alumnos/${id}`, 'DELETE');
+        }
+
+        function verAlumnoPorId() {
+            const id = document.getElementById('alumnoId').value;
+            if (!id) { alert('Ingresa el ID del alumno'); return; }
+            apiCall(`/alumno/${id}`, 'GET');
         }
 
     // ==========================

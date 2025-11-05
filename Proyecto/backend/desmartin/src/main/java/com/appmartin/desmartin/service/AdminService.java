@@ -81,6 +81,17 @@ public class AdminService {
                 .collect(Collectors.toList());
     }
 
+    public AdministradorDTO obtenerAdministradorPorId(Integer id) {
+        Administrador admin = administradorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Administrador no encontrado"));
+        return new AdministradorDTO(
+                admin.getIdAdmin(),
+                admin.getNombreUsuario(),
+                admin.getNombre(),
+                admin.getApellido()
+        );
+    }
+
 
     // ================= DOCENTES =================
     public DocenteDTO crearDocente(CrearDocenteRequest request) {
@@ -134,6 +145,17 @@ public class AdminService {
                         d.getApellido()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    public DocenteDTO obtenerDocentePorId(Integer id) {
+        Docente docente = docenteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Docente no encontrado"));
+        return new DocenteDTO(
+                docente.getIdDocente(),
+                docente.getNombreUsuario(),
+                docente.getNombre(),
+                docente.getApellido()
+        );
     }
 
 
@@ -194,6 +216,18 @@ public class AdminService {
                         a.getFechaNacimiento()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    public AlumnoDTO obtenerAlumnoPorId(Integer id) {
+        Alumno alumno = alumnoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
+        return new AlumnoDTO(
+                alumno.getIdAlumno(),
+                alumno.getNombreUsuario(),
+                alumno.getNombre(),
+                alumno.getApellido(),
+                alumno.getFechaNacimiento()
+        );
     }
 
     
