@@ -99,12 +99,21 @@ public class CursoService {
 
 
     // Listar alumnos por curso
-    public List<String> listarAlumnosPorCurso(Integer idCurso) {
+    public List<AlumnoDTO> listarAlumnosPorCurso(Integer idCurso) {
         Curso curso = cursoRepository.findById(idCurso)
                 .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
 
         return alumnoCursoRepository.findByCurso(curso).stream()
-                .map(ac -> ac.getAlumno().getNombreUsuario())
+                .map(ac -> {
+                    Alumno alumno = ac.getAlumno();
+                    return new AlumnoDTO(
+                        alumno.getIdAlumno(),
+                        alumno.getNombreUsuario(),
+                        alumno.getNombre(),
+                        alumno.getApellido(),
+                        alumno.getFechaNacimiento()
+                    );
+                })
                 .collect(Collectors.toList());
     }
 
@@ -122,7 +131,7 @@ public class CursoService {
     }
 
     // Listar alumnos por docente (alumnos inscritos en cursos que dicta el docente)
-    public List<String> listarAlumnosPorDocente(Integer idDocente) {
+    public List<AlumnoDTO> listarAlumnosPorDocente(Integer idDocente) {
         Docente docente = docenteRepository.findById(idDocente)
                 .orElseThrow(() -> new RuntimeException("Docente no encontrado"));
 
@@ -130,8 +139,15 @@ public class CursoService {
         
         return cursos.stream()
                 .flatMap(curso -> alumnoCursoRepository.findByCurso(curso).stream())
-                .map(ac -> ac.getAlumno().getNombreUsuario())
+                .map(ac -> ac.getAlumno())
                 .distinct()
+                .map(alumno -> new AlumnoDTO(
+                    alumno.getIdAlumno(),
+                    alumno.getNombreUsuario(),
+                    alumno.getNombre(),
+                    alumno.getApellido(),
+                    alumno.getFechaNacimiento()
+                ))
                 .collect(Collectors.toList());
     }
 }

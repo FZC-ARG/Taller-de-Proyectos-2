@@ -64,7 +64,7 @@ public class CursoController {
 
     // Listar alumnos de un curso
     @GetMapping("/{idCurso}/alumnos")
-    public ResponseEntity<List<String>> listarAlumnosPorCurso(@PathVariable Integer idCurso) {
+    public ResponseEntity<List<AlumnoDTO>> listarAlumnosPorCurso(@PathVariable Integer idCurso) {
         return ResponseEntity.ok(cursoService.listarAlumnosPorCurso(idCurso));
     }
 
@@ -76,7 +76,7 @@ public class CursoController {
 
     // Listar alumnos de un docente (alumnos inscritos en cursos que dicta el docente)
     @GetMapping("/docente/{idDocente}/alumnos")
-    public ResponseEntity<List<String>> listarAlumnosPorDocente(@PathVariable Integer idDocente) {
+    public ResponseEntity<List<AlumnoDTO>> listarAlumnosPorDocente(@PathVariable Integer idDocente) {
         return ResponseEntity.ok(cursoService.listarAlumnosPorDocente(idDocente));
     }
 
