@@ -197,7 +197,7 @@ INSERT INTO preguntas_test (id_pregunta, id_inteligencia_fk, texto_pregunta) VAL
 (36, 4, '¿Suele tocar las cosas con las manos apenas las ve?'),
 (40, 4, '¿Me considero una persona coordinada?'),
 (72, 4, '¿Le gusta realizar actividades de arte?'),
-(4, 4, '¿Se expresa en forma dramática?'),  -- Se repite en ambas inteligencias por su naturaleza dual
+(61, 4, '¿Tiene don de convencimiento, facilidad de palabras?'),
 
 -- Inteligencia Musical (5)
 (2, 5, '¿Suele cantar canciones que no han sido aprendidas en clase?'),
