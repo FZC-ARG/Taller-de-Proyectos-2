@@ -18,7 +18,7 @@ export class InicioAlumnosComponent {
   datosAlumno: any;
 
   cursos : any[] = []; // <--- array vacío
-
+  id: string = '';
   constructor(private router: Router , private alumnosService: AlumnosService , route: ActivatedRoute) {}
 
   ngOnInit() {
@@ -30,7 +30,9 @@ export class InicioAlumnosComponent {
     }
   }
   irAPerfil() {
-    this.router.navigate(['/perfil-alumno']);
+
+    this.id = this.datosAlumno.idAlumno;
+    this.router.navigate(['/perfil-alumno' , this.id]);
   }
 
   cargarCursos(idAlumno: string): void {

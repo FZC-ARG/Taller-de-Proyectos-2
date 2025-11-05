@@ -14,4 +14,8 @@ export class AlumnosService {
     return this.http.get(`${API_URL}api/cursos/alumno/${idAlumno}/cursos`);
   }
 
+  getAlumnoById(idAlumno: string): Observable<any> {
+    return this.http.get(`${API_URL}api/alumno/${idAlumno}`);
+  }
+
 }

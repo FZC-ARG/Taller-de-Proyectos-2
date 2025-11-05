@@ -24,17 +24,57 @@
     <div *ngIf="seccionActual === 'cursos'" class="cursos-container">
       <div class="cursos-lista">
         <button *ngFor="let curso of cursos" class="curso-button">
-          {{ curso }}
+          {{ curso.nombreCurso }}
         </button>
       </div>
     </div>
 
     <!-- Sección Inteligencias -->
     <div *ngIf="seccionActual === 'inteligencias'" class="inteligencias-container">
-      <div *ngFor="let intel of inteligencias" class="inteligencia-item">
+      <h3>Resultados del Test de Inteligencias Múltiples</h3>
+
+      <!-- Lista con barras -->
+      <div *ngFor="let intel of inteligencias" 
+          class="inteligencia-item" 
+          [class.predominante]="intel === inteligenciaMax">
         <span class="tipo">{{ intel.tipo }}</span>
         <div class="barra">
           <div class="progreso" [style.width.%]="intel.nivel">{{ intel.nivel }}%</div>
+        </div>
+      </div>
+
+      <h4>Visualizaciones</h4>
+      <div class="graficos">
+        <div class="grafico">
+          <canvas baseChart
+                  [data]="barChartData"
+                  [options]="chartOptions"
+                  [type]="'bar'">
+          </canvas>
+        </div>
+
+        <div class="grafico">
+          <canvas baseChart
+                  [data]="pieChartData"
+                  [options]="chartOptions"
+                  [type]="'pie'">
+          </canvas>
+        </div>
+
+        <div class="grafico">
+          <canvas baseChart
+                  [data]="doughnutChartData"
+                  [options]="chartOptions"
+                  [type]="'doughnut'">
+          </canvas>
+        </div>
+
+        <div class="grafico">
+          <canvas baseChart
+                  [data]="radarChartData"
+                  [options]="chartOptions"
+                  [type]="'radar'">
+          </canvas>
         </div>
       </div>
     </div>

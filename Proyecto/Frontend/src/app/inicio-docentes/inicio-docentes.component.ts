@@ -43,7 +43,7 @@ export class InicioDocentesComponent implements OnInit {
   }
 
   mostrarPerfil(id: string, nombre: string) {
-    this.router.navigate(['/perfil-alumno'], { queryParams: { id, nombre } });
+    this.router.navigate(['/perfil-alumno'] );
   }
 
   mostrarSeccion(seccion: 'alumnos' | 'test') {
