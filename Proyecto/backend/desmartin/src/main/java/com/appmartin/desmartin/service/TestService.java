@@ -151,6 +151,14 @@ public class TestService {
         // Verificar que el intento existe
         IntentoTest intento = intentoTestRepository.findById(request.getIdIntento())
             .orElseThrow(() -> new RuntimeException("Intento no encontrado"));
+
+        // Si viene idAlumno en la solicitud, validar que el intento pertenezca a ese alumno
+        if (request.getIdAlumno() != null) {
+            Integer alumnoIdDeIntento = intento.getAlumno().getIdAlumno();
+            if (!alumnoIdDeIntento.equals(request.getIdAlumno())) {
+                throw new IllegalArgumentException("El intento " + request.getIdIntento() + " no pertenece al alumno " + request.getIdAlumno());
+            }
+        }
         
         // Guardar cada resultado
         for (CrearResultadosRequest.ResultadoRequest resultadoRequest : request.getResultados()) {

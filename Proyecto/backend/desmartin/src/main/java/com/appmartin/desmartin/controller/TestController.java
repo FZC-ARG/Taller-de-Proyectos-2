@@ -28,8 +28,12 @@ public class TestController {
     
     @PostMapping("/resultados")
     public ResponseEntity<String> crearResultados(@RequestBody CrearResultadosRequest request) {
-        testService.crearResultados(request);
-        return ResponseEntity.ok("Resultados guardados exitosamente");
+        try {
+            testService.crearResultados(request);
+            return ResponseEntity.ok("Resultados guardados exitosamente");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
     
     @GetMapping("/resultados/alumno/{idAlumno}")

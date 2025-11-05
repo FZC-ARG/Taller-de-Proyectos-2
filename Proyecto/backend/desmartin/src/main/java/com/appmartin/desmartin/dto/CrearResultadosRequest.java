@@ -10,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CrearResultadosRequest {
+    private Integer idAlumno; // opcional para validar pertenencia del intento
     private Integer idIntento;
     private List<ResultadoRequest> resultados;
     
