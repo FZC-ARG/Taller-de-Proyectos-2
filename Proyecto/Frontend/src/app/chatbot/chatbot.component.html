@@ -2,24 +2,44 @@
 
 <div class="panel-container">
   <div class="panel-header">
-    <h2>Chatbot Educativo</h2>
-    <button class="actividad-button" (click)="verPerfil()">Perfil de Alumno</button>
-  </div>
+    <h2>💬 Chatbot</h2>
+    <div class="botones-header">
+        <button class="regresar-button" (click)="regresar()">
+        <i class="fas fa-arrow-left"></i> Regresar
+        </button>
+        <button class="actividad-button" (click)="verPerfil()">
+        <i class="fas fa-user"></i> Perfil Alumno
+        </button>
+    </div>
+    </div>
 
-  <div class="scroll-box">
-    <h3>Asistente Virtual</h3>
+  <div class="scroll-box chatbox">
+    <!-- ✅ Solo un chatContainer -->
+    <div #chatContainer class="chat-window" (scroll)="onScroll()">
 
-    <div class="chat-box">
-      <div class="mensajes" #chatContainer>
-        <div *ngFor="let msg of mensajes" [ngClass]="msg.emisor === 'usuario' ? 'mensaje-usuario' : 'mensaje-bot'">
-          <p>{{ msg.texto }}</p>
-        </div>
+      <div *ngFor="let msg of mensajes"
+           [ngClass]="{
+            'mensaje': true,
+            'usuario': msg.emisor === 'usuario',
+            'ia': msg.emisor !== 'usuario'
+           }">
+        <div [innerHTML]="msg.texto"></div>
       </div>
 
-      <div class="input-area">
-        <input type="text" [(ngModel)]="mensajeActual" placeholder="Escribe tu mensaje..." (keyup.enter)="enviarMensaje()">
-        <button class="enviar-button" (click)="enviarMensaje()">Enviar</button>
+      <!-- Loader -->
+      <div *ngIf="cargando" class="mensaje ia escribiendo">
+        Escribiendo<span class="puntos">.</span><span class="puntos">.</span><span class="puntos">.</span>
       </div>
+    </div>
+
+    <div class="input-chat">
+      <input type="text"
+             [(ngModel)]="mensajeActual"
+             placeholder="Escribe tu mensaje..."
+             (keyup.enter)="enviarMensaje()"/>
+      <button (click)="enviarMensaje()">
+        <i class="fa fa-paper-plane"></i>
+      </button>
     </div>
   </div>
 </div>
