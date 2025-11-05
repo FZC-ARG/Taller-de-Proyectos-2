@@ -2,23 +2,28 @@
   <div class="overlay"></div>
   <div class="panel-container">
     <h2>Test de Gardner</h2>
+
     <div class="timer">
       ⏱️ Tiempo transcurrido: {{ minutos }}:{{ segundos < 10 ? '0' + segundos : segundos }}
     </div>
 
     <div class="test-layout">
-      <!-- Panel izquierdo: preguntas -->
+
+      <!-- Panel izquierdo -->
       <div class="preguntas-section">
         <form (ngSubmit)="onSubmit()">
+
           <div *ngFor="let pregunta of preguntasPaginadas" class="pregunta-card">
-            <p>{{pregunta.id}}. {{pregunta.texto}}</p>
+            <p>{{pregunta.idPregunta}}. {{pregunta.textoPregunta}}</p>
+
             <div class="opciones">
               <label *ngFor="let opcion of [1,2,3,4,5,6]" [class.selected]="pregunta.respuesta === opcion">
                 <input 
-                  type="radio" 
-                  [name]="'pregunta-' + pregunta.id" 
+                  type="radio"
+                  [name]="'pregunta-' + pregunta.idPregunta" 
                   [value]="opcion" 
-                  [(ngModel)]="pregunta.respuesta"
+                  [(ngModel)]="pregunta.respuesta" 
+                  (ngModelChange)="guardarRespuestas()"
                   required
                 />
                 {{ opcion }}
@@ -26,54 +31,52 @@
             </div>
           </div>
 
-          <!-- Usa el template -->
           <ng-container *ngTemplateOutlet="navegacion"></ng-container>
 
           <button type="submit" class="item-button">Enviar Test</button>
         </form>
       </div>
 
-      <!-- Panel derecho: índice -->
+      <!-- Panel derecho -->
       <div class="indice-section">
         <h3>Preguntas</h3>
+
         <div class="indice-lista">
           <button 
-            *ngFor="let pregunta of preguntas" 
+            *ngFor="let pregunta of preguntas; let i = index" 
             class="indice-item"
             [class.respondida]="pregunta.respuesta !== null"
-            [class.activa]="pregunta.id >= inicioIndice && pregunta.id < inicioIndice + preguntasPorPagina"
-            (click)="irAPagina(pregunta.id)">
-            {{ pregunta.id }}
+            [class.activa]="i >= ((paginaActual - 1) * preguntasPorPagina) && i < (paginaActual * preguntasPorPagina)"
+            (click)="irAPaginaPorId(pregunta.idPregunta)">
+            {{ pregunta.idPregunta }}
           </button>
         </div>
 
-        <!-- Usa el mismo template -->
         <ng-container *ngTemplateOutlet="navegacion"></ng-container>
       </div>
+
     </div>
   </div>
 
-  <!-- Template reutilizable -->
+  <!-- TEMPLATE -->
   <ng-template #navegacion>
     <div class="navegacion">
       <div class="nav-izquierda">
-        <button
-          type="button"
+        <button 
+          type="button" 
           class="nav-button"
           [class.oculto]="paginaActual <= 1"
-          (click)="anteriorPagina()"
-        >
+          (click)="anteriorPagina()">
           Anterior
         </button>
       </div>
 
       <div class="nav-derecha">
-        <button
-          type="button"
+        <button 
+          type="button" 
           class="nav-button"
           [class.oculto]="paginaActual >= totalPaginas"
-          (click)="siguientePagina()"
-        >
+          (click)="siguientePagina()">
           Siguiente
         </button>
       </div>

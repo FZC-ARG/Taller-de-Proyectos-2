@@ -10,7 +10,7 @@
         <div class="scroll-box">
         <h3>Alumnos</h3>
         <div *ngFor="let alumno of alumnos" (click)="recuperarContrasena()">
-            <button class="item-button">{{ alumno }}</button>
+            <button class="item-button">{{ alumno.nombre + ' ' + alumno.apellido }}</button>
         </div>
         </div>
 
@@ -18,7 +18,7 @@
         <div class="scroll-box">
         <h3>Docentes</h3>
         <div *ngFor="let docente of docentes" (click)="recuperarContrasena()">
-            <button class="item-button">{{ docente }} </button>
+            <button class="item-button">{{docente.nombre + ' ' +docente.apellido }} </button>
         </div>
         </div>
 

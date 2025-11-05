@@ -1,43 +1,51 @@
-import { Component } from '@angular/core';
-import { Router ,ActivatedRoute} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { DocentesService } from '../services/docentes.service';
 import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-inicio-docentes',
+  standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './inicio-docentes.component.html',
-  styleUrl: './inicio-docentes.component.css'
+  styleUrls: ['./inicio-docentes.component.css']
 })
-export class InicioDocentesComponent {
+export class InicioDocentesComponent implements OnInit {
+
+  constructor(private router: Router, private docentesService: DocentesService) {}
 
   seccionActual: 'alumnos' | 'test' = 'alumnos';
   modalAbierto = false;
+  datosDocente: any;
+  alumnos: any[] = []; // <--- array vacío
 
-  alumnos = [
-    { id: '1', nombre: 'Juan' },
-    { id: '2', nombre: 'Pedro' },
-    { id: '3', nombre: 'Luis' },
-    { id: '4', nombre: 'Enrique' },
-    { id: '5', nombre: 'Carlos' },
-    { id: '6', nombre: 'Diego' },
-    { id: '7', nombre: 'Fernando' },
-    { id: '8', nombre: 'Gabriel' },
-    { id: '9', nombre: 'Miguel' },
-    { id: '10', nombre: 'Jose' },
-    { id: '11', nombre: 'Maria' },
-    { id: '12', nombre: 'Ana' },
-    { id: '13', nombre: 'María' },
-    { id: '14', nombre: 'Laura' },
-    { id: '15', nombre: 'Sofía' },
-  ];
+  ngOnInit() {
+    this.datosDocente = JSON.parse(localStorage.getItem('datosDocente')!);
+    console.log(this.datosDocente);
 
-  constructor(private router: Router) {}
-
-  mostrarPerfil(id: string , nombre: string) {
-    this.router.navigate(['/perfil-alumno'], { queryParams: { id: id, nombre: nombre } });
+    if (this.datosDocente?.idDocente) {
+      this.cargarAlumnos(this.datosDocente.idDocente);
+    }
   }
-  
+
+  cargarAlumnos(idDocente: string): void {
+    this.docentesService.getAlumnosDocente(idDocente).subscribe({
+      next: (data) => {
+        this.alumnos = data;
+        console.log('Alumnos cargados:', this.alumnos);
+      },
+      error: (err) => {
+        console.error('Error al obtener alumnos:', err);
+      }
+    });
+  }
+
+  mostrarPerfil(id: string, nombre: string) {
+    this.router.navigate(['/perfil-alumno'], { queryParams: { id, nombre } });
+  }
+
   mostrarSeccion(seccion: 'alumnos' | 'test') {
     this.seccionActual = seccion;
   }
@@ -55,15 +63,12 @@ export class InicioDocentesComponent {
   }
 
   abrirEnlace() {
-    window.open('https://utecno.wordpress.com/wp-content/uploads/2014/07/howard_gardner_-_estructuras_de_la_mente.pdf', '_blank'); // Cambia este enlace
+    window.open('https://utecno.wordpress.com/wp-content/uploads/2014/07/howard_gardner_-_estructuras_de_la_mente.pdf', '_blank');
   }
-
-
 
   logout() {
     localStorage.clear();
     this.router.navigate(['/login']);
-
     Swal.fire({
       title: 'Sesión cerrada',
       text: 'Ahora no tienes acceso a la aplicación',

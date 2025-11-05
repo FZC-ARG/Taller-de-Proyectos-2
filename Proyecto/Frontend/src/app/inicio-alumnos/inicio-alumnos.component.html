@@ -1,7 +1,7 @@
 <body>
   <div class="overlay"></div>
   <div class="panel-container">
-    <h2>Alumno: </h2>
+    <h2>Alumno: {{datosAlumno?.nombre + ' ' + datosAlumno.apellido}} </h2>
 
     <div class="panel-header">
       <button class="cursos-button" (click)="mostrarSeccion('cursos')">Cursos</button>
@@ -12,7 +12,7 @@
     <div *ngIf="seccionActual === 'cursos'" class="cursos-container">
       <div class="cursos-lista">
         <button *ngFor="let curso of cursos" class="curso-button">
-          {{ curso }}
+          {{ curso.nombreCurso }}
         </button>
       </div>
     </div>

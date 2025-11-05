@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { TestService } from '../services/test.service';
 
 @Component({
   selector: 'app-test-gardner',
@@ -21,55 +22,82 @@ export class TestGardnerComponent {
   minutos: number = 0;
   segundos: number = 0;
 
-  preguntas = [
-    { id: 1, texto: 'Me gusta resolver problemas matemáticos o lógicos.', respuesta: null },
-    { id: 2, texto: 'Disfruto participar en actividades musicales.', respuesta: null },
-    { id: 3, texto: 'Prefiero aprender a través de imágenes, diagramas o mapas mentales.', respuesta: null },
-    { id: 4, texto: 'Puedo expresar mis ideas fácilmente con palabras.', respuesta: null },
-    { id: 5, texto: 'Me resulta fácil trabajar en grupo.', respuesta: null },
-    { id: 6, texto: 'Me gusta observar la naturaleza y aprender de ella.', respuesta: null },
-    { id: 7, texto: 'Soy consciente de mis emociones y cómo influyen en mí.', respuesta: null },
-    { id: 8, texto: 'Me gusta moverme y aprender haciendo actividades físicas.', respuesta: null },
-    { id: 9, texto: 'Disfruto resolver acertijos y desafíos.', respuesta: null },
-    { id: 10, texto: 'Me inspiro al escuchar música.', respuesta: null },
-    { id: 11, texto: 'Me gusta leer libros.', respuesta: null },
-    { id: 12, texto: 'Me gusta jugar videojuegos.', respuesta: null },
-    { id: 13, texto: 'Me gusta jugar a los juegos de mesa.', respuesta: null },
-    { id: 14, texto: 'Me gusta jugar a los juegos de mesa.', respuesta: null },
-    { id: 15, texto: 'Me gusta jugar a los juegos de mesa.', respuesta: null },
-    { id: 16, texto: 'Me gusta jugar a los juegos de mesa.', respuesta: null },
-    { id: 17, texto: 'Me gusta jugar a los juegos de mesa.', respuesta: null },
-    { id: 18, texto: 'Me gusta jugar a los juegos de mesa.', respuesta: null },
-    { id: 19, texto: 'Me gusta jugar a los juegos de mesa.', respuesta: null },
-    { id: 20, texto: 'Me gusta jugar a los juegos de mesa.', respuesta: null }, 
-    { id: 21, texto: 'Me gusta jugar a los juegos de mesa.', respuesta: null },
-  ];
+  preguntas: any[] = [];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private testService: TestService
+  ) {}
 
   ngOnInit() {
+    this.cargarPreguntas();
     this.iniciarTemporizador();
   }
-  
+
+  cargarPreguntas() {
+    this.testService.getPreguntas().subscribe({
+      next: (data) => {
+        this.preguntas = data.map((p:any) => ({
+          idPregunta: p.idPregunta,
+          textoPregunta: p.textoPregunta,
+          idInteligencia: p.idInteligencia,
+          nombreInteligencia: p.nombreInteligencia,
+          respuesta: null
+
+          
+        }));
+        this.cargarRespuestasGuardadas();
+        const paginaGuardada = localStorage.getItem('paginaActualTestGardner');
+        if (paginaGuardada) {
+          this.paginaActual = Number(paginaGuardada);
+        }
+
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudieron cargar las preguntas.'
+        });
+      }
+    });
+  }
+
   iniciarTemporizador() {
-    this.tiempoInicio = Date.now();
+    // ✅ Recuperar tiempo previo si existe
+    const guardado = localStorage.getItem('tiempoTestGardner');
+
+    if (guardado) {
+      const tiempoPrevio = JSON.parse(guardado);
+      this.tiempoInicio = tiempoPrevio.tiempoInicio;
+    } else {
+      // ✅ Primera vez
+      this.tiempoInicio = Date.now();
+      localStorage.setItem('tiempoTestGardner', JSON.stringify({
+        tiempoInicio: this.tiempoInicio
+      }));
+    }
+
     this.intervalo = setInterval(() => {
       const ahora = Date.now();
       this.tiempoTranscurrido = Math.floor((ahora - this.tiempoInicio) / 1000);
+
       this.minutos = Math.floor(this.tiempoTranscurrido / 60);
       this.segundos = this.tiempoTranscurrido % 60;
+
+      // ✅ Guardar siempre
+      localStorage.setItem('tiempoTestGardner', JSON.stringify({
+        tiempoInicio: this.tiempoInicio
+      }));
     }, 1000);
   }
-  
+
   detenerTemporizador() {
     clearInterval(this.intervalo);
   }
+
   get totalPaginas() {
     return Math.ceil(this.preguntas.length / this.preguntasPorPagina);
-  }
-
-  get inicioIndice() {
-    return (this.paginaActual - 1) * this.preguntasPorPagina + 1;
   }
 
   get preguntasPaginadas() {
@@ -78,42 +106,71 @@ export class TestGardnerComponent {
   }
 
   siguientePagina() {
-    if (this.paginaActual < this.totalPaginas) this.paginaActual++;
+    if (this.paginaActual < this.totalPaginas) {
+      this.paginaActual++;
+      localStorage.setItem('paginaActualTestGardner', String(this.paginaActual));
+    }
   }
 
   anteriorPagina() {
-    if (this.paginaActual > 1) this.paginaActual--;
+    if (this.paginaActual > 1) {
+      this.paginaActual--;
+      localStorage.setItem('paginaActualTestGardner', String(this.paginaActual));
+    }
   }
 
-  irAPagina(id: number) {
-    this.paginaActual = Math.ceil(id / this.preguntasPorPagina);
+  // ✅ Ahora usa idPregunta
+  irAPaginaPorId(idPregunta: number) {
+    const index = this.preguntas.findIndex(p => p.idPregunta === idPregunta);
+    if (index !== -1) {
+      this.paginaActual = Math.floor(index / this.preguntasPorPagina) + 1;
+      localStorage.setItem('paginaActualTestGardner', String(this.paginaActual));
+    }
   }
 
   onSubmit() {
     const incompletas = this.preguntas.filter(p => p.respuesta === null);
+
     if (incompletas.length > 0) {
       Swal.fire({
         icon: 'warning',
         title: 'Faltan respuestas',
-        text: 'Por favor responde todas las preguntas antes de enviar.',
+        text: 'Por favor responde todas las preguntas antes de enviar.'
       });
       return;
     }
+
     this.detenerTemporizador();
-    const minutos = this.minutos;
-    const segundos = this.segundos;
 
     Swal.fire({
       icon: 'success',
       title: '¡Test completado!',
-      text: `Completaste el test en ${minutos} minuto(s) y ${segundos} segundo(s).`,
-      showConfirmButton: true
+      text: `Completaste el test en ${this.minutos} minuto(s) y ${this.segundos} segundo(s).`
     }).then(() => {
+      localStorage.removeItem('tiempoTestGardner');
+      localStorage.removeItem('respuestasTestGardner');
       this.router.navigate(['/inicio-alumnos']);
     });
 
     console.log('Respuestas del test:', this.preguntas);
-
-    
   }
+
+  guardarRespuestas() {
+    localStorage.setItem('respuestasTestGardner', JSON.stringify(this.preguntas));
+  }
+
+  cargarRespuestasGuardadas() {
+    const dataGuardada = localStorage.getItem('respuestasTestGardner');
+
+    if (dataGuardada) {
+      const respuestasPrevias = JSON.parse(dataGuardada);
+
+      // Restauramos solo las respuestas
+      this.preguntas = this.preguntas.map(p => {
+        const guardada = respuestasPrevias.find((x:any) => x.idPregunta === p.idPregunta);
+        return guardada ? { ...p, respuesta: guardada.respuesta } : p;
+      });
+    }
+  }
+
 }

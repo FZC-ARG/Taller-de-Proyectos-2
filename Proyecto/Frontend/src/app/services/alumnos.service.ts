@@ -10,6 +10,8 @@ export class AlumnosService {
 
   constructor(private http: HttpClient) { }
 
-  
+  getCursosAlumno(idAlumno: string): Observable<any> {
+    return this.http.get(`${API_URL}api/cursos/alumno/${idAlumno}/cursos`);
+  }
 
 }
