@@ -1,0 +1,25 @@
+<div class="overlay"></div>
+
+<div class="panel-container">
+  <div class="panel-header">
+    <h2>Chatbot Educativo</h2>
+    <button class="actividad-button" (click)="verPerfil()">Perfil de Alumno</button>
+  </div>
+
+  <div class="scroll-box">
+    <h3>Asistente Virtual</h3>
+
+    <div class="chat-box">
+      <div class="mensajes" #chatContainer>
+        <div *ngFor="let msg of mensajes" [ngClass]="msg.emisor === 'usuario' ? 'mensaje-usuario' : 'mensaje-bot'">
+          <p>{{ msg.texto }}</p>
+        </div>
+      </div>
+
+      <div class="input-area">
+        <input type="text" [(ngModel)]="mensajeActual" placeholder="Escribe tu mensaje..." (keyup.enter)="enviarMensaje()">
+        <button class="enviar-button" (click)="enviarMensaje()">Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>

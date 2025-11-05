@@ -40,6 +40,10 @@ export const routes: Routes = [
     {
         path: 'perfil-alumno/:idAlumno',
         loadComponent: () => import('./perfil-alumno/perfil-alumno.component').then(m => m.PerfilAlumnoComponent)
+    },
+    {
+        path: 'chatbot/:idDocente/:idAlumno',
+        loadComponent: () => import('./chatbot/chatbot.component').then(m => m.ChatbotComponent)
     }
     
 ];

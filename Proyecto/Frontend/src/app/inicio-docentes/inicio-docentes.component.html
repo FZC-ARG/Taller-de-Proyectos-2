@@ -11,7 +11,7 @@
     <!-- Sección de alumnos -->
     <div *ngIf="seccionActual === 'alumnos'" class="alumnos-container">
       <div class="alumnos-lista">
-        <button *ngFor="let alumnos of alumnos" class="alumno-button"  (click)="mostrarPerfil(alumnos.id , alumnos.nombre)">
+        <button *ngFor="let alumnos of alumnos" class="alumno-button"  (click)="mostrarChatbot(datosDocente.idDocente , alumnos.idAlumno)">
           {{ alumnos.nombre }} {{ alumnos.apellido }}
         </button>
       </div>

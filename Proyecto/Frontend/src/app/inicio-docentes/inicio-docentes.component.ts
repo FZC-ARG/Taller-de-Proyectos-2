@@ -66,6 +66,10 @@ export class InicioDocentesComponent implements OnInit {
     window.open('https://utecno.wordpress.com/wp-content/uploads/2014/07/howard_gardner_-_estructuras_de_la_mente.pdf', '_blank');
   }
 
+  mostrarChatbot(idDocente: string, idAlumno: string) {
+    this.router.navigate(['/chatbot', idDocente, idAlumno]);
+  }
+
   logout() {
     localStorage.clear();
     this.router.navigate(['/login']);
