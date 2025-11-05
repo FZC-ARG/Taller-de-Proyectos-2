@@ -9,5 +9,17 @@ import { API_URL } from '../conexion';
 export class AdminService {
   constructor(private http: HttpClient) {}
 
+  getAlumnos(): Observable<any> {
+    const url = `${API_URL}api/admin/alumnos`;
+    return this.http.get<any>(url);
+  }
+
+  getDocentes(): Observable<any> {
+    const url = `${API_URL}api/admin/docentes`;
+    return this.http.get<any>(url);
+  }
+
+ 
+  
   
 }

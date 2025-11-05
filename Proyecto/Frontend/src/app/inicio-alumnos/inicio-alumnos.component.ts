@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { AlumnosService } from '../services/alumnos.service';
 
 
 @Component({
@@ -14,15 +15,32 @@ import Swal from 'sweetalert2';
 export class InicioAlumnosComponent {
   seccionActual: 'cursos' | 'test' = 'cursos';
 
-  cursos = [
-    'Matemáticas',
-    'Comunicación',
-    'Ciencia y Tecnología',
-    'Historia',
-    'Inglés'
-  ];
+  datosAlumno: any;
 
-  constructor(private router: Router) {}
+  cursos : any[] = []; // <--- array vacío
+
+  constructor(private router: Router , private alumnosService: AlumnosService) {}
+
+  ngOnInit() {
+    this.datosAlumno = JSON.parse(localStorage.getItem('datosAlumno')!);
+    console.log(this.datosAlumno);
+
+    if (this.datosAlumno?.idAlumno) {
+      this.cargarCursos(this.datosAlumno.idAlumno);
+    }
+  }
+
+  cargarCursos(idAlumno: string): void {
+    this.alumnosService.getCursosAlumno(idAlumno).subscribe({
+      next: (data) => {
+        this.cursos = data;
+        console.log('Cursos cargados:', this.cursos);
+      },
+      error: (err) => {
+        console.error('Error al obtener cursos:', err);
+      }
+    });
+  }
 
   mostrarSeccion(seccion: 'cursos' | 'test') {
     this.seccionActual = seccion;

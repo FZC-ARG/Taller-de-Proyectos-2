@@ -9,5 +9,7 @@ import { API_URL } from '../conexion';
 export class DocentesService {
   constructor(private http: HttpClient) {}
 
-  
+  getAlumnosDocente(id: string): Observable<any> {
+    return this.http.get(`${API_URL}api/cursos/docente/${id}/alumnos`);
+  }
 }

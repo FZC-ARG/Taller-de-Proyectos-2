@@ -37,6 +37,8 @@ export class LoginComponent {
       this.loginService.loginDocente(this.usuario, this.contrasena).subscribe({
         next: (response) => {
           this.exito = true;
+          console.log(response);
+          localStorage.setItem('datosDocente', JSON.stringify(response));
           Swal.fire({
             title: 'Ingreso exitoso',
             text: 'Ingreso como docente',
@@ -54,6 +56,7 @@ export class LoginComponent {
     } else if (this.tipoLogin === 'alumno') {
       this.loginService.loginAlumno(this.usuario, this.contrasena).subscribe({
         next: (response) => {
+          localStorage.setItem('datosAlumno', JSON.stringify(response));
           this.exito = true;
           Swal.fire({
             title: 'Ingreso exitoso',
@@ -72,6 +75,7 @@ export class LoginComponent {
     } else if (this.tipoLogin === 'admin') {
       this.loginService.loginAdmin(this.usuario, this.contrasena).subscribe({
         next: (response) => {
+          localStorage.setItem('datosAdmin', JSON.stringify(response));
           this.exito = true;
           Swal.fire({
             title: 'Ingreso exitoso',
