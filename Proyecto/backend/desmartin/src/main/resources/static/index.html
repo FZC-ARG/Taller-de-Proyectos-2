@@ -335,6 +335,29 @@
             font-size: 13px;
             color: #667eea;
         }
+        
+        .chat-session-reuse {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            color: #2e7d32;
+        }
+        
+        .chat-session-new {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            color: #e65100;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
         .chat-loading {
             display: flex;
@@ -668,14 +691,22 @@
                 </div>
                 
                 <div class="form-group">
-                    <label>Título de la Sesión:</label>
-                    <input type="text" id="chatTitulo" placeholder="Ejemplo: Consulta sobre resultados del test">
+                    <label>Título de la Sesión: <span style="color: #999; font-weight: normal;">(Opcional)</span></label>
+                    <input type="text" id="chatTitulo" placeholder="Ejemplo: Consulta sobre resultados del test (opcional)">
+                    <small style="color: #666; font-size: 12px; display: block; margin-top: 5px;">
+                        💡 <strong>Para chats individuales:</strong> Solo necesitas el ID del docente y el ID del alumno. El título es opcional. Si ya existe una sesión activa entre este docente y alumno, se reutilizará automáticamente y se cargará el historial de mensajes.
+                    </small>
                 </div>
                 
-                <button onclick="crearSesionChat()" style="width: 100%;">🚀 Crear Sesión de Chat</button>
+                <button onclick="crearSesionChat()" style="width: 100%;">🚀 Crear/Cargar Sesión de Chat</button>
                 
                 <div id="chatSessionInfo" class="chat-session-info" style="display: none;">
                     <strong>✓ Sesión creada:</strong> <span id="sessionInfoText"></span>
+                </div>
+                
+                <!-- Indicador de reutilización de sesión -->
+                <div id="chatSessionReuseInfo" style="display: none; margin-top: 12px; padding: 12px; border-radius: 8px; font-size: 13px; animation: slideIn 0.3s ease-in;">
+                    <span id="sessionReuseText"></span>
                 </div>
             </div>
             
@@ -1178,6 +1209,7 @@
         let currentSessionId = null;
         let chatType = 'individual'; // 'individual' o 'grupal'
         let autoRefreshInterval = null;
+        let lastSessionIdBeforeCreate = null; // Para detectar reutilización
 
         function seleccionarTipoChat(tipo) {
             chatType = tipo;
@@ -1191,14 +1223,25 @@
             const docenteId = document.getElementById('chatDocenteId').value;
             const titulo = document.getElementById('chatTitulo').value;
             
-            if (!docenteId || !titulo) {
-                alert('Por favor, completa todos los campos requeridos');
+            // Validación básica
+            if (!docenteId) {
+                alert('Por favor, ingresa el ID del docente');
                 return;
             }
             
+            // Para chats individuales, el título no es obligatorio (se puede reutilizar sesión)
+            // Para chats grupales, el título es opcional pero recomendado
+            // Si no hay título, generamos uno por defecto
+            const tituloFinal = titulo.trim() || (chatType === 'individual' 
+                ? 'Consulta Individual' 
+                : 'Consulta Grupal');
+            
+            // Guardar el ID de sesión actual antes de crear (para detectar reutilización)
+            lastSessionIdBeforeCreate = currentSessionId;
+            
             const requestData = {
                 idDocente: parseInt(docenteId),
-                tituloSesion: titulo
+                tituloSesion: tituloFinal
             };
             
             if (chatType === 'individual') {
@@ -1219,26 +1262,79 @@
                 requestData.idAlumno = null;
             }
             
+            // Mostrar indicador de carga
+            const btnCrear = document.querySelector('button[onclick="crearSesionChat()"]');
+            const btnTextOriginal = btnCrear.textContent;
+            btnCrear.disabled = true;
+            btnCrear.textContent = '⏳ Creando sesión...';
+            
             apiCall('/chat/sesiones', 'POST', requestData).then(data => {
                 if (data && data.idSesion) {
                     currentSessionId = data.idSesion;
                     document.getElementById('sesionId').value = data.idSesion;
+                    
+                    // Mostrar información de sesión
                     document.getElementById('sessionInfoText').textContent = 
                         `Sesión #${data.idSesion} - ${chatType === 'individual' ? 'Chat Individual' : 'Chat Grupal'}`;
                     document.getElementById('chatSessionInfo').style.display = 'block';
-                    document.getElementById('chatContainer').style.display = 'flex';
-                    document.getElementById('chatTitle').textContent = `💬 ${titulo}`;
                     
-                    // Limpiar mensajes previos
-                    document.getElementById('chatMessages').innerHTML = 
-                        '<div style="text-align: center; color: #999; padding: 40px;"><p>💡 Escribe un mensaje para comenzar la conversación</p></div>';
+                    document.getElementById('chatContainer').style.display = 'flex';
+                    document.getElementById('chatTitle').textContent = `💬 ${data.tituloSesion || titulo}`;
+                    
+                    // Cargar mensajes para verificar si es sesión reutilizada
+                    obtenerMensajes().then(mensajes => {
+                        const reuseInfo = document.getElementById('chatSessionReuseInfo');
+                        const reuseText = document.getElementById('sessionReuseText');
+                        
+                        // Verificar si hay mensajes previos (indicador de reutilización)
+                        // Para chats individuales, si hay mensajes, probablemente fue reutilizada
+                        const tieneMensajesPrevios = mensajes && mensajes.length > 0;
+                        const fechaCreacion = data.fechaCreacion ? new Date(data.fechaCreacion) : null;
+                        const esReciente = fechaCreacion && (Date.now() - fechaCreacion.getTime()) < 60000; // Menos de 1 minuto
+                        
+                        // Para chats individuales, verificar si es reutilizada
+                        if (chatType === 'individual' && tieneMensajesPrevios && !esReciente) {
+                            // Sesión reutilizada (tiene mensajes y no es reciente)
+                            reuseInfo.className = 'chat-session-reuse';
+                            reuseText.innerHTML = `🔄 <strong>Sesión reutilizada:</strong> Se encontró una sesión activa previa entre este docente y alumno. Se cargaron ${mensajes.length} mensajes del historial.`;
+                            reuseInfo.style.display = 'block';
+                        } else if (chatType === 'individual' && !tieneMensajesPrevios) {
+                            // Nueva sesión (no tiene mensajes)
+                            reuseInfo.className = 'chat-session-new';
+                            reuseText.innerHTML = '✨ <strong>Nueva sesión creada:</strong> No se encontró una sesión previa activa. Esta es una conversación nueva.';
+                            reuseInfo.style.display = 'block';
+                            mostrarMensajeBienvenida();
+                        } else if (chatType === 'grupal') {
+                            // Chat grupal siempre crea nueva sesión
+                            if (!tieneMensajesPrevios) {
+                                reuseInfo.className = 'chat-session-new';
+                                reuseText.innerHTML = '✨ <strong>Nueva sesión grupal creada:</strong> Los chats grupales siempre crean nuevas sesiones.';
+                                reuseInfo.style.display = 'block';
+                                mostrarMensajeBienvenida();
+                            } else {
+                                // Si hay mensajes, es porque se cargó una sesión existente manualmente
+                                reuseInfo.style.display = 'none';
+                            }
+                        }
+                        
+                        // Si no hay mensajes y no se mostró bienvenida, mostrarla
+                        const chatArea = document.getElementById('chatMessages');
+                        if (!tieneMensajesPrevios && chatArea && chatArea.children.length === 0) {
+                            mostrarMensajeBienvenida();
+                        }
+                    });
                     
                     // Iniciar auto-refresh
                     iniciarAutoRefresh();
-                    
-                    // Mostrar mensaje de bienvenida
-                    mostrarMensajeBienvenida();
                 }
+            })
+            .catch(error => {
+                alert('Error al crear sesión: ' + (error.message || 'Error desconocido'));
+                console.error('Error al crear sesión:', error);
+            })
+            .finally(() => {
+                btnCrear.disabled = false;
+                btnCrear.textContent = btnTextOriginal;
             });
         }
 
@@ -1260,6 +1356,12 @@
                 return;
             }
             
+            // Mostrar indicador de carga
+            const btnCargar = document.querySelector('button[onclick="cargarSesionExistente()"]');
+            const btnTextOriginal = btnCargar.textContent;
+            btnCargar.disabled = true;
+            btnCargar.textContent = '⏳ Cargando...';
+            
             apiCall(`/chat/sesiones/${sesionId}`).then(data => {
                 if (data && data.idSesion) {
                     currentSessionId = data.idSesion;
@@ -1269,9 +1371,26 @@
                         `Sesión #${data.idSesion} - ${data.idAlumno ? 'Chat Individual' : 'Chat Grupal'}`;
                     document.getElementById('chatSessionInfo').style.display = 'block';
                     
-                    obtenerMensajes();
+                    // Ocultar indicador de reutilización (si estaba visible)
+                    document.getElementById('chatSessionReuseInfo').style.display = 'none';
+                    
+                    // Cargar mensajes
+                    obtenerMensajes().then(mensajes => {
+                        if (mensajes.length === 0) {
+                            mostrarMensajeBienvenida();
+                        }
+                    });
+                    
                     iniciarAutoRefresh();
                 }
+            })
+            .catch(error => {
+                alert('Error al cargar sesión: ' + (error.message || 'Error desconocido'));
+                console.error('Error al cargar sesión:', error);
+            })
+            .finally(() => {
+                btnCargar.disabled = false;
+                btnCargar.textContent = btnTextOriginal;
             });
         }
 
@@ -1289,15 +1408,20 @@
                 const sesionId = document.getElementById('sesionId').value;
                 if (!sesionId) {
                     alert('Por favor, crea o carga una sesión primero');
-                    return;
+                    return Promise.resolve();
                 }
                 currentSessionId = sesionId;
             }
             
-            apiCall(`/chat/sesiones/${currentSessionId}/mensajes`).then(data => {
+            return apiCall(`/chat/sesiones/${currentSessionId}/mensajes`).then(data => {
                 if (Array.isArray(data)) {
                     displayMessages(data);
+                    return data;
                 }
+                return [];
+            }).catch(error => {
+                console.error('Error al obtener mensajes:', error);
+                return [];
             });
         }
 
@@ -1475,7 +1599,9 @@
                 console.log('🧹 Intervalo limpiado al cerrar chat');
             }
             document.getElementById('chatContainer').style.display = 'none';
+            document.getElementById('chatSessionReuseInfo').style.display = 'none';
             currentSessionId = null;
+            lastSessionIdBeforeCreate = null;
         }
         
         function limpiarChat() {

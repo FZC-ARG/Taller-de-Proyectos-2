@@ -38,6 +38,20 @@ public class ChatService {
     @Autowired
     private ContextoIAService contextoIAService;
     
+    /**
+     * Crea una nueva sesión de chat o reutiliza una sesión existente activa
+     * 
+     * Para chats individuales (con idAlumno):
+     * - Busca primero si existe una sesión activa previa entre el docente y el alumno
+     * - Si existe, reutiliza esa sesión (no crea una nueva)
+     * - Si no existe, crea una nueva sesión
+     * 
+     * Para chats grupales (con idCurso):
+     * - Siempre crea una nueva sesión (no reutiliza)
+     * 
+     * @param request Request con datos de la sesión
+     * @return DTO de la sesión (nueva o reutilizada)
+     */
     public ChatSesionDTO crearSesion(CrearChatSesionRequest request) {
         // Validar que el docente existe
         Docente docente = docenteRepository.findById(request.getIdDocente())
@@ -55,19 +69,59 @@ public class ChatService {
             throw new IllegalArgumentException("Una sesión debe ser individual (idAlumno) o grupal (idCurso)");
         }
         
-        ChatSesion sesion = new ChatSesion();
-        sesion.setDocente(docente);
-        sesion.setTituloSesion(request.getTituloSesion());
-        
-        // Configurar como chat individual
+        // Para chats individuales: buscar sesión activa existente
         if (esIndividual) {
             Alumno alumno = alumnoRepository.findById(request.getIdAlumno())
                 .orElseThrow(() -> new RuntimeException("Alumno no encontrado"));
+            
+            // Buscar última sesión activa entre docente y alumno
+            List<ChatSesion> sesionesExistentes = chatSesionRepository
+                .findUltimaSesionActivaPorDocenteYAlumno(request.getIdDocente(), request.getIdAlumno());
+            
+            if (!sesionesExistentes.isEmpty()) {
+                // Reutilizar la última sesión activa
+                ChatSesion sesionExistente = sesionesExistentes.get(0);
+                logger.info("Reutilizando sesión existente ID: {} entre docente {} y alumno {}", 
+                    sesionExistente.getIdSesion(), request.getIdDocente(), request.getIdAlumno());
+                
+                // Actualizar título si se proporciona uno nuevo
+                if (request.getTituloSesion() != null && !request.getTituloSesion().trim().isEmpty()) {
+                    sesionExistente.setTituloSesion(request.getTituloSesion());
+                    chatSesionRepository.save(sesionExistente);
+                }
+                
+                return new ChatSesionDTO(
+                    sesionExistente.getIdSesion(),
+                    sesionExistente.getDocente().getIdDocente(),
+                    sesionExistente.getAlumno() != null ? sesionExistente.getAlumno().getIdAlumno() : null,
+                    sesionExistente.getCurso() != null ? sesionExistente.getCurso().getIdCurso() : null,
+                    sesionExistente.getTituloSesion(),
+                    sesionExistente.getFechaCreacion()
+                );
+            }
+            
+            // No existe sesión previa, crear nueva sesión individual
+            logger.info("No se encontró sesión previa, creando nueva sesión individual para docente {} y alumno {}", 
+                request.getIdDocente(), request.getIdAlumno());
+            
+            ChatSesion sesion = new ChatSesion();
+            sesion.setDocente(docente);
             sesion.setAlumno(alumno);
             sesion.setCurso(null);
+            sesion.setTituloSesion(request.getTituloSesion());
+            
+            ChatSesion saved = chatSesionRepository.save(sesion);
+            return new ChatSesionDTO(
+                saved.getIdSesion(),
+                saved.getDocente().getIdDocente(),
+                saved.getAlumno() != null ? saved.getAlumno().getIdAlumno() : null,
+                saved.getCurso() != null ? saved.getCurso().getIdCurso() : null,
+                saved.getTituloSesion(),
+                saved.getFechaCreacion()
+            );
         }
         
-        // Configurar como chat grupal
+        // Configurar como chat grupal (siempre crea nueva sesión)
         if (esGrupal) {
             Curso curso = cursoRepository.findById(request.getIdCurso())
                 .orElseThrow(() -> new RuntimeException("Curso no encontrado"));
@@ -77,19 +131,28 @@ public class ChatService {
                 throw new IllegalArgumentException("El docente no dicta este curso");
             }
             
+            logger.info("Creando nueva sesión grupal para docente {} y curso {}", 
+                request.getIdDocente(), request.getIdCurso());
+            
+            ChatSesion sesion = new ChatSesion();
+            sesion.setDocente(docente);
             sesion.setCurso(curso);
             sesion.setAlumno(null);
+            sesion.setTituloSesion(request.getTituloSesion());
+            
+            ChatSesion saved = chatSesionRepository.save(sesion);
+            return new ChatSesionDTO(
+                saved.getIdSesion(),
+                saved.getDocente().getIdDocente(),
+                saved.getAlumno() != null ? saved.getAlumno().getIdAlumno() : null,
+                saved.getCurso() != null ? saved.getCurso().getIdCurso() : null,
+                saved.getTituloSesion(),
+                saved.getFechaCreacion()
+            );
         }
         
-        ChatSesion saved = chatSesionRepository.save(sesion);
-        return new ChatSesionDTO(
-            saved.getIdSesion(),
-            saved.getDocente().getIdDocente(),
-            saved.getAlumno() != null ? saved.getAlumno().getIdAlumno() : null,
-            saved.getCurso() != null ? saved.getCurso().getIdCurso() : null,
-            saved.getTituloSesion(),
-            saved.getFechaCreacion()
-        );
+        // Este punto no debería alcanzarse debido a las validaciones anteriores
+        throw new IllegalStateException("Error al crear sesión: estado inválido");
     }
     
     public List<ChatSesionDTO> obtenerSesionesPorDocente(Integer idDocente) {
@@ -119,6 +182,24 @@ public class ChatService {
         );
     }
     
+    /**
+     * Crea un nuevo mensaje en una sesión de chat
+     * 
+     * Este método:
+     * 1. Guarda el mensaje del docente
+     * 2. Obtiene el historial completo de mensajes previos de la sesión
+     * 3. Genera el contexto dinámico según el tipo de sesión (individual o grupal)
+     * 4. Construye los mensajes para la IA incluyendo contexto e historial
+     * 5. Envía la solicitud a OpenRouter API
+     * 6. Guarda la respuesta de la IA
+     * 
+     * El historial de mensajes se carga automáticamente, permitiendo que la IA
+     * tenga contexto completo de la conversación previa.
+     * 
+     * @param idSesion ID de la sesión de chat
+     * @param request Request con el contenido del mensaje
+     * @return DTO del mensaje de la IA generado
+     */
     public ChatMensajeDTO crearMensaje(Integer idSesion, CrearMensajeRequest request) {
         logger.info("Creando mensaje para sesión ID: {}", idSesion);
         
@@ -134,10 +215,13 @@ public class ChatService {
         logger.debug("Mensaje del docente guardado: ID {}", mensajeDocente.getIdMensaje());
         
         try {
-            // Obtener historial de mensajes previos (excluyendo el mensaje recién guardado)
+            // Obtener historial completo de mensajes previos de la sesión
+            // Esto incluye todos los mensajes anteriores (docente e IA) para mantener el contexto
             List<ChatMensajeDTO> historialMensajes = obtenerMensajesPorSesion(idSesion).stream()
-                .filter(m -> m.getIdMensaje() != mensajeDocente.getIdMensaje())
+                .filter(m -> m.getIdMensaje() != mensajeDocente.getIdMensaje()) // Excluir el mensaje recién guardado
                 .collect(Collectors.toList());
+            
+            logger.info("Historial de mensajes cargado: {} mensajes previos", historialMensajes.size());
             
             // Generar contexto según el tipo de sesión
             String contexto;
