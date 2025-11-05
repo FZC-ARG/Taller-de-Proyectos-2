@@ -9,6 +9,7 @@
 ¿Encuentra placer resolviendo juego de matemáticas en la computadora? (29)
 ¿Es capaz de resolver juegos que requieren lógica? (33)
 ¿Le gustan los juegos de mesa? (37)
+¿Su nivel de pensamiento es mas abstracto y conceptual que sus compañeros? (9)
 
 2. Inteligencia Lingüístico-Verbal
 ¿Se expresa en forma dramática? (4)
@@ -19,6 +20,8 @@
 ¿Tiene facilidad para las lenguas extranjeras? (73)
 ¿Relaciona el contenido del texto con la realidad? (77)
 ¿Sostiene con argumentos el criterio respecto al texto? (57)
+¿Disfruta escuchar historias, leyendas o grabaciones? (53)
+¿Tiene facilidad para recordar nombres, lugares y fechas? (64)
 
 3. Inteligencia Espacial-Visual
 ¿Comunica imágenes visuales nítidas? (48)
@@ -29,6 +32,8 @@
 ¿Dibuja figuras avanzadas para su edad? (76)
 ¿Puede orientarse fácilmente en un lugar al que va por primera vez? (80)
 ¿Realiza garabatos en sus libros y otros materiales de trabajo? (44)
+¿Muestra en sus experimentos procesos de pensamiento cognitivo de orden superior? (17)
+¿Le gusta clasificar y coleccionar objetos? (55)
 
 4. Inteligencia Corporal-Kinestésica
 ¿Sobresale en la practica de uno o mas deportes? (12)
@@ -38,7 +43,9 @@
 ¿Me considero una persona coordinada? (40)
 ¿Encuentra placer al realizar las experiencias táctiles ( plastilina, cerámica, macilla, etc.)? (8)
 ¿Suele tocar las cosas con las manos apenas las ve? (36)
-¿Le gusta realizar actividades de arte? (72)
+¿Le gusta realizar actividades de arte? (72) [Especialmente escultura, cerámica, etc.]
+¿Comunica sensaciones físicas diferentes mientras piensa o trabaja? (16)
+¿Se expresa en forma dramática? (4)
 
 5. Inteligencia Musical
 ¿Suele cantar canciones que no han sido aprendidas en clase? (2)
@@ -50,6 +57,7 @@
 ¿Posee algún instrumento musical que sepa tocar? (30)
 ¿Canta sin darse cuenta? (34)
 ¿Habla o se mueve rítmicamente? (38)
+¿Lleva un compás totalmente diferente en cuanto a su estilo de vida y aprendizaje? (31)
 
 6. Inteligencia Intrapersonal
 ¿Parece tener un gran amor propio? (3)
@@ -60,6 +68,8 @@
 ¿Posee un buen sentido de autodirección? (35)
 ¿Se interesa por un pasatiempo sobre el cual no habla mucho a los demás? (39)
 ¿Utiliza sus errores y logros de la vida para aprender de ellos? (11)
+¿Parece tener un gran sentido de independencia o voluntad fuerte? (7)
+¿Demuestra tener buen sentido común? (70)
 
 7. Inteligencia Interpersonal
 ¿Respeta los turno en la conversación, cede la palabras? (45)
@@ -67,12 +77,11 @@
 ¿Es empatico y/o se interesa por lo demás? (50)
 ¿Demuestra ser un líder por naturaleza? (54)
 ¿Posee dos o mas buenos amigos? (58)
-¿Tiene don de convencimiento, facilidad de palabras? (61)
+¿Tiene don de convencimiento, facilidad de palabras? (61) [En el contexto social]
 ¿Es capaz de aconsejar a sus compañeros que tienen problemas? (62)
 ¿Disfruta jugando con otros jóvenes? (66)
 ¿Forma parte de algún club o grupo social? (74)
 ¿Le gusta participar en actividades de ayuda comunitaria? (78)
-¿Sus compañeros buscan estar con usted? (42)
 
 8. Inteligencia Naturalista
 ¿Demuestra sensibilidad ante los ruidos del ambiente? (18)

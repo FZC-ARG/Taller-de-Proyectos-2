@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.appmartin.desmartin.model.IntentoTest;
+
 import java.util.List;
 
 @Repository
@@ -17,3 +19,6 @@ public interface ResultadoTestRepository extends JpaRepository<ResultadoTest, In
     List<ResultadoTest> findByIntentoId(@Param("idIntento") Integer idIntento);
 }
 
+@Repository
+public interface IntentoTestRepository extends JpaRepository<IntentoTest, Integer> {
+}

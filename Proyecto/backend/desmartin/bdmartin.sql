@@ -154,6 +154,7 @@ INSERT INTO preguntas_test (id_pregunta, id_inteligencia_fk, texto_pregunta) VAL
 -- Inteligencia Lógico-Matemática (1)
 (1, 1, '¿Es capaz de reconocer y comprender causa y efecto con relación a su edad?'),
 (5, 1, '¿Se cuestiona acerca del funcionamiento de las cosas?'),
+(9, 1, '¿Su nivel de pensamiento es mas abstracto y conceptual que sus compañeros?'),
 (13, 1, '¿Es capaz de resolver problemas de matemáticas mentalmente y con rapidez?'),
 (21, 1, '¿Disfruta las clases de matemáticas?'),
 (25, 1, '¿Le agrada clasificar y jerarquizar cosas?'),
@@ -164,15 +165,18 @@ INSERT INTO preguntas_test (id_pregunta, id_inteligencia_fk, texto_pregunta) VAL
 
 -- Inteligencia Lingüístico-Verbal (2)
 (4, 2, '¿Se expresa en forma dramática?'),
-(49, 2, '¿Suele crear y/o relatar cuentos bromas y chistes?'),
 (41, 2, '¿Se comunica con los demás de una manera marcadamente verbal?'),
+(49, 2, '¿Suele crear y/o relatar cuentos bromas y chistes?'),
+(53, 2, '¿Disfruta escuchar historias, leyendas o grabaciones?'),
+(57, 2, '¿Sostiene con argumentos el criterio respecto al texto?'),
+(64, 2, '¿Tiene facilidad para recordar nombres, lugares y fechas?'),
 (65, 2, '¿Comprende y goza de los juegos de palabras?'),
 (69, 2, '¿Sus producciones escritas son las esperadas para su edad?'),
 (73, 2, '¿Tiene facilidad para las lenguas extranjeras?'),
 (77, 2, '¿Relaciona el contenido del texto con la realidad?'),
-(57, 2, '¿Sostiene con argumentos el criterio respecto al texto?'),
 
 -- Inteligencia Espacial-Visual (3)
+(44, 3, '¿Realiza garabatos en sus libros y otros materiales de trabajo?'),
 (48, 3, '¿Comunica imágenes visuales nítidas?'),
 (52, 3, '¿Realiza creaciones tridimensionales avanzadas para su edad?'),
 (56, 3, '¿Tiene facilidad para la lectura de mapas, gráficos y diagramas?'),
@@ -180,17 +184,20 @@ INSERT INTO preguntas_test (id_pregunta, id_inteligencia_fk, texto_pregunta) VAL
 (68, 3, '¿Disfruta viendo películas, diapositivas y otras presentaciones visuales?'),
 (76, 3, '¿Dibuja figuras avanzadas para su edad?'),
 (80, 3, '¿Puede orientarse fácilmente en un lugar al que va por primera vez?'),
-(44, 3, '¿Realiza garabatos en sus libros y otros materiales de trabajo?'),
+(17, 3, '¿Muestra en sus experimentos procesos de pensamiento cognitivo de orden superior?'),
+(55, 3, '¿Le gusta clasificar y coleccionar objetos?'),
 
 -- Inteligencia Corporal-Kinestésica (4)
-(12, 4, '¿Sobresale en la práctica de uno o más deportes?'),
+(8, 4, '¿Encuentra placer al realizar las experiencias táctiles ( plastilina, cerámica, macilla, etc.)?'),
+(12, 4, '¿Sobresale en la practica de uno o mas deportes?'),
+(16, 4, '¿Comunica sensaciones físicas diferentes mientras piensa o trabaja?'),
 (20, 4, '¿Suele moverse, estar inquieto al estar sentado por largo tiempo?'),
 (24, 4, '¿Demuestra destreza en actividades que requieren de coordinación motora sutil?'),
 (32, 4, '¿Es bueno imitando los movimientos típicos y gestos de otra persona?'),
-(40, 4, '¿Me considero una persona coordinada?'),
-(8, 4, '¿Encuentra placer al realizar las experiencias táctiles (plastilina, cerámica, macilla, etc.)?'),
 (36, 4, '¿Suele tocar las cosas con las manos apenas las ve?'),
+(40, 4, '¿Me considero una persona coordinada?'),
 (72, 4, '¿Le gusta realizar actividades de arte?'),
+(4, 4, '¿Se expresa en forma dramática?'),  -- Se repite en ambas inteligencias por su naturaleza dual
 
 -- Inteligencia Musical (5)
 (2, 5, '¿Suele cantar canciones que no han sido aprendidas en clase?'),
@@ -198,33 +205,35 @@ INSERT INTO preguntas_test (id_pregunta, id_inteligencia_fk, texto_pregunta) VAL
 (10, 5, '¿Disfruta escuchar música?'),
 (14, 5, '¿Tiene buena memoria para las melodías de las canciones?'),
 (22, 5, '¿Tiene buena voz para cantar?'),
-(26, 5, '¿Tamborilea rítmicamente sobre la mesa o escritorio mientras está trabajando?'),
+(26, 5, '¿Tamborilea rítmicamente sobre la mesa o escritorio mientras esta trabajando?'),
 (30, 5, '¿Posee algún instrumento musical que sepa tocar?'),
 (34, 5, '¿Canta sin darse cuenta?'),
 (38, 5, '¿Habla o se mueve rítmicamente?'),
+(31, 5, '¿Lleva un compás totalmente diferente en cuanto a su estilo de vida y aprendizaje?'),
 
 -- Inteligencia Intrapersonal (6)
 (3, 6, '¿Parece tener un gran amor propio?'),
-(15, 6, '¿Posee un concepto práctico de sus habilidades y debilidades?'),
+(7, 6, '¿Parece tener un gran sentido de independencia o voluntad fuerte?'),
+(11, 6, '¿Utiliza sus errores y logros de la vida para aprender de ellos?'),
+(15, 6, '¿Posee un concepto practico de sus habilidades y debilidades?'),
 (19, 6, '¿Es capaz de expresar sus sentimientos acertadamente?'),
 (23, 6, '¿Tiene un buen desempeño cuando trabaja solo?'),
-(27, 6, '¿Le gusta más trabajar solo que en grupo?'),
+(27, 6, '¿Le gusta mas trabajar solo que en grupo?'),
 (35, 6, '¿Posee un buen sentido de autodirección?'),
 (39, 6, '¿Se interesa por un pasatiempo sobre el cual no habla mucho a los demás?'),
-(11, 6, '¿Utiliza sus errores y logros de la vida para aprender de ellos?'),
+(70, 6, '¿Demuestra tener buen sentido común?'),
 
 -- Inteligencia Interpersonal (7)
-(45, 7, '¿Respeta los turnos en la conversación, cede la palabra?'),
+(42, 7, '¿Sus compañeros buscan estar con usted?'),
+(45, 7, '¿Respeta los turno en la conversación, cede la palabras?'),
 (46, 7, '¿Le gusta hablar con sus compañeros?'),
-(50, 7, '¿Es empático y/o se interesa por los demás?'),
+(50, 7, '¿Es empatico y/o se interesa por lo demás?'),
 (54, 7, '¿Demuestra ser un líder por naturaleza?'),
-(58, 7, '¿Posee dos o más buenos amigos?'),
-(61, 7, '¿Tiene don de convencimiento, facilidad de palabras?'),
+(58, 7, '¿Posee dos o mas buenos amigos?'),
 (62, 7, '¿Es capaz de aconsejar a sus compañeros que tienen problemas?'),
 (66, 7, '¿Disfruta jugando con otros jóvenes?'),
 (74, 7, '¿Forma parte de algún club o grupo social?'),
 (78, 7, '¿Le gusta participar en actividades de ayuda comunitaria?'),
-(42, 7, '¿Sus compañeros buscan estar con usted?'),
 
 -- Inteligencia Naturalista (8)
 (18, 8, '¿Demuestra sensibilidad ante los ruidos del ambiente?'),
