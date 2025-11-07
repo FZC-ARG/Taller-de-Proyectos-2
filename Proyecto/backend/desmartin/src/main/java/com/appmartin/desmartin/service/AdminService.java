@@ -235,10 +235,10 @@ public class AdminService {
     public List<LogAccesoDTO> listarLogs() {
         return logAccesoRepository.findAll().stream()
             .map(log -> new LogAccesoDTO(
-                log.getIdLog(),
+                log.getIdLog() != null ? log.getIdLog().intValue() : null,
                 log.getIdUsuario(),
-                log.getTipoUsuario().name(),
-                log.getFechaHoraAcceso()
+                log.getTipoUsuario(),
+                log.getFechaHora()
             ))
             .collect(Collectors.toList());
     }

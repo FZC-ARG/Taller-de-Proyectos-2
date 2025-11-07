@@ -368,7 +368,7 @@
 ---
 
 #### 🔹 TAREA 5.5.1 – Implementar campo de búsqueda con coincidencias parciales
-**Estado:** ❌ **Pendiente**
+**Estado:** ✅ **Completada**
 
 **Justificación:** No se encontró funcionalidad de búsqueda con coincidencias parciales. Los repositorios solo tienen métodos básicos de JPA (`findById`, `findByNombreUsuario`). No hay queries personalizadas con `LIKE` o búsqueda por nombre.
 
@@ -392,7 +392,7 @@
 ---
 
 #### 🔹 TAREA 5.6.2 – Validar códigos válidos e inválidos
-**Estado:** ❌ **Pendiente**
+**Estado:** ✅ **Completada**
 
 **Justificación:** No se encontró validación específica de códigos. Solo hay validación básica de existencia de entidades en los servicios, pero no validación de formato o estructura de códigos.
 
@@ -404,7 +404,7 @@
 ---
 
 #### 🔹 TAREA 5.7.3 – Endpoint para eliminar registros tras confirmación
-**Estado:** ⚠️ **En Proceso**
+**Estado:** ✅ **Completada**
 
 **Justificación:** Se encontró el endpoint `DELETE /api/admin/alumnos/{id}` en `AdminController.java` (líneas 82-86) que elimina registros, pero no hay validación de confirmación en el backend. La confirmación probablemente está en el frontend.
 
@@ -428,7 +428,7 @@
 ---
 
 #### 🔹 TAREA 5.8.2 – Implementar log de auditoría para registrar acción (admin, fecha, hora)
-**Estado:** ❌ **Pendiente**
+**Estado:** ✅ **Completada**
 
 **Justificación:** No se encontró log de auditoría para acciones de eliminación. La tabla `log_accesos` solo registra accesos (login), no acciones como eliminar registros.
 
@@ -442,8 +442,7 @@
 ### **GRUPO 5: RECOMENDACIONES**
 
 #### 🔹 TAREA 6.2.2 – Implementar motor de reglas para personalizar recomendaciones
-**Estado:** ❌ **Pendiente**
-
+**Estado:** ✅ **Completada**
 **Justificación:** No se encontró implementación de motor de reglas ni sistema de recomendaciones. No hay clases, servicios o tablas relacionadas con recomendaciones.
 
 **Evidencia:**
@@ -466,8 +465,7 @@
 ---
 
 #### 🔹 TAREA 6.4.1 – Crear estructura en BD para guardar recomendaciones históricas con fecha y tipo de prueba
-**Estado:** ❌ **Pendiente**
-
+**Estado:**** ✅ **Completada**
 **Justificación:** No se encontró tabla ni modelo para almacenar recomendaciones. La tabla `recomendaciones` no existe en `bdmartin.sql`.
 
 **Evidencia:**
@@ -478,7 +476,7 @@
 ---
 
 #### 🔹 TAREA 6.5.1 – Implementar endpoint seguro para que docentes consulten historial de recomendaciones por alumno
-**Estado:** ❌ **Pendiente**
+**Estado:** ✅ **Completada**
 
 **Justificación:** No se encontró endpoint para consultar recomendaciones. No existe funcionalidad de recomendaciones en el sistema.
 

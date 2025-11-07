@@ -4,13 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { AlumnosService } from '../services/alumnos.service';
 import { TestService } from '../services/test.service';
-import { NgChartsModule } from 'ng2-charts';
+import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
 
 @Component({
   selector: 'app-perfil-alumno',
   standalone: true,
-  imports: [CommonModule , NgChartsModule],
+  imports: [CommonModule , BaseChartDirective],
   templateUrl: './perfil-alumno.component.html',
   styleUrls: ['./perfil-alumno.component.css']
 })

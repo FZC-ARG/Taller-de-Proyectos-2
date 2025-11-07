@@ -626,7 +626,10 @@
                 <button onclick="obtenerUltimoResultado()">Último Resultado</button>
                 <button onclick="obtenerHistorialResultados()">Historial</button>
             </div>
-            <button onclick="listarLogs()">Ver Logs de Acceso</button>
+            <div class="form-group inline-inputs">
+                <button onclick="listarLogsAdmin()">Logs AdminService</button>
+                <button onclick="listarLogsAuth()">Logs Autenticación</button>
+            </div>
             
             <hr style="margin: 20px 0;">
             <h3>📥 Obtener Resultados del Test (Formato para IA)</h3>
@@ -1126,8 +1129,12 @@
             apiCall(`/alumno/${alumnoId}/resultados/historial`);
         }
 
-        function listarLogs() {
+        function listarLogsAdmin() {
             apiCall('/admin/logs');
+        }
+
+        function listarLogsAuth() {
+            apiCall('/auth/logs');
         }
 
         // ================= RESULTADOS DEL TEST =================
