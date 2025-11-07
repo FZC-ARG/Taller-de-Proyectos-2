@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-11-2025 a las 17:17:17
+-- Tiempo de generación: 06-11-2025 a las 21:01:47
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -135,7 +135,21 @@ INSERT INTO `chat_mensajes` (`id_mensaje`, `id_sesion_fk`, `emisor`, `contenido`
 (29, 8, 'docente', 'que', '2025-11-05 11:00:42'),
 (30, 8, 'ia', ' 2023-11-11 1-3 2-10 3-4 5 6-7-7 0-7 8-9 9-10 9 0-9 0-9 0-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-9 9-', '2025-11-05 11:03:07'),
 (31, 8, 'docente', 'en que me peuedes hayudar', '2025-11-05 11:03:18'),
-(32, 8, 'ia', 'Gracias por tu confianza. Te puedo ayudar de muchas maneras, aquí tienes algunas de las principales:\n\n**📚 En matemáticas y otras materias:**\n- Explicar conceptos que no entiendas (desde aritmética básica hasta cálculo)\n- Resolver problemas paso a paso\n- Encontrar recursos de estudio personalizados\n- Crear planes de estudio\n\n**🧠 Sobre técnicas de aprendizaje:**\n- Cómo organizar tu tiempo para estudiar\n- Técnicas de memorización (para fórmulas, etc.)\n- Cómo mantener la motivación\n- Transformar \"No me gusta matemáticas\" a \"Es desafiante pero interesante\"\n\n**📝 Sobre tu situación específica:**\n- Si estás en la escuela: Ayuda con tareas, proyectos, exámenes\n- Si eres adulto aprendiendo por tu cuenta: Recursos y métodos\n- Si eres padre/madre queriendo ayudar a tu hijo: Cómo explicarles, juegos educativos\n\n** Otras áreas:**\n- Aplicar matemáticas a tu trabajo o vida diaria\n- Entender noticias científicas\n- Planificar metas a largo plazo (estudiar una carrera, etc.)\n\n**Dime simplemente:**\n- ¿Qué tema o problema tienes en mente?\n- ¿En qué área o nivel educativo estás? (primaria, secundaria, universidad, autoaprendizaje...)\n- ¿Qué has intentado hasta ahora?\n- ¿Hay algo que especialmente te frustre o confunda?\n\n**No te preocupes si no estás seguro aún. Puedo ayudarte a explorar opciones paso a paso. **<｜begin▁of▁sentence｜>', '2025-11-05 11:03:36');
+(32, 8, 'ia', 'Gracias por tu confianza. Te puedo ayudar de muchas maneras, aquí tienes algunas de las principales:\n\n**📚 En matemáticas y otras materias:**\n- Explicar conceptos que no entiendas (desde aritmética básica hasta cálculo)\n- Resolver problemas paso a paso\n- Encontrar recursos de estudio personalizados\n- Crear planes de estudio\n\n**🧠 Sobre técnicas de aprendizaje:**\n- Cómo organizar tu tiempo para estudiar\n- Técnicas de memorización (para fórmulas, etc.)\n- Cómo mantener la motivación\n- Transformar \"No me gusta matemáticas\" a \"Es desafiante pero interesante\"\n\n**📝 Sobre tu situación específica:**\n- Si estás en la escuela: Ayuda con tareas, proyectos, exámenes\n- Si eres adulto aprendiendo por tu cuenta: Recursos y métodos\n- Si eres padre/madre queriendo ayudar a tu hijo: Cómo explicarles, juegos educativos\n\n** Otras áreas:**\n- Aplicar matemáticas a tu trabajo o vida diaria\n- Entender noticias científicas\n- Planificar metas a largo plazo (estudiar una carrera, etc.)\n\n**Dime simplemente:**\n- ¿Qué tema o problema tienes en mente?\n- ¿En qué área o nivel educativo estás? (primaria, secundaria, universidad, autoaprendizaje...)\n- ¿Qué has intentado hasta ahora?\n- ¿Hay algo que especialmente te frustre o confunda?\n\n**No te preocupes si no estás seguro aún. Puedo ayudarte a explorar opciones paso a paso. **<｜begin▁of▁sentence｜>', '2025-11-05 11:03:36'),
+(33, 8, 'docente', 'quiero continuar donde estabamos osea que es lo que podrias darem de sugerencias para mejorar todo esto', '2025-11-05 11:57:05'),
+(34, 8, 'ia', '¡Claro que sí! Retomando nuestra conversación anterior sobre cómo mejorar un sistema o proceso (ya que no especificaste exactamente qué \"todo esto\" se refiere, pero basándome en nuestro historial), aquí tienes un resumen de mis sugerencias y cómo podemos avanzar:\n\n**Basado en nuestra conversación anterior, aquí tienes mis sugerencias organizadas:**\n\n### 1. **Sobre tu Aprendizaje (Matemáticas u otras áreas)**\n- **Identifica tus debilidades específicas**: ¿Qué temas o tipos de problemas te cuestan más? Podemos enfocarnos allí.\n- **Practica con ejercicios progresivos**: Comienza con problemas simples y gradualmente aumenta la dificultad.\n- **Usa recursos variados**: Tutoriales en video, aplicaciones, ejercicios con respuestas explicadas.\n\n### 2. **Para Mejorar un Sistema o Proyecto (como mencionaste antes)**\n- **Define tu objetivo final claramente**: ¿Qué quieres lograr exactamente? (ej: \"Quiero entender mejor el álgebra\", \"Quiero mejorar en programación\")\n- **Desglosa el proceso en pasos pequeños**: Hazlo paso a paso para no abrumarte.\n- **Haz revisiones regulares**: Evalúa tu progreso cada semana para ajustar tu enfoque.\n\n### 3. **Sobre Desarrollo Personal y Bienestar**\n- **Establece una rutina**: Dedica tiempo constante aunque sea poco (ej: 30 minutos diarios).\n- **Combina con intereses**: Relaciona el aprendizaje con tus hobbies (música, videojuegos, etc.).\n- **Mantén un registro**: Anota tus progresos y dificultades para reflexionar.\n\n### 4. **Recursos y Herramientas Específicas**\n- **Para matemáticas**: Khan Academy, Brilliant, Deriving (canal de YouTube).\n- **Para programación**: FreeCodeCamp, Codecademy (ambos con proyectos guiados).\n- **Para organización**: Usa Trello o Notion para planificar tus metas.\n\n### 5. **Siguientes Pasos Inmediatos**\n- **Selecciona una meta pequeña para esta semana**: Por ejemplo, \"Resolver 5 problemas de álgebra cada día\".\n- **Programa recordatorios**: Usa tu teléfono para recordarte tu práctica diaria.\n- **Únete a comunidades**: Subreddits o foros donde puedas hacer preguntas.\n\n---\n\n**¿Qué te parece?** ¿Quieres que profundice en alguna de estas áreas o tienes alguna otra cosa en mente?\n\nEstoy aquí para ayudarte a estructurar y alcanzar tus metas. ', '2025-11-05 11:57:28'),
+(35, 11, 'docente', 'hola que puedes hacer', '2025-11-05 12:27:21'),
+(36, 11, 'ia', 'Lo siento, hubo un error al procesar tu solicitud. La API key de OpenRouter no está configurada correctamente. Verifica la configuración del servidor.', '2025-11-05 12:27:29'),
+(37, 11, 'docente', 'hola quew puedes hacer', '2025-11-05 12:27:51'),
+(38, 11, 'ia', 'Lo siento, hubo un error al procesar tu solicitud. La API key de OpenRouter no está configurada correctamente. Verifica la configuración del servidor.', '2025-11-05 12:27:58'),
+(39, 11, 'docente', 'hola que puedes hacer', '2025-11-05 12:28:13'),
+(40, 11, 'ia', 'Lo siento, hubo un error al procesar tu solicitud. La API key de OpenRouter no está configurada correctamente. Verifica la configuración del servidor.', '2025-11-05 12:28:19'),
+(41, 8, 'docente', 'hola', '2025-11-05 12:29:49'),
+(42, 8, 'ia', '¡Hola! ¡Qué gusto verte de nuevo por aquí! 😊\n\nYa que mencionas que estás comenzando desde cero o retomando después de un tiempo, ¿puedo preguntarte en qué estás interesado/a hoy? \n\n**Por ejemplo, puedes:**\n\n- **Continuar un tema pendiente**: Si había algo en lo que estábamos trabajando la última vez (¿recuerdas?).\n- **Empezar algo nuevo**: ¿Hay algo específico en lo que te gustaría enfocarte hoy? (matemáticas, programación, un proyecto personal, etc.)\n- **Resolver una duda específica**: ¿Hay algo que te tenga atascado/a o con curiosidad?\n\n**O si prefieres**, puedo hacer un pequeño resumen de lo que teníamos entre manos antes y ver cómo podemos retomarlo.\n\n**¿Por dónde quieres empezar?** 🚀<｜begin▁of▁sentence｜>', '2025-11-05 12:30:00'),
+(43, 11, 'docente', 'hola', '2025-11-05 12:30:14'),
+(44, 11, 'ia', '¡Hola! Me llamo Claude y soy un asistente de inteligencia artificial. \n\nVeo que hay un problema técnico con la configuración, pero me encantaría poder ayudarte con cualquier tema educativo que necesites. Por ejemplo, podría:\n\n- Explicar conceptos académicos de manera sencilla\n- Sugerir actividades de aprendizaje basadas en tus intereses\n- Ayudar con técnicas de estudio personalizadas\n- Compartir recursos educativos adaptados a diferentes estilos de aprendizaje\n\n¿Hay algo específico en lo que te gustaría que te ayude?<｜begin▁of▁sentence｜>', '2025-11-05 12:30:21'),
+(45, 8, 'docente', 'hola', '2025-11-06 14:48:19'),
+(46, 8, 'ia', '¡Hola! ¡Encantado de saludarte!   \nSoy DeepSeek-V3, y estoy aquí para ayudarte con lo que necesites.  \n\nPuedo responder preguntas, ayudar con problemas, ofrecer información sobre diversos temas o simplemente charlar contigo.  \n\n¿En qué puedo ayudarte hoy? 😊', '2025-11-06 14:48:30');
 
 -- --------------------------------------------------------
 
@@ -164,9 +178,11 @@ INSERT INTO `chat_sesiones` (`id_sesion`, `id_docente_fk`, `id_alumno_fk`, `id_c
 (5, 1, 1, NULL, 'HOLA3', '2025-11-05 02:55:11'),
 (6, 1, 1, NULL, 'hola1', '2025-11-05 03:07:25'),
 (7, 1, 1, NULL, 'jhgjhgvjh', '2025-11-05 03:12:01'),
-(8, 1, 1, NULL, '1khcg', '2025-11-05 03:23:00'),
+(8, 1, 1, NULL, 'Consulta Individual', '2025-11-05 03:23:00'),
 (9, 1, NULL, 1, '1khcg', '2025-11-05 03:54:06'),
-(10, 1, NULL, 1, 'gffff', '2025-11-05 03:59:27');
+(10, 1, NULL, 1, 'gffff', '2025-11-05 03:59:27'),
+(11, 1, 2, NULL, 'Consulta Individual', '2025-11-05 12:27:15'),
+(12, 1, 2, NULL, 'dasdasdasdasdas', '2025-11-05 12:40:24');
 
 -- --------------------------------------------------------
 
@@ -207,7 +223,8 @@ CREATE TABLE `docentes` (
 --
 
 INSERT INTO `docentes` (`id_docente`, `nombre_usuario`, `contrasena`, `nombre`, `apellido`) VALUES
-(1, 'dante1', '$2a$10$SM9pWMJaQKMI257EZhMySOMakvD/wX5WYKPOuEAjlHqayp.2YZIIi', 'dantessss', 'romansssssss');
+(1, 'dante1', '$2a$10$SM9pWMJaQKMI257EZhMySOMakvD/wX5WYKPOuEAjlHqayp.2YZIIi', 'dantessss', 'romansssssss'),
+(2, 'docente2', '$2a$10$1S1iMTndBbXkq6sV4ZU4E.iDJEKDUDeEQ9Xq23q/woGuhQyQPiepy', 'docente', 'doc');
 
 -- --------------------------------------------------------
 
@@ -529,13 +546,13 @@ ALTER TABLE `alumnos`
 -- AUTO_INCREMENT de la tabla `chat_mensajes`
 --
 ALTER TABLE `chat_mensajes`
-  MODIFY `id_mensaje` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_mensaje` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT de la tabla `chat_sesiones`
 --
 ALTER TABLE `chat_sesiones`
-  MODIFY `id_sesion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_sesion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `cursos`
@@ -547,7 +564,7 @@ ALTER TABLE `cursos`
 -- AUTO_INCREMENT de la tabla `docentes`
 --
 ALTER TABLE `docentes`
-  MODIFY `id_docente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_docente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `intentos_test`
@@ -600,7 +617,7 @@ ALTER TABLE `alumnos_cursos`
 -- Filtros para la tabla `chat_mensajes`
 --
 ALTER TABLE `chat_mensajes`
-  ADD CONSTRAINT `chat_mensajes_ibfk_1` FOREIGN KEY (`id_sesion_fk`) REFERENCES `chat_sesiones` (`id_sesion`);
+  ADD CONSTRAINT `chat_mensajes_ibfk_1` FOREIGN KEY (`id_sesion_fk`) REFERENCES `chat_sesiones` (`id_sesion`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `chat_sesiones`
