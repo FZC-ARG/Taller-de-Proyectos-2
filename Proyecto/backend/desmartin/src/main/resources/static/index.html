@@ -801,7 +801,14 @@
         const API_BASE = 'http://localhost:8081/api';
 
         function showResponse(data) {
-            document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+            const responseElement = document.getElementById('response');
+            if (data === undefined || data === null) {
+                responseElement.textContent = 'Sin respuesta';
+            } else if (typeof data === 'string') {
+                responseElement.textContent = data;
+            } else {
+                responseElement.textContent = JSON.stringify(data, null, 2);
+            }
         }
 
         async function apiCall(endpoint, method = 'GET', body = null) {
@@ -827,7 +834,23 @@
                     throw error;
                 }
                 
-                const data = await response.json();
+                const contentType = response.headers.get('content-type') || '';
+                let data;
+
+                if (response.status === 204) {
+                    data = 'Solicitud procesada correctamente (sin contenido)';
+                } else if (!contentType) {
+                    data = '';
+                } else if (contentType.includes('application/json')) {
+                    try {
+                        data = await response.json();
+                    } catch (parseError) {
+                        data = 'Respuesta recibida, pero no se pudo interpretar como JSON.';
+                    }
+                } else {
+                    data = await response.text();
+                }
+
                 showResponse(data);
                 return data;
             } catch (error) {
