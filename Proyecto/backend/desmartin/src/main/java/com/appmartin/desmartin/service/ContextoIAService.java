@@ -1,6 +1,7 @@
 package com.appmartin.desmartin.service;
 
 import com.appmartin.desmartin.dto.*;
+import com.appmartin.desmartin.ia.IAPersonalityService;
 import com.appmartin.desmartin.model.*;
 import com.appmartin.desmartin.repository.*;
 import org.slf4j.Logger;
@@ -40,6 +41,9 @@ public class ContextoIAService {
     
     @Autowired
     private AlumnoCursoRepository alumnoCursoRepository;
+
+    @Autowired
+    private IAPersonalityService iaPersonalityService;
     
     /**
      * Genera el contexto completo para un chat individual (alumno específico)
@@ -266,11 +270,14 @@ public class ContextoIAService {
      * @return Map con el mensaje del sistema
      */
     public Map<String, String> construirMensajeSistema(String contexto) {
+        String personalityPrompt = iaPersonalityService.buildPersonalityPrompt();
         String mensajeSistema = """
             Eres un asistente educativo especializado en inteligencias múltiples y pedagogía personalizada.
             
             Tu tarea es ayudar a docentes a interpretar y aplicar los resultados del test de inteligencias múltiples
             para mejorar la experiencia de aprendizaje de sus estudiantes.
+            
+            %s
             
             %s
             
@@ -282,7 +289,7 @@ public class ContextoIAService {
             - Si no tienes información suficiente, indícalo honestamente
             
             IMPORTANTE: Siempre responde en español.
-            """.formatted(contexto);
+            """.formatted(personalityPrompt, contexto);
         
         return Map.of("role", "system", "content", mensajeSistema);
     }
