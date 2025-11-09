@@ -3,6 +3,7 @@ package com.appmartin.desmartin.controller;
 import com.appmartin.desmartin.dto.*;
 import com.appmartin.desmartin.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,20 +64,21 @@ public class ChatController {
         return ResponseEntity.ok(chatService.obtenerSesionesPorAlumno(idAlumno));
     }
     
-    /**
-     * Obtiene la última sesión activa entre un docente y un alumno sin crearla
-     * 
-     * @param idDocente ID del docente
-     * @param idAlumno ID del alumno
-     * @return DTO de la sesión si existe, o null si no existe
-     */
     @GetMapping("/sesiones/docente/{idDocente}/alumno/{idAlumno}/ultima")
     public ResponseEntity<ChatSesionDTO> obtenerUltimaSesion(@PathVariable Integer idDocente, @PathVariable Integer idAlumno) {
         ChatSesionDTO sesion = chatService.obtenerUltimaSesion(idDocente, idAlumno);
         if (sesion != null) {
             return ResponseEntity.ok(sesion);
         } else {
-            return ResponseEntity.notFound().build();
+            CrearChatSesionRequest request = new CrearChatSesionRequest(
+                idDocente,
+                idAlumno,
+                null,
+                null,
+                true
+            );
+            ChatSesionDTO nuevaSesion = chatService.crearSesion(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body(nuevaSesion);
         }
     }
 }
