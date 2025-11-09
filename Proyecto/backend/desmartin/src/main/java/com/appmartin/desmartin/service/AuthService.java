@@ -33,11 +33,7 @@ public class AuthService {
         if (adminOpt.isPresent() && bCryptPasswordEncoder.matches(request.getContrasena(), adminOpt.get().getContrasena())) {
             Administrador admin = adminOpt.get();
             
-            // Registrar log de acceso
-            LogAcceso log = new LogAcceso();
-            log.setIdUsuario(admin.getIdAdmin());
-            log.setTipoUsuario(LogAcceso.TipoUsuario.admin);
-            logAccesoRepository.save(log);
+
             
             return new AdministradorDTO(admin.getIdAdmin(), admin.getNombreUsuario(),admin.getNombre(),admin.getApellido());
         }
@@ -51,11 +47,7 @@ public class AuthService {
         if (docenteOpt.isPresent() && bCryptPasswordEncoder.matches(request.getContrasena(), docenteOpt.get().getContrasena())) {
             Docente docente = docenteOpt.get();
             
-            // Registrar log de acceso
-            LogAcceso log = new LogAcceso();
-            log.setIdUsuario(docente.getIdDocente());
-            log.setTipoUsuario(LogAcceso.TipoUsuario.docente);
-            logAccesoRepository.save(log);
+
             
             return new DocenteDTO(docente.getIdDocente(), docente.getNombreUsuario(),docente.getNombre(),docente.getApellido());
         }
@@ -69,11 +61,7 @@ public class AuthService {
         if (alumnoOpt.isPresent() && bCryptPasswordEncoder.matches(request.getContrasena(), alumnoOpt.get().getContrasena())) {
             Alumno alumno = alumnoOpt.get();
             
-            // Registrar log de acceso
-            LogAcceso log = new LogAcceso();
-            log.setIdUsuario(alumno.getIdAlumno());
-            log.setTipoUsuario(LogAcceso.TipoUsuario.alumno);
-            logAccesoRepository.save(log);
+
 
             return new AlumnoDTO(alumno.getIdAlumno(), alumno.getNombreUsuario(),alumno.getNombre(),alumno.getApellido(),alumno.getFechaNacimiento());
         }
