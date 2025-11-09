@@ -19,7 +19,25 @@ export class AdminService {
     return this.http.get<any>(url);
   }
 
- 
+  getAdmins(): Observable<any> {
+    const url = `${API_URL}api/admin/administradores`;
+    return this.http.get<any>(url);
+  }
+
+  newAlumno(data: any): Observable<any> {
+    const url = `${API_URL}api/admin/alumnos`;
+    return this.http.post<any>(url, data);
+  }
+
+  newDocente(data: any): Observable<any> {
+    const url = `${API_URL}api/admin/docentes`;
+    return this.http.post<any>(url, data);
+  }
+
+  newAdmin(data: any): Observable<any> {    
+    const url = `${API_URL}api/admin/administradores`;
+    return this.http.post<any>(url, data);
+  }
   
   
 }

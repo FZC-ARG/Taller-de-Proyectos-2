@@ -1,34 +1,40 @@
 <body>
-    <div class="overlay"></div>
-    <div class="panel-container">
-        <div class="panel-header">
-            <h2>Panel de Gestión</h2>
-            <button class="actividad-button" (click)="actividad()">Visualizar Actividad</button>
-        </div>
+  <div class="overlay"></div>
+  <div class="panel-container">
+    <div class="panel-header">
+      <h2>Panel de Gestión</h2>
+      <div class="header-buttons">
+        <button class="nuevo-button" (click)="nuevoAlumnoModal()">➕ Nuevo Alumno</button>
+        <button class="nuevo-button" (click)="nuevoDocenteModal()">👨‍🏫 Nuevo Docente</button>
+        <button class="nuevo-button" (click)="nuevoAdminModal()">🛠️ Nuevo Admin</button>
+        <button class="actividad-button" (click)="actividad()">Visualizar Actividad</button>
+      </div>
+    </div>
+
     <div class="scrolls-container">
-        <!-- Alumnos -->
-        <div class="scroll-box">
+      <!-- Alumnos -->
+      <div class="scroll-box">
         <h3>Alumnos</h3>
         <div *ngFor="let alumno of alumnos" (click)="recuperarContrasena()">
-            <button class="item-button">{{ alumno.nombre + ' ' + alumno.apellido }}</button>
+          <button class="item-button">{{ alumno.nombre + ' ' + alumno.apellido }}</button>
         </div>
-        </div>
+      </div>
 
-        <!-- Docentes -->
-        <div class="scroll-box">
+      <!-- Docentes -->
+      <div class="scroll-box">
         <h3>Docentes</h3>
         <div *ngFor="let docente of docentes" (click)="recuperarContrasena()">
-            <button class="item-button">{{docente.nombre + ' ' +docente.apellido }} </button>
+          <button class="item-button">{{ docente.nombre + ' ' + docente.apellido }}</button>
         </div>
+      </div>
+      <div class="scroll-box">
+        <h3>Administradores</h3>
+        <div *ngFor="let admin of admins" (click)="recuperarContrasena()">
+          <button class="item-button">{{ admin.nombre + ' ' + admin.apellido }}</button>
         </div>
+      </div>
+    </div>
 
-        <!-- Pruebas -->
-        <div class="scroll-box">
-        <h3>Pruebas</h3>
-        <div *ngFor="let prueba of pruebas">
-        </div>
-        </div>
-    </div>
     <button class="logout-button" (click)="logout()">Cerrar Sesión</button>
-    </div>
+  </div>
 </body>
