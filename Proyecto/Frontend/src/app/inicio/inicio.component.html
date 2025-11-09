@@ -15,7 +15,7 @@
       <!-- Alumnos -->
       <div class="scroll-box">
         <h3>Alumnos</h3>
-        <div *ngFor="let alumno of alumnos" (click)="recuperarContrasena()">
+        <div *ngFor="let alumno of alumnos" (click)="verUsuarioModal(alumno, 'alumno')">
           <button class="item-button">{{ alumno.nombre + ' ' + alumno.apellido }}</button>
         </div>
       </div>
@@ -23,13 +23,15 @@
       <!-- Docentes -->
       <div class="scroll-box">
         <h3>Docentes</h3>
-        <div *ngFor="let docente of docentes" (click)="recuperarContrasena()">
+        <div *ngFor="let docente of docentes" (click)="verUsuarioModal(docente, 'docente')">
           <button class="item-button">{{ docente.nombre + ' ' + docente.apellido }}</button>
         </div>
       </div>
+
+      <!-- Administradores -->
       <div class="scroll-box">
         <h3>Administradores</h3>
-        <div *ngFor="let admin of admins" (click)="recuperarContrasena()">
+        <div *ngFor="let admin of admins" (click)="verUsuarioModal(admin, 'admin')">
           <button class="item-button">{{ admin.nombre + ' ' + admin.apellido }}</button>
         </div>
       </div>

@@ -208,4 +208,104 @@ export class InicioComponent {
       }
     });
   }
+
+  async verUsuarioModal(usuario: any, tipo: 'alumno' | 'docente' | 'admin') {
+      const { value: action } = await Swal.fire({
+      title: `${tipo.charAt(0).toUpperCase() + tipo.slice(1)}: ${usuario.nombre} ${usuario.apellido}`,
+      html: `
+        <p><strong>Nombre de usuario:</strong> ${usuario.nombreUsuario}</p>
+        ${usuario.fechaNacimiento ? `<p><strong>Fecha de nacimiento:</strong> ${usuario.fechaNacimiento}</p>` : ''}
+        <p><strong>Contraseña:</strong> ********</p>
+      `,
+      showCancelButton: true,
+      showDenyButton: true,
+      showConfirmButton: true,
+      confirmButtonText: 'Editar',
+      denyButtonText: 'Eliminar',
+      cancelButtonText: 'Recuperar contraseña',
+      confirmButtonColor: '#3085d6',
+      denyButtonColor: '#d33',
+      cancelButtonColor: '#f6c23e',
+    });
+
+    if (action === true) {
+      // 🟢 Editar
+      const { value: formValues } = await Swal.fire({
+        title: `Editar ${tipo}`,
+        html: `
+          <input id="nombre" class="swal2-input" placeholder="Nombre" value="${usuario.nombre}">
+          <input id="apellido" class="swal2-input" placeholder="Apellido" value="${usuario.apellido}">
+          <input id="nombreUsuario" class="swal2-input" placeholder="Nombre de usuario" value="${usuario.nombreUsuario}">
+          ${tipo === 'alumno' ? `<input id="fechaNacimiento" class="swal2-input" type="date" value="${usuario.fechaNacimiento || ''}">` : ''}
+        `,
+        confirmButtonText: 'Guardar cambios',
+        showCancelButton: true,
+        preConfirm: () => {
+          const nombre = (document.getElementById('nombre') as HTMLInputElement).value;
+          const apellido = (document.getElementById('apellido') as HTMLInputElement).value;
+          const nombreUsuario = (document.getElementById('nombreUsuario') as HTMLInputElement).value;
+          const fechaNacimiento = (document.getElementById('fechaNacimiento') as HTMLInputElement)?.value;
+
+          if (!nombre || !apellido || !nombreUsuario) {
+            Swal.showValidationMessage('Por favor complete todos los campos');
+            return;
+          }
+          return { ...usuario, nombre, apellido, nombreUsuario, fechaNacimiento };
+        }
+      });
+
+      if (formValues) {
+        if (tipo === 'alumno') {
+          this.adminService.editarAlumno(formValues).subscribe({
+            next: () => {
+              Swal.fire('Actualizado', 'Alumno actualizado correctamente', 'success');
+              this.cargarAlumnos();
+            },
+            error: (err) => Swal.fire('Error', 'No se pudo actualizar el alumno', 'error')
+          });
+        }
+
+        if (tipo === 'docente') {
+          this.adminService.editarDocente(formValues).subscribe({
+            next: () => {
+              Swal.fire('Actualizado', 'Docente actualizado correctamente', 'success');
+              this.cargarDocentes();
+            },
+            error: (err) => Swal.fire('Error', 'No se pudo actualizar el docente', 'error')
+          });
+        }
+
+        if (tipo === 'admin') {
+          this.adminService.editarAdmin(formValues).subscribe({
+            next: () => {
+              Swal.fire('Actualizado', 'Administrador actualizado correctamente', 'success');
+              this.cargarAdmins();
+            },
+            error: (err) => Swal.fire('Error', 'No se pudo actualizar el administrador', 'error')
+          });
+        }
+        Swal.fire('Actualizado', `${tipo} actualizado correctamente`, 'success');
+      }
+    } else if (action === false) {
+      // 🟥 Eliminar
+      const confirm = await Swal.fire({
+        title: `¿Eliminar ${tipo}?`,
+        text: `Esta acción no se puede deshacer.`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+      });
+
+      if (confirm.isConfirmed) {
+        if (tipo === 'alumno') this.adminService.eliminarAlumno(usuario.idAlumno).subscribe(() => this.cargarAlumnos());
+        if (tipo === 'docente') this.adminService.eliminarDocente(usuario.idDocente).subscribe(() => this.cargarDocentes());
+        if (tipo === 'admin') this.adminService.eliminarAdmin(usuario.idAdmin).subscribe(() => this.cargarAdmins());
+        Swal.fire('Eliminado', `${tipo} eliminado correctamente`, 'success');
+      }
+    } else if (action.dismiss === Swal.DismissReason.cancel) {
+      // 🟡 Recuperar contraseña (solo si se presiona el botón)
+      this.recuperarContrasena();
+    }
+  }
 }

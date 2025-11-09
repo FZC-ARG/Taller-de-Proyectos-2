@@ -39,5 +39,35 @@ export class AdminService {
     return this.http.post<any>(url, data);
   }
   
+  editarAlumno(data: any): Observable<any> {
+    const url = `${API_URL}api/admin/alumnos/${data.idAlumno}`;
+    return this.http.put<any>(url, data);
+  }
+
+  editarDocente(data: any): Observable<any> {
+    const url = `${API_URL}api/admin/docentes/${data.idDocente}`;
+    return this.http.put<any>(url, data);
+  }
+
+  editarAdmin(data: any): Observable<any> {
+    const url = `${API_URL}api/admin/administradores/${data.idAdmin}`;
+    return this.http.put<any>(url, data);
+  }
+
+  eliminarAlumno(id: string): Observable<any> {
+    const url = `${API_URL}api/admin/alumnos/${id}`;
+    return this.http.delete<any>(url);
+  }
+
+  eliminarDocente(id: string): Observable<any> {
+    const url = `${API_URL}api/admin/docentes/${id}`;
+    return this.http.delete<any>(url);
+  }
+
+  eliminarAdmin(id: string): Observable<any> {
+    const url = `${API_URL}api/admin/administradores/${id}`;
+    return this.http.delete<any>(url);
+  } 
+  
   
 }
