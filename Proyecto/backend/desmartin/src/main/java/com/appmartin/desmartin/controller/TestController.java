@@ -41,5 +41,10 @@ public class TestController {
     public ResponseEntity<CrearResultadosRequest> obtenerResultadosPorAlumno(@PathVariable Integer idAlumno) {
         return ResponseEntity.ok(testService.obtenerResultadosPorAlumno(idAlumno));
     }
+    
+    @GetMapping("/intentos/alumno/{idAlumno}")
+    public ResponseEntity<List<IntentoCompletoDTO>> obtenerTodosLosIntentosPorAlumno(@PathVariable Integer idAlumno) {
+        return ResponseEntity.ok(testService.obtenerTodosLosIntentosPorAlumno(idAlumno));
+    }
 }
 

@@ -224,5 +224,45 @@ public class TestService {
         
         return response;
     }
+    
+    public List<IntentoCompletoDTO> obtenerTodosLosIntentosPorAlumno(Integer idAlumno) {
+        // Obtener todos los intentos del alumno ordenados por fecha descendente
+        List<IntentoTest> intentos = intentoTestRepository.findByAlumno_IdAlumnoOrderByFechaRealizacionDesc(idAlumno);
+        
+        if (intentos.isEmpty()) {
+            return List.of(); // Retornar lista vacía si no hay intentos
+        }
+        
+        // Para cada intento, obtener sus resultados y formatearlos
+        List<IntentoCompletoDTO> intentosCompletos = new java.util.ArrayList<>();
+        int numeroIntento = intentos.size(); // Empezar desde el más reciente
+        
+        for (IntentoTest intento : intentos) {
+            // Obtener resultados de este intento
+            List<ResultadoTest> resultados = resultadoTestRepository.findByIntentoId(intento.getIdIntento());
+            
+            // Formatear los resultados
+            List<IntentoCompletoDTO.ResultadoIntentoDTO> resultadosDTO = resultados.stream()
+                .map(r -> new IntentoCompletoDTO.ResultadoIntentoDTO(
+                    r.getTipoInteligencia().getIdInteligencia(),
+                    r.getTipoInteligencia().getNombre(),
+                    r.getPuntajeCalculado()
+                ))
+                .collect(Collectors.toList());
+            
+            // Crear el DTO del intento completo
+            IntentoCompletoDTO intentoCompleto = new IntentoCompletoDTO(
+                intento.getIdIntento(),
+                numeroIntento,
+                intento.getFechaRealizacion(),
+                resultadosDTO
+            );
+            
+            intentosCompletos.add(intentoCompleto);
+            numeroIntento--; // Decrementar para el siguiente intento (más antiguo)
+        }
+        
+        return intentosCompletos;
+    }
 }
 
