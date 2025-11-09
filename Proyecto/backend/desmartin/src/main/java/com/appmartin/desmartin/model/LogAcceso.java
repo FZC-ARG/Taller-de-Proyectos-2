@@ -52,6 +52,24 @@ public class LogAcceso {
     @Column(name = "fecha_hora")
     private LocalDateTime fechaHora;
 
+    @Column(name = "metodo_http", length = 10)
+    private String metodoHttp;
+
+    @Column(name = "endpoint", length = 255)
+    private String endpoint;
+
+    @Column(name = "codigo_respuesta")
+    private Integer codigoRespuesta;
+
+    @Column(name = "ip_origen", length = 64)
+    private String ipOrigen;
+
+    @Column(name = "duracion_ms")
+    private Long duracionMs;
+
+    @Column(name = "detalle_error", columnDefinition = "TEXT")
+    private String detalleError;
+
     public void setTipoUsuario(String tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }

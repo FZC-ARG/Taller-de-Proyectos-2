@@ -35,7 +35,14 @@ public class LogService {
         log.setOrigen(origen);
         log.setNivel(nivel);
         log.setFechaHora(LocalDateTime.now());
-        logAccesoRepository.save(log);
+        registrarEvento(log);
+    }
+
+    public void registrarEvento(LogAcceso logAcceso) {
+        if (logAcceso.getFechaHora() == null) {
+            logAcceso.setFechaHora(LocalDateTime.now());
+        }
+        logAccesoRepository.save(logAcceso);
     }
 
     public List<LogAcceso> obtenerTodos() {

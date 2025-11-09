@@ -401,6 +401,135 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
         }
+        
+        /* Auditoría de accesos */
+        .audit-log-container {
+            margin-top: 20px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            overflow: hidden;
+            display: none;
+        }
+        
+        .audit-log-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px 12px 24px;
+            background: linear-gradient(90deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.05) 100%);
+        }
+        
+        .audit-log-header h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #4a4a4a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .audit-log-meta {
+            padding: 0 24px 14px 24px;
+            font-size: 13px;
+            color: #6c6c6c;
+        }
+        
+        .audit-log-table-wrapper {
+            max-height: 320px;
+            overflow: auto;
+        }
+        
+        .audit-log-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            min-width: 960px;
+        }
+        
+        .audit-log-table thead {
+            position: sticky;
+            top: 0;
+            background: linear-gradient(135deg, rgba(102,126,234,0.2), rgba(118,75,162,0.2));
+            backdrop-filter: blur(4px);
+        }
+        
+        .audit-log-table th,
+        .audit-log-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e9e9e9;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        .audit-log-table tbody tr:hover {
+            background: #f4f6ff;
+        }
+        
+        .audit-log-table th {
+            font-weight: 600;
+            color: #4b4b4b;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        
+        .log-level {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3px 8px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        
+        .log-level-info {
+            background: rgba(102, 126, 234, 0.12);
+            color: #4455c4;
+        }
+        
+        .log-level-warn {
+            background: rgba(255, 193, 7, 0.18);
+            color: #a56a00;
+        }
+        
+        .log-level-error {
+            background: rgba(244, 67, 54, 0.16);
+            color: #c62828;
+        }
+        
+        .audit-log-cell-nowrap {
+            white-space: nowrap;
+        }
+        
+        .audit-log-cell-break {
+            white-space: normal;
+            word-break: break-word;
+        }
+        
+        .audit-log-empty {
+            padding: 20px 24px 26px 24px;
+            text-align: center;
+            color: #777;
+            font-size: 13px;
+            display: none;
+        }
+        
+        .audit-log-meta span {
+            margin-right: 16px;
+        }
+        
+        .audit-log-source {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            color: #667eea;
+        }
     </style>
 </head>
 <body>
@@ -629,6 +758,43 @@
             <div class="form-group inline-inputs">
                 <button onclick="listarLogsAdmin()">Logs AdminService</button>
                 <button onclick="listarLogsAuth()">Logs Autenticación</button>
+            </div>
+            
+            <div id="auditLogWrapper" class="audit-log-container">
+                <div class="audit-log-header">
+                    <h3>🛡️ Auditoría de Accesos</h3>
+                    <button onclick="limpiarVistaLogs()" style="background: #f5576c; color: white; border: none; border-radius: 6px; padding: 6px 14px; cursor: pointer; font-size: 12px;">
+                        Limpiar vista
+                    </button>
+                </div>
+                <div id="auditLogMeta" class="audit-log-meta"></div>
+                <div class="audit-log-table-wrapper">
+                    <table class="audit-log-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha / Hora</th>
+                                <th>Nivel</th>
+                                <th>Acción</th>
+                                <th>Método</th>
+                                <th>Endpoint</th>
+                                <th>Usuario</th>
+                                <th>Tipo Usuario</th>
+                                <th>Entidad</th>
+                                <th>ID Entidad</th>
+                                <th>Resp.</th>
+                                <th>Duración (ms)</th>
+                                <th>IP Origen</th>
+                                <th>Origen del Evento</th>
+                                <th>Descripción</th>
+                                <th>Detalle Error</th>
+                            </tr>
+                        </thead>
+                        <tbody id="auditLogBody"></tbody>
+                    </table>
+                </div>
+                <div id="auditLogEmpty" class="audit-log-empty">
+                    No se encontraron registros de auditoría para esta consulta.
+                </div>
             </div>
             
             <hr style="margin: 20px 0;">
@@ -1153,11 +1319,21 @@
         }
 
         function listarLogsAdmin() {
-            apiCall('/admin/logs');
+            apiCall('/admin/logs')
+                .then(data => renderAuditLogs(data, 'AdminService'))
+                .catch(err => {
+                    console.error("Error al listar logs de AdminService:", err);
+                    renderAuditLogs([], 'AdminService', err.message || 'Error desconocido');
+                });
         }
 
         function listarLogsAuth() {
-            apiCall('/auth/logs');
+            apiCall('/auth/logs')
+                .then(data => renderAuditLogs(data, 'AuthService'))
+                .catch(err => {
+                    console.error("Error al listar logs de Autenticación:", err);
+                    renderAuditLogs([], 'AuthService', err.message || 'Error desconocido');
+                });
         }
 
         // ================= RESULTADOS DEL TEST =================
@@ -1720,6 +1896,180 @@
                 '<div style="text-align: center; color: #999; padding: 40px;"><p>💡 Escribe un mensaje para comenzar la conversación</p></div>';
             document.getElementById('mensajeContenido').value = '';
             ajustarAlturaInput();
+        }
+
+        function limpiarVistaLogs() {
+            const wrapper = document.getElementById('auditLogWrapper');
+            const body = document.getElementById('auditLogBody');
+            const empty = document.getElementById('auditLogEmpty');
+            const meta = document.getElementById('auditLogMeta');
+
+            if (wrapper) {
+                wrapper.style.display = 'none';
+            }
+            if (body) {
+                body.innerHTML = '';
+            }
+            if (empty) {
+                empty.style.display = 'none';
+            }
+            if (meta) {
+                meta.textContent = '';
+            }
+        }
+
+        function renderAuditLogs(data, source, errorMessage) {
+            const wrapper = document.getElementById('auditLogWrapper');
+            const body = document.getElementById('auditLogBody');
+            const empty = document.getElementById('auditLogEmpty');
+            const meta = document.getElementById('auditLogMeta');
+
+            if (!wrapper || !body || !empty || !meta) {
+                return;
+            }
+
+            wrapper.style.display = 'block';
+
+            const logs = Array.isArray(data) ? data : [];
+            const registros = logs.length;
+
+            const metaParts = [];
+            metaParts.push(`<span class="audit-log-source">Fuente: ${escapeHtml(source)}</span>`);
+            metaParts.push(`<span>Registros: ${registros}</span>`);
+
+            if (logs[0]) {
+                const fechaRef = formatDateTime(logs[0].fechaHora || logs[0].fechaHoraAcceso);
+                metaParts.push(`<span>Referencia: ${escapeHtml(fechaRef)}</span>`);
+            }
+
+            if (errorMessage) {
+                metaParts.push(`<span style="color:#c62828;">Error: ${escapeHtml(errorMessage)}</span>`);
+            }
+
+            meta.innerHTML = metaParts.join(' • ');
+
+            if (registros === 0) {
+                body.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+
+            empty.style.display = 'none';
+
+            const rows = logs.map(log => {
+                const fecha = formatDateTime(log.fechaHora || log.fechaHoraAcceso);
+                const nivelRaw = (log.nivel || 'INFO').toString().toUpperCase();
+                const nivelClass = nivelRaw === 'ERROR'
+                    ? 'log-level-error'
+                    : (nivelRaw === 'WARN' ? 'log-level-warn' : 'log-level-info');
+                const accion = (log.accion || inferAccionDesdeMetodo(log.metodoHttp)).toUpperCase();
+                const metodo = (log.metodoHttp || inferMetodoDesdeAccion(log.accion)).toUpperCase();
+                const endpoint = log.endpoint || '—';
+                const usuario = log.idUsuario != null ? `#${log.idUsuario}` : '—';
+                const tipoUsuario = log.tipoUsuario || '—';
+                const entidad = log.entidadAfectada || '—';
+                const entidadId = log.idEntidadAfectada != null ? log.idEntidadAfectada : '—';
+                const codigo = log.codigoRespuesta != null ? log.codigoRespuesta : '—';
+                const duracion = log.duracionMs != null ? log.duracionMs : '—';
+                const ip = log.ipOrigen || '—';
+                const origen = log.origen || '—';
+                const descripcion = log.descripcion || '—';
+                const detalle = log.detalleError || '';
+                const detalleTexto = detalle ? truncateText(detalle, 160) : '—';
+                const detalleAttr = detalle ? ` title="${escapeHtml(detalle)}"` : '';
+
+                return `
+                    <tr>
+                        <td class="audit-log-cell-nowrap">${escapeHtml(fecha)}</td>
+                        <td><span class="log-level ${nivelClass}">${escapeHtml(nivelRaw)}</span></td>
+                        <td class="audit-log-cell-nowrap">${escapeHtml(accion)}</td>
+                        <td class="audit-log-cell-nowrap">${escapeHtml(metodo)}</td>
+                        <td class="audit-log-cell-break">${escapeHtml(endpoint)}</td>
+                        <td class="audit-log-cell-nowrap">${escapeHtml(usuario)}</td>
+                        <td class="audit-log-cell-nowrap">${escapeHtml(tipoUsuario)}</td>
+                        <td class="audit-log-cell-nowrap">${escapeHtml(entidad)}</td>
+                        <td class="audit-log-cell-nowrap">${escapeHtml(entidadId)}</td>
+                        <td class="audit-log-cell-nowrap">${escapeHtml(codigo)}</td>
+                        <td class="audit-log-cell-nowrap">${escapeHtml(duracion)}</td>
+                        <td class="audit-log-cell-nowrap">${escapeHtml(ip)}</td>
+                        <td class="audit-log-cell-break">${escapeHtml(origen)}</td>
+                        <td class="audit-log-cell-break">${escapeHtml(descripcion)}</td>
+                        <td class="audit-log-cell-break"${detalleAttr}>${escapeHtml(detalleTexto)}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            body.innerHTML = rows;
+        }
+
+        function formatDateTime(value) {
+            if (!value) {
+                return '—';
+            }
+
+            try {
+                const date = new Date(value);
+                if (Number.isNaN(date.getTime())) {
+                    return value;
+                }
+                return date.toLocaleString('es-ES', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+            } catch (error) {
+                return value;
+            }
+        }
+
+        function truncateText(text, limit = 120) {
+            if (text === null || text === undefined) {
+                return '';
+            }
+            const str = String(text);
+            if (str.length <= limit) {
+                return str;
+            }
+            return str.substring(0, limit - 1) + '…';
+        }
+
+        function inferMetodoDesdeAccion(accion) {
+            if (!accion) {
+                return 'GET';
+            }
+            const normalized = accion.toString().toUpperCase();
+            switch (normalized) {
+                case 'CREATE':
+                case 'LOGIN':
+                    return 'POST';
+                case 'UPDATE':
+                    return 'PUT';
+                case 'DELETE':
+                    return 'DELETE';
+                default:
+                    return 'GET';
+            }
+        }
+
+        function inferAccionDesdeMetodo(metodo) {
+            if (!metodo) {
+                return 'READ';
+            }
+            const normalized = metodo.toString().toUpperCase();
+            switch (normalized) {
+                case 'POST':
+                    return 'CREATE';
+                case 'PUT':
+                case 'PATCH':
+                    return 'UPDATE';
+                case 'DELETE':
+                    return 'DELETE';
+                default:
+                    return 'READ';
+            }
         }
 
         function escapeHtml(text) {
