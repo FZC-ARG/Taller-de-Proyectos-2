@@ -68,6 +68,41 @@ export class AdminService {
     const url = `${API_URL}api/admin/administradores/${id}`;
     return this.http.delete<any>(url);
   } 
+
+  getCursos(): Observable<any> {
+    const url = `${API_URL}api/cursos`;
+    return this.http.get<any>(url);
+  }
+
+  newCurso(data: any): Observable<any> {
+    const url = `${API_URL}api/cursos`;
+    return this.http.post<any>(url, data);
+  }
   
-  
+  matricularAlumno(data: any): Observable<any> {    
+    const url = `${API_URL}api/cursos/matricular`;
+    return this.http.post<any>(url, data);
+  }
+
+  listarCursosDocente(idDocente: string): Observable<any> {    
+    const url = `${API_URL}api/cursos/docente/${idDocente}`;
+    return this.http.get<any>(url);
+  }
+
+  listarAlumnosCurso(idCurso: string): Observable<any> {    
+    const url = `${API_URL}api/cursos/${idCurso}/alumnos`;
+    return this.http.get<any>(url);
+  }
+
+  listarCursosAlumno(idAlumno: string): Observable<any> {    
+    const url = `${API_URL}api/cursos/alumno/${idAlumno}/cursos`;
+    return this.http.get<any>(url);
+  }
+
+  listarAlumnosDocente(idDocente: string): Observable<any> {    
+    const url = `${API_URL}api/cursos/docente/${idDocente}/alumnos`;
+    return this.http.get<any>(url);
+  }
+
+
 }

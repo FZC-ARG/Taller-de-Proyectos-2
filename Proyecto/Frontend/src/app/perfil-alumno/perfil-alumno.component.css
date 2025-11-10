@@ -5,7 +5,9 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(47, 116, 87, 0.6);
+  background: linear-gradient(135deg, rgba(47, 116, 87, 0.75), rgba(26, 59, 51, 0.85));
+  background-clip: border-box;
+  -webkit-background-clip: border-box;
   z-index: -1;
 }
 
@@ -14,17 +16,20 @@
   max-width: 900px;
   margin: 30px auto;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.97);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 245, 245, 0.93));
   border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
   font-family: 'Segoe UI', sans-serif;
   text-align: center;
 }
 
 .panel-container h2 {
   margin-bottom: 20px;
-  color: #2f7457;
-  font-size: 1.6em;
+  color: #226e50;
+  background: linear-gradient(90deg, #2f7457, #3ea381);
+  -webkit-background-clip: text;
+  background-clip: text; /* estándar */
+  -webkit-text-fill-color: transparent;
 }
 
 /* Navegación */
@@ -45,17 +50,26 @@
   transition: all 0.3s ease;
 }
 
-.perfil-button { background: #0077b6; }
-.cursos-button { background: #a218cc; }
-.test-button   { background: #ff9800; }
+.perfil-button {
+  background: linear-gradient(135deg, #0096c7, #0077b6);
+}
+
+.cursos-button {
+  background: linear-gradient(135deg, #b928e3, #a218cc);
+}
+
+.test-button {
+  background: linear-gradient(135deg, #ffb84d, #ff9800);
+}
 
 .panel-header button:hover {
   transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .panel-header button.active {
-  filter: brightness(1.1);
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  filter: brightness(1.15);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.35);
 }
 
 /* Perfil */
@@ -72,7 +86,7 @@
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid #2f7457;
-  background: white;
+  background: linear-gradient(180deg, #ffffff, #e8f5ef);
 }
 
 .datos-alumno p {
@@ -82,10 +96,10 @@
 
 /* Cursos */
 .cursos-container {
-  background: rgba(240, 240, 240, 0.9);
+  background: linear-gradient(180deg, rgba(245, 245, 245, 0.95), rgba(230, 230, 230, 0.9));
   padding: 15px;
   border-radius: 12px;
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .cursos-lista {
@@ -95,7 +109,7 @@
 }
 
 .curso-button {
-  background: #2d45b1;
+  background: linear-gradient(135deg, #3a5be0, #2d45b1);
   color: white;
   padding: 10px;
   border: none;
@@ -105,8 +119,9 @@
 }
 
 .curso-button:hover {
-  background: #14277c;
+  background: linear-gradient(135deg, #1d2f8a, #14277c);
   transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 /* Inteligencias múltiples */
@@ -114,6 +129,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding: 15px;
+  text-align: center;
 }
 
 .inteligencia-item {
@@ -121,36 +138,46 @@
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.inteligencia-item.predominante {
+  border: 2px solid #4CAF50;
+  background: linear-gradient(135deg, #e7ffe7, #d4fbd4);
+  border-radius: 8px;
+  padding: 5px;
 }
 
 .tipo {
-  font-weight: 600;
+  font-weight: bold;
   margin-bottom: 4px;
 }
 
 .barra {
   width: 100%;
-  background: #e0e0e0;
-  border-radius: 8px;
+  background: #ddd;
+  border-radius: 20px;
+  height: 20px;
   overflow: hidden;
 }
 
 .progreso {
+  height: 100%;
   background: linear-gradient(90deg, #2f7457, #4ec28f);
   color: white;
   text-align: right;
   padding-right: 8px;
+  border-radius: 20px;
   font-size: 0.85em;
-  height: 20px;
   line-height: 20px;
-  border-radius: 8px 0 0 8px;
   transition: width 0.5s ease;
 }
 
 /* Logout */
 .logout-button {
   margin-top: 20px;
-  background: #e74c3c;
+  background: linear-gradient(135deg, #ff5a4a, #e74c3c);
   color: white;
   padding: 10px 15px;
   border: none;
@@ -160,44 +187,9 @@
 }
 
 .logout-button:hover {
-  background: #c0392b;
+  background: linear-gradient(135deg, #d84331, #b73527);
   transform: scale(1.03);
-}
-.inteligencias-container {
-  padding: 15px;
-  text-align: center;
-}
-
-.inteligencia-item {
-  margin-bottom: 10px;
-  text-align: left;
-}
-
-.inteligencia-item.predominante {
-  border: 2px solid #4CAF50;
-  background: #e7ffe7;
-  border-radius: 8px;
-  padding: 5px;
-}
-
-.tipo {
-  font-weight: bold;
-}
-
-.barra {
-  background: #ddd;
-  border-radius: 20px;
-  height: 20px;
-  overflow: hidden;
-}
-
-.progreso {
-  height: 100%;
-  background-color: #4CAF50;
-  color: white;
-  text-align: right;
-  padding-right: 5px;
-  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .graficos {
@@ -208,8 +200,8 @@
 }
 
 .grafico {
-  background: #fff;
+  background: linear-gradient(180deg, #ffffff, #f5f5f5);
   border-radius: 10px;
   padding: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }

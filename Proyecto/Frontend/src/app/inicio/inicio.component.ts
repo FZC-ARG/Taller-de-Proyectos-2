@@ -35,6 +35,7 @@ export class InicioComponent {
       this.cargarAlumnos();
       this.cargarDocentes();
       this.cargarAdmins();
+      this.listarCursos();
     }
   }
 
@@ -215,7 +216,6 @@ export class InicioComponent {
       html: `
         <p><strong>Nombre de usuario:</strong> ${usuario.nombreUsuario}</p>
         ${usuario.fechaNacimiento ? `<p><strong>Fecha de nacimiento:</strong> ${usuario.fechaNacimiento}</p>` : ''}
-        <p><strong>Contraseña:</strong> ********</p>
       `,
       showCancelButton: true,
       showDenyButton: true,
@@ -308,4 +308,169 @@ export class InicioComponent {
       this.recuperarContrasena();
     }
   }
+
+  cursos: any[] = [];
+  listarCursos() {
+    this.adminService.getCursos().subscribe({
+      next: (data) => this.cursos = data,
+      error: (err) => console.error('Error al obtener cursos:', err)
+    });
+  }
+
+  async verCursoModal(curso: any) {
+    const { value: action } = await Swal.fire({ 
+      title: `${curso.nombre}`,
+      html: `
+        <p><strong>Descripción:</strong> ${curso.descripcion}</p>
+        <p><strong>Docente Encargado:</strong> ${curso.nombreDocente}</p>
+        
+      `,
+      showConfirmButton: true,
+      confirmButtonText: 'Cerrar',
+    
+      confirmButtonColor: '#2182ddff',
+    });
+  }
+
+  async verModalNuevoCurso() {
+    // 🔹 Generar opciones de docentes en HTML
+    const opcionesDocentes = this.docentes
+      .map(docente => `<option value="${docente.idDocente}">${docente.nombre} ${docente.apellido}</option>`)
+      .join('');
+
+    const { value: formValues } = await Swal.fire({
+      title: 'Registrar nuevo curso',
+      html: `
+        <input id="nombreCurso" class="swal2-input" placeholder="Nombre del curso">
+        <input id="descripcion" class="swal2-input" placeholder="Descripción">
+        <select id="idDocente" class="swal2-input">
+          <option value="">Seleccione un docente</option>
+          ${opcionesDocentes}
+        </select>
+      `,
+      focusConfirm: false,
+      confirmButtonText: 'Guardar',
+      showCancelButton: true,
+      preConfirm: () => {
+        const nombreCurso = (document.getElementById('nombreCurso') as HTMLInputElement).value;
+        const descripcion = (document.getElementById('descripcion') as HTMLInputElement).value;
+        const idDocente = (document.getElementById('idDocente') as HTMLSelectElement).value;
+
+        if (!nombreCurso || !descripcion || !idDocente) {
+          Swal.showValidationMessage('Por favor complete todos los campos');
+          return;
+        }
+
+        return { nombreCurso, descripcion, idDocente };
+      }
+    });
+
+    if (formValues) {
+      this.adminService.newCurso(formValues).subscribe({
+        next: () => {
+          Swal.fire('Curso guardado', 'El curso ha sido guardado exitosamente', 'success');
+          this.listarCursos();
+        },
+        error: (err) => {
+          console.error('Error al guardar curso:', err);
+          Swal.fire('Error', 'No se pudo guardar el curso', 'error');
+        }
+      });
+    }
+  }
+  
+  async verModalMatricular() {
+    const { value: formValues } = await Swal.fire({
+      title: 'Matricular alumno',
+      html: `
+        <select id="idAlumnoFk" class="swal2-input">
+          <option value="">Seleccione un alumno</option>   
+          ${this.alumnos.map(alumno => `<option value="${alumno.idAlumno}">${alumno.nombre} ${alumno.apellido}</option>`).join('')}       
+        </select>
+        <select id="idCursoFk" class="swal2-input">
+          <option value="">Seleccione un curso</option>  
+          ${this.cursos.map(curso => `<option value="${curso.idCurso}">${curso.nombreCurso}</option>`).join('')}        
+        </select>
+      `,
+      focusConfirm: false,
+      confirmButtonText: 'Guardar',
+      showCancelButton: true,
+      preConfirm: () => {
+        const idAlumnoFk = (document.getElementById('idAlumnoFk') as HTMLSelectElement).value;
+        const idCursoFk = (document.getElementById('idCursoFk') as HTMLSelectElement).value;
+
+        if (!idAlumnoFk || !idCursoFk) {
+          Swal.showValidationMessage('Por favor complete todos los campos');
+          return;
+        }
+
+        return { idAlumnoFk, idCursoFk };
+      }
+    });
+
+    if (formValues) {
+      this.adminService.matricularAlumno(formValues).subscribe({
+        next: () => {
+          Swal.fire('Alumno matriculado', 'El alumno ha sido matriculado exitosamente', 'success');
+          this.listarCursos();
+        },
+        error: (err) => {
+          console.error('Error al guardar curso:', err);
+          Swal.fire('Error', 'No se pudo guardar el curso', 'error');
+        }
+      });
+    }     
+  }
+
+  // Variables para consultas
+  idDocenteCursos: string = '';
+  idCursoAlumnos: string = '';
+  idAlumnoCursos: string = '';
+  idDocenteAlumnos: string = '';
+  resultados: any[] = [];
+
+  listarCursosDeDocente(): void {
+    if (!this.idDocenteCursos) {
+      Swal.fire('Seleccione un docente', '', 'warning');
+      return;
+    }
+    this.adminService.listarCursosDocente(this.idDocenteCursos).subscribe({
+      next: (data) => this.resultados = data,
+      error: () => Swal.fire('Error', 'No se pudieron obtener los cursos', 'error')
+    });
+  }
+
+  listarAlumnosDelCurso(): void {
+    if (!this.idCursoAlumnos) {
+      Swal.fire('Seleccione un curso', '', 'warning');
+      return;
+    }
+    this.adminService.listarAlumnosCurso(this.idCursoAlumnos).subscribe({
+      next: (data) => this.resultados = data,
+      error: () => Swal.fire('Error', 'No se pudieron obtener los alumnos', 'error')
+    });
+  }
+
+  listarCursosDelAlumno(): void {
+    if (!this.idAlumnoCursos) {
+      Swal.fire('Seleccione un alumno', '', 'warning');
+      return;
+    }
+    this.adminService.listarCursosAlumno(this.idAlumnoCursos).subscribe({
+      next: (data) => this.resultados = data,
+      error: () => Swal.fire('Error', 'No se pudieron obtener los cursos', 'error')
+    });
+  }
+
+  listarAlumnosDelDocente(): void {
+    if (!this.idDocenteAlumnos) {
+      Swal.fire('Seleccione un docente', '', 'warning');
+      return;
+    }
+    this.adminService.listarAlumnosDocente(this.idDocenteAlumnos).subscribe({
+      next: (data) => this.resultados = data,
+      error: () => Swal.fire('Error', 'No se pudieron obtener los alumnos', 'error')
+    });
+  }
+
 }
