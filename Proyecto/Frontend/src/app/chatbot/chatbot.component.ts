@@ -91,29 +91,29 @@ export class ChatbotComponent implements OnInit {
   }
 
   formatearTexto(texto: string): string {
+    // 🔹 Eliminar la secuencia específica de DeepSeek (<｜begin▁of▁sentence｜>)
+    texto = texto.replace(/<[\uFF5C|]begin[\u2581_]?of[\u2581_]?sentence[\uFF5C|]>/gi, '');
 
-    // Quitar símbolos raros
+    // 🔹 Limpiar otros símbolos raros
     texto = texto
-      .replace(/<\|.*?\|>/g, '')
       .replace(/�/g, '')
       .replace(/\s+$/, '');
 
-    // Títulos Markdown ### 
+    // 🔹 Títulos Markdown ###
     texto = texto.replace(/^### (.*$)/gim, '<h3>$1</h3>');
     texto = texto.replace(/^## (.*$)/gim, '<h2>$1</h2>');
     texto = texto.replace(/^# (.*$)/gim, '<h1>$1</h1>');
 
-    // Negritas
+    // 🔹 Negritas
     texto = texto.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
 
-    // Listas con - o *
+    // 🔹 Listas con - o *
     texto = texto.replace(/(?:\n|^)[\-•]\s?(.*?)(?=\n|$)/g, '<li>$1</li>');
-
     if (texto.includes('<li>')) {
       texto = texto.replace(/(<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>');
     }
 
-    // Saltos de línea
+    // 🔹 Saltos de línea
     texto = texto.replace(/\n+/g, '<br>');
 
     return texto.trim();
@@ -140,5 +140,32 @@ export class ChatbotComponent implements OnInit {
 
   regresar() {
     this.router.navigate(['/inicio-docentes']);
+  }
+
+  crearNuevaSesion() {
+    if (!this.idDocente || !this.idAlumno) return;
+
+    this.cargando = true;
+    this.mensajes = [];
+    this.mensajeActual = '';
+
+    this.chatbotService.nuevaSesion(this.idDocente, this.idAlumno).subscribe({
+      next: (nueva) => {
+        this.idSesion = nueva.idSesion;
+        this.cargando = false;
+
+        // Mensaje informativo o inicial del bot
+        this.mensajes.push({
+          texto: this.sanitizer.bypassSecurityTrustHtml(
+            `<i>Se ha iniciado una nueva sesión de chat titulada <b>"Consulta Individual"</b>.</i>`
+          ),
+          emisor: 'bot'
+        });
+      },
+      error: (err) => {
+        console.error('Error al crear nueva sesión:', err);
+        this.cargando = false;
+      }
+    });
   }
 }

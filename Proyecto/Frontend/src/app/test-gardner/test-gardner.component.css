@@ -1,11 +1,13 @@
-/* Fondo general */
+/* Fondo general con gradiente y overlay */
 .overlay {
   position: fixed;
   inset: 0;
   width: 100%;
   height: 100%;
-  background: rgba(47, 116, 87, 0.6);
+  background: linear-gradient(135deg, rgba(47, 116, 87, 0.7), rgba(29, 78, 56, 0.85));
   z-index: -1;
+  background-clip: border-box;
+  -webkit-background-clip: border-box;
 }
 
 /* Contenedor principal */
@@ -13,17 +15,21 @@
   max-width: 95%;
   margin: 30px auto;
   padding: 30px;
-  background: rgba(255, 255, 255, 0.98);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 245, 245, 0.95));
   border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   font-family: 'Segoe UI', sans-serif;
+  backdrop-filter: blur(8px);
 }
 
 /* Título */
 .panel-container h2 {
-  text-align: center;
-  color: #2f7457;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
+  color: #226e50;
+  background: linear-gradient(90deg, #2f7457, #3ea381);
+  -webkit-background-clip: text;
+  background-clip: text; /* estándar */
+  -webkit-text-fill-color: transparent;
 }
 
 /* Layout principal */
@@ -37,36 +43,38 @@
   flex: 3;
 }
 
-/* Índice lateral (lado derecho) */
+/* Índice lateral */
 .indice-section {
   flex: 1;
-  background: #f5f5f5;
+  background: linear-gradient(180deg, #f9faf9, #eef3f0);
   border-radius: 12px;
   padding: 15px;
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.08);
   text-align: center;
 }
 
 .indice-section h3 {
   color: #2f7457;
   margin-bottom: 10px;
+  font-weight: 600;
 }
 
 /* Tarjeta de pregunta */
 .pregunta-card {
-  background: #f9f9f9;
-  border-radius: 10px;
+  background: linear-gradient(180deg, #ffffff, #f2f7f3);
+  border-radius: 12px;
   padding: 15px 20px;
   margin-bottom: 15px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
 }
 
 .pregunta-card p {
   font-weight: 600;
   margin-bottom: 10px;
+  color: #2f7457;
 }
 
-/* Opciones de respuesta */
+/* Opciones */
 .opciones {
   display: flex;
   justify-content: space-between;
@@ -75,7 +83,7 @@
 }
 
 .opciones label {
-  background: #e0e0e0;
+  background: linear-gradient(180deg, #e5e5e5, #dcdcdc);
   padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
@@ -84,15 +92,18 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
 }
 
 .opciones label:hover {
-  background: #d1d1d1;
+  background: linear-gradient(180deg, #d1d1d1, #c7c7c7);
+  transform: scale(1.02);
 }
 
 .opciones label.selected {
-  background: #2f7457;
+  background: linear-gradient(180deg, #2f7457, #36a88a);
   color: white;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
 }
 
 /* Radio oculto */
@@ -109,57 +120,44 @@
 }
 
 .nav-button {
-  background: #2f7457;
+  background: linear-gradient(90deg, #338c92, #2e6883);
   color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.3s ease;
+  transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
 }
 
 .nav-button:hover {
-  background: #245a44;
-  transform: scale(1.03);
+  background: linear-gradient(90deg, #2e6883, #245a44);
+  transform: scale(1.05);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
 }
 
 .oculto {
-  visibility: hidden; /* Oculta el botón pero mantiene el espacio */
-}
-
-
-.nav-button {
-  background: #338c92;
-  color: white;
-  padding: 8px 15px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.nav-button:hover {
-  background: #2e6883;
-  transform: scale(1.03);
+  visibility: hidden;
 }
 
 /* Botón enviar */
 .item-button {
   width: 100%;
-  background: #a218cc;
+  background: linear-gradient(90deg, #a218cc, #7a10a1);
   color: white;
   padding: 12px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   margin-top: 25px;
   font-size: 1em;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.3s ease;
+  transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 }
 
 .item-button:hover {
-  background: #640980;
-  transform: scale(1.03);
+  background: linear-gradient(90deg, #640980, #8e15b8);
+  transform: scale(1.05);
 }
 
 /* Navegador lateral */
@@ -175,28 +173,33 @@
   height: 35px;
   border: none;
   border-radius: 50%;
-  background: #ccc;
+  background: linear-gradient(180deg, #cccccc, #bfbfbf);
   color: white;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .indice-item.respondida {
-  background: #2f7457;
+  background: linear-gradient(180deg, #2f7457, #36a88a);
 }
 
 .indice-item.activa {
   outline: 2px solid #a218cc;
+  transform: scale(1.1);
 }
 
 .indice-item:hover {
-  transform: scale(1.1);
+  transform: scale(1.12);
 }
+
+/* Temporizador */
 .timer {
   text-align: center;
   font-size: 1.1em;
   font-weight: 600;
   color: #a218cc;
   margin-bottom: 15px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.15);
 }

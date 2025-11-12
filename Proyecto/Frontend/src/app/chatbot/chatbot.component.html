@@ -4,19 +4,23 @@
   <div class="panel-header">
     <h2>💬 Chatbot</h2>
     <div class="botones-header">
-        <button class="regresar-button" (click)="regresar()">
+      <button class="regresar-button" (click)="regresar()">
         <i class="fas fa-arrow-left"></i> Regresar
-        </button>
-        <button class="actividad-button" (click)="verPerfil()">
+      </button>
+
+      <button class="actividad-button" (click)="verPerfil()">
         <i class="fas fa-user"></i> Perfil Alumno
-        </button>
+      </button>
+
+      <!-- 🔹 Nuevo botón -->
+      <button class="nueva-sesion-button" (click)="crearNuevaSesion()">
+        <i class="fas fa-plus-circle"></i> Nueva Sesión
+      </button>
     </div>
-    </div>
+  </div>
 
   <div class="scroll-box chatbox">
-    <!-- ✅ Solo un chatContainer -->
     <div #chatContainer class="chat-window" (scroll)="onScroll()">
-
       <div *ngFor="let msg of mensajes"
            [ngClass]="{
             'mensaje': true,
@@ -26,7 +30,6 @@
         <div [innerHTML]="msg.texto"></div>
       </div>
 
-      <!-- Loader -->
       <div *ngIf="cargando" class="mensaje ia escribiendo">
         Escribiendo<span class="puntos">.</span><span class="puntos">.</span><span class="puntos">.</span>
       </div>

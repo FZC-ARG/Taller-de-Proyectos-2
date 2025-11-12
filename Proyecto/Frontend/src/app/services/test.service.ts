@@ -23,4 +23,8 @@ export class TestService {
   getResultados(idAlumno: string): Observable<any> {
     return this.http.get(`${API_URL}api/test/resultados/alumno/${idAlumno}`);
   }
+
+  getIntentos(idAlumno: string): Observable<any> {
+    return this.http.get(`${API_URL}api/test/intentos/alumno/${idAlumno}`);
+  }
 }

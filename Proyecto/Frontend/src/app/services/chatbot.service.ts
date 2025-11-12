@@ -21,4 +21,18 @@ export class ChatbotService {
   enviarMensaje(idSesion: string , contenido: string): Observable<any> {
     return this.http.post(`${API_URL}api/chat/sesiones/${idSesion}/mensajes`, { contenido });
   } 
+
+  nuevaSesion(idDocente: string, idAlumno: string): Observable<any> {
+    const body = {
+      forzarCreacion: true,
+      idAlumno,
+      idCurso: null,
+      idDocente,
+      tituloSesion: 'Consulta Individual'
+    };
+
+    return this.http.post(`${API_URL}api/chat/sesiones`, body);
+  }
+
+
 }

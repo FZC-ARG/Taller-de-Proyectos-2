@@ -101,6 +101,20 @@
   scroll-behavior: smooth;
   background: linear-gradient(180deg, #fdfdfd, #f3f8f5);
 }
+.nueva-sesion-button {
+  background-color: #2b7a78;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.nueva-sesion-button:hover {
+  background-color: #205e5c;
+}
 
 /* Mensajes */
 .mensaje {
@@ -186,4 +200,86 @@
   .scroll-box.chatbox {
     height: 65vh;
   }
+}
+/* Chat general */
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 500px;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+/* Mensaje base */
+.mensaje {
+  max-width: 70%;
+  padding: 10px 14px;
+  border-radius: 15px;
+  word-wrap: break-word;
+  line-height: 1.4em;
+}
+
+/* Mensajes del usuario (a la derecha) */
+.mensaje.usuario {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #2f7457, #3ea381);
+  color: white;
+  text-align: right;
+  border-bottom-right-radius: 5px;
+}
+
+/* Mensajes del bot (a la izquierda) */
+.mensaje.ia {
+  align-self: flex-start;
+  background: #f2f2f2;
+  color: #333;
+  text-align: left;
+  border-bottom-left-radius: 5px;
+}
+
+/* Estado "escribiendo..." del bot */
+.mensaje.ia.escribiendo {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* Animación puntos "..." */
+.puntos {
+  animation: parpadeo 1s infinite;
+}
+
+@keyframes parpadeo {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+/* Caja de entrada */
+.input-chat {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  gap: 8px;
+}
+
+.input-chat input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.input-chat button {
+  background: linear-gradient(135deg, #2f7457, #3ea381);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.input-chat button:hover {
+  background: linear-gradient(135deg, #27604a, #2f7457);
 }
