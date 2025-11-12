@@ -11,6 +11,6 @@ export class RegistroActividadService {
   constructor(private http: HttpClient) { }
 
   getRegistroActividad(): Observable<any> {
-    return this.http.get<any>(`${API_URL}api/admin/logs`);
+    return this.http.get<any>(`${API_URL}api/auth/logs`);
   }
 }

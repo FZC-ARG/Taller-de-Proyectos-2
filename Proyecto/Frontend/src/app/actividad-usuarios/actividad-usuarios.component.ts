@@ -26,7 +26,7 @@ export class ActividadUsuariosComponent implements OnInit {
   cargarActividades(): void {
     this.registroActividadService.getRegistroActividad().subscribe({
       next: (data) => {
-        this.actividades = data.reverse();
+        this.actividades = data;
         console.log('Actividades obtenidas:', this.actividades);
       },
       error: (err) => {

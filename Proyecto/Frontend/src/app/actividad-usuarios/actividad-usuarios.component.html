@@ -14,17 +14,37 @@
         <thead>
           <tr>
             <th>ID Actividad</th>
-            <th>ID Usuario</th>
             <th>Rol Usuario</th>
+            <th>Acción</th>
+            <th>Entidad Afectada</th>
+            <th>Descripción</th>
+            <th>Origen</th>
+            <th>Nivel</th>
             <th>Fecha Acceso</th>
+            <th>Método HTTP</th>
+            <th>Endpoint</th>
+            <th>Código Respuesta</th>
+            <th>IP Origen</th>
+            <th>Duración</th>
           </tr>
         </thead>
+
         <tbody>
           <tr *ngFor="let actividad of actividades">
-            <td>{{ actividad.idLog }}</td>
-            <td>{{ actividad.idUsuario }}</td>
-            <td>{{ actividad.tipoUsuario }}</td>
-            <td>{{ actividad.fechaHoraAcceso | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+            <td *ngIf="actividad.idLog">{{ actividad.idLog }}</td>
+            <td *ngIf="actividad.idUsuario">{{ actividad.idUsuario }}</td>
+            <td *ngIf="actividad.tipoUsuario">{{ actividad.tipoUsuario }}</td>
+            <td *ngIf="actividad.accion">{{ actividad.accion }}</td>
+            <td *ngIf="actividad.entidadAfectada">{{ actividad.entidadAfectada }}</td>
+            <td *ngIf="actividad.descripcion">{{ actividad.descripcion }}</td>
+            <td *ngIf="actividad.origen">{{ actividad.origen }}</td>
+            <td *ngIf="actividad.nivel">{{ actividad.nivel }}</td>
+            <td *ngIf="actividad.fechaHora">{{ actividad.fechaHora | date:'dd-MM-yyyy HH:mm:ss' }}</td>
+            <td *ngIf="actividad.metodoHttp">{{ actividad.metodoHttp }}</td>
+            <td *ngIf="actividad.endpoint">{{ actividad.endpoint }}</td>
+            <td *ngIf="actividad.codigoRespuesta">{{ actividad.codigoRespuesta }}</td>
+            <td *ngIf="actividad.ipOrigen">{{ actividad.ipOrigen }}</td>
+            <td *ngIf="actividad.duracionMs">{{ actividad.duracionMs }} ms</td>
           </tr>
         </tbody>
       </table>
