@@ -51,11 +51,7 @@ public class AdminService {
         admin.setNombreUsuario(request.getNombreUsuario());
         admin.setNombre(request.getNombre());
         admin.setApellido(request.getApellido());
-        admin.setContrasena(bCryptPasswordEncoder.encode(request.getContrasena()));
 
-        if (request.getContrasena() != null && !request.getContrasena().isEmpty()) {
-            admin.setContrasena(bCryptPasswordEncoder.encode(request.getContrasena()));
-        }
 
         Administrador saved = administradorRepository.save(admin);
         return new AdministradorDTO(
@@ -117,11 +113,7 @@ public class AdminService {
         docente.setNombreUsuario(request.getNombreUsuario());
         docente.setNombre(request.getNombre());
         docente.setApellido(request.getApellido());
-        docente.setContrasena(bCryptPasswordEncoder.encode(request.getContrasena()));
 
-        if (request.getContrasena() != null && !request.getContrasena().isEmpty()) {
-            docente.setContrasena(bCryptPasswordEncoder.encode(request.getContrasena()));
-        }
 
         Docente saved = docenteRepository.save(docente);
         return new DocenteDTO(
@@ -186,11 +178,7 @@ public class AdminService {
         alumno.setNombre(request.getNombre());
         alumno.setApellido(request.getApellido());
         alumno.setFechaNacimiento(request.getFechaNacimiento());
-        alumno.setContrasena(bCryptPasswordEncoder.encode(request.getContrasena()));
 
-        if (request.getContrasena() != null && !request.getContrasena().isEmpty()) {
-            alumno.setContrasena(bCryptPasswordEncoder.encode(request.getContrasena()));
-        }
 
         Alumno saved = alumnoRepository.save(alumno);
         return new AlumnoDTO(

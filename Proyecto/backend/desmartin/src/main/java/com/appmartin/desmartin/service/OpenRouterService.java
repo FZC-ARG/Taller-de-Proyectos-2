@@ -31,7 +31,7 @@ public class OpenRouterService {
 
     private static final Logger logger = LoggerFactory.getLogger(OpenRouterService.class);
     private static final int MAX_RETRIES = 3;
-    private static final Duration TIMEOUT = Duration.ofSeconds(90);
+    private static final Duration TIMEOUT = Duration.ofSeconds( 120);
     
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
@@ -51,6 +51,9 @@ public class OpenRouterService {
     @Value("${openrouter.api.x-title:Desmartin}")
     private String xTitle;
     
+    @Value("${openrouter.api.max-tokens:2000}")
+    private Integer maxTokens;
+    
     public OpenRouterService() {
         this.httpClient = HttpClient.newBuilder()
             .connectTimeout(TIMEOUT)
@@ -67,6 +70,7 @@ public class OpenRouterService {
         logger.info("API Key configurada: {}", apiKey != null && !apiKey.isEmpty() ? "SÍ" : "NO");
         logger.info("HTTP-Referer: {}", httpReferer);
         logger.info("X-Title: {}", xTitle);
+        logger.info("Max Tokens: {}", maxTokens);
         logger.info("================================");
         logger.info("OpenRouterService inicializado - URL: {}", apiUrl != null ? apiUrl : "NO CONFIGURADO");
     }
@@ -134,11 +138,29 @@ public class OpenRouterService {
                         throw new RuntimeException("API key inválida o expirada. Verifica tu API key en application.properties");
                     }
                     
+                    // Si es un error 402, no reintentar (créditos insuficientes)
+                    if (statusCode == 402) {
+                        String mensajeError = "Créditos insuficientes en OpenRouter. " +
+                            "La solicitud requiere más créditos o un max_tokens menor. " +
+                            "Configurado: " + maxTokens + " tokens. " +
+                            "Visita https://openrouter.ai/settings/credits para agregar créditos o reduce max_tokens en application.properties";
+                        logger.error(mensajeError);
+                        throw new RuntimeException(mensajeError);
+                    }
+                    
+                    // Si es un error 404, no reintentar (modelo no encontrado)
+                    if (statusCode == 404) {
+                        String mensajeError = "Modelo no encontrado o no disponible: " + model + 
+                            ". Verifica que el modelo esté correctamente configurado en application.properties y que esté disponible en OpenRouter.";
+                        logger.error(mensajeError);
+                        throw new RuntimeException(mensajeError);
+                    }
+                    
                     // Si es un error 429, esperar más tiempo
                     if (statusCode == 429) {
                         logger.warn("Rate limit alcanzado, esperando antes de reintentar...");
                         if (intentos < MAX_RETRIES - 1) {
-                            Thread.sleep(5000); // Esperar 5 segundos adicionales
+                            Thread.sleep(150000); // Esperar 150 segundos adicionales
                         }
                     }
                     
@@ -242,9 +264,11 @@ public class OpenRouterService {
                 }
             }
             
+            // Construir el request body con max_tokens para limitar el costo
             Map<String, Object> requestBody = Map.of(
                 "model", model,
-                "messages", mensajes
+                "messages", mensajes,
+                "max_tokens", maxTokens
             );
             
             String json = objectMapper.writeValueAsString(requestBody);
